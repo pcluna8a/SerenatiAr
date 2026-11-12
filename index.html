@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SerenatiAr — No más flores... ¡vamos a SerenatiAr!</title>
-    <meta name="description" content="La primera Rockola Digital con IA. 12 canales latinos (Lados A, B y C). Canta 15 segundos, afina tu voz con RVC a nivel estudio y protagoniza tu propio videoclip musical con Face-Swap.">
+    <meta name="description" content="La primera Rockola Digital con IA. Canta 15 segundos, afina tu voz con RVC a nivel estudio y envía una serenata inolvidable o videoclip 9:16 por WhatsApp.">
+    <meta name="theme-color" content="#060D1E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <!-- OpenGraph / WhatsApp Rich Preview (Fase 5 Viral Loop) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SerenatiAr Studio IA">
+    <meta property="og:title" content="🎶 SerenatiAr — No más flores... ¡vamos a SerenatiAr!">
+    <meta property="og:description" content="Te dedicaron una serenata cantada con Inteligencia Artificial de Estudio. Abre la Rockola para escucharla o grabar la tuya en 15 segundos.">
+    <meta property="og:url" content="https://pcluna8a.github.io/SerenatiAr/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">
     
     <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond, IBM Plex Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -248,18 +260,43 @@
                 Explora los <strong class="text-white font-semibold">12 canales de nuestra Rockola (Bolero, Vallenato, Urbano, Mariachi, Salsa y más)</strong>. Canta solo 15 segundos y nuestra IA afina tu voz a nivel estudio y pone tu rostro en un videoclip profesional.
             </p>
 
-            <!-- Grupo de Dos Botones (Primario + Demo) -->
-            <div class="gsap-hero flex flex-wrap items-center justify-center gap-4 mb-14">
+            <!-- Grupo de Botones (Primario + Catálogo + Tarjeta QR Regalos B2B Fase 5) -->
+            <div class="gsap-hero flex flex-wrap items-center justify-center gap-3.5 mb-12">
                 <button onclick="triggerHeroCoinInsert()" class="group relative inline-flex items-center gap-3 rounded-2xl bg-tommy-red px-7 py-4 text-base font-bold text-white shadow-[0_0_35px_rgba(225,29,42,0.5)] hover:bg-red-600 hover:-translate-y-0.5 transition-all">
                     <span class="text-xl">🪙</span>
                     <span>Insertar Moneda Gratis</span>
                     <i data-lucide="arrow-down-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform"></i>
                 </button>
 
-                <button onclick="openDemoPreviewModal()" class="inline-flex items-center gap-2.5 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/15 px-6 py-4 text-base font-semibold text-tommy-cream hover:-translate-y-0.5 transition-all">
+                <button onclick="openDemoPreviewModal()" class="inline-flex items-center gap-2.5 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/15 px-5 py-4 text-sm sm:text-base font-semibold text-tommy-cream hover:-translate-y-0.5 transition-all">
                     <i data-lucide="layers" class="w-5 h-5 text-tommy-red"></i>
-                    <span>Ver los 12 Type-Beats & Plantillas</span>
+                    <span>Ver los 12 Type-Beats</span>
                 </button>
+
+                <button onclick="openB2BQrModal()" class="inline-flex items-center gap-2 rounded-2xl bg-amber-400/15 hover:bg-amber-400/25 backdrop-blur-md border border-amber-400/40 px-5 py-4 text-sm sm:text-base font-bold text-amber-300 hover:-translate-y-0.5 transition-all">
+                    <span>🎁</span>
+                    <span>Tarjeta QR Floristerías & Regalos</span>
+                </button>
+            </div>
+
+            <!-- FASE 5: Banner Dinámico cuando el destinatario abre un Link o escanea un QR de Serenata (`?para=...&de=...`) -->
+            <div id="incoming-dedication-banner" class="hidden max-w-3xl mx-auto mb-8 rounded-2xl bg-gradient-to-r from-[#162B5B] via-[#1B1035] to-[#162B5B] border-2 border-amber-400/60 p-5 shadow-[0_0_40px_rgba(245,158,11,0.3)] text-left relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-mono text-[10px] font-bold uppercase tracking-wider">
+                            💌 DEDICATORIA ESPECIAL RECIBIDA
+                        </span>
+                        <h3 id="dedication-greeting-title" class="text-xl sm:text-2xl font-extrabold text-white mt-1">
+                            ¡Hola! Tienes una serenata dedicada en la Rockola
+                        </h3>
+                        <p id="dedication-custom-msg" class="text-xs sm:text-sm font-serif italic text-amber-200 mt-1">
+                            «Las flores se marchitan, pero mi voz cantándote dura para siempre.»
+                        </p>
+                    </div>
+                    <button type="button" id="btn-play-dedicated-serenade" class="shrink-0 py-3 px-5 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-extrabold text-xs sm:text-sm shadow-[0_0_25px_rgba(225,29,42,0.5)] transition-all">
+                        ▶ Escuchar Serenata Ahora
+                    </button>
+                </div>
             </div>
 
             <!-- ==========================================================
@@ -943,14 +980,14 @@
                     </ul>
                 </div>
 
-                <!-- Col 3: Recursos & Catálogo -->
+                <!-- Col 3: Recursos & Alianzas B2B -->
                 <div>
-                    <h4 class="font-mono text-xs uppercase tracking-wider text-white font-bold mb-4">Recursos Fase 2</h4>
+                    <h4 class="font-mono text-xs uppercase tracking-wider text-white font-bold mb-4">Recursos & B2B</h4>
                     <ul class="space-y-2.5 text-xs sm:text-sm">
                         <li><a href="assets/catalog.json" target="_blank" class="hover:text-white transition-colors">Manifiesto catalog.json</a></li>
                         <li><a href="#arquitectura" class="hover:text-white transition-colors">Arquitectura Serverless</a></li>
                         <li><a href="https://betowa.sena.edu.co/oferta" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Comunidad Betowa SENA</a></li>
-                        <li><button onclick="openFakeDoorModal('Soporte Comercios / B2B')" class="hover:text-white transition-colors">Alianzas Floristerías & Regalos</button></li>
+                        <li><button onclick="openB2BQrModal()" class="text-amber-300 hover:text-amber-200 font-semibold transition-colors">🎁 Tarjetas QR Floristerías (B2B)</button></li>
                     </ul>
                 </div>
 
@@ -1272,6 +1309,117 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ==========================================================
+         FASE 5: GENERADOR DE TARJETA SONORA QR (B2B FLORISTERÍAS / REGALOS & DEDICATORIAS)
+    =========================================================== -->
+    <div id="b2b-qr-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="relative w-full max-w-2xl rounded-3xl bg-gradient-to-b from-[#122452] to-[#050C1D] border-2 border-amber-400/40 p-6 sm:p-8 shadow-[0_25px_90px_rgba(0,0,0,0.95)] overflow-hidden max-h-[92vh] overflow-y-auto">
+            <div class="tommy-ribbon absolute top-0 left-0 right-0 h-2"></div>
+
+            <button id="close-b2b-modal-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 font-mono text-xs mb-3">
+                <span>🎁 CANAL B2B2C • FLORISTERÍAS, DESAYUNOS SORPRESA & REGALOS</span>
+            </div>
+
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                Generador de <span class="text-tommy-red font-serif italic">Tarjeta Sonora QR</span>
+            </h3>
+            <p class="mt-1 text-xs sm:text-sm text-slate-300">
+                Crea una tarjeta de lujo imprimible o compartible por WhatsApp. Cuando el destinatario escanee el código QR en su ramo o caja de regalo, la Rockola se abrirá automáticamente con su nombre y su canción dedicada.
+            </p>
+
+            <div class="mt-5 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                <!-- Columna Izquierda: Configurador de la Dedicatoria -->
+                <div class="md:col-span-7 space-y-3">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                                ¿Para quién es?
+                            </label>
+                            <input type="text" id="qr-recipient-input" value="Valentina" placeholder="Ej. Valentina"
+                                class="w-full rounded-xl bg-[#060E22] border border-white/15 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-tommy-red">
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                                ¿De parte de quién?
+                            </label>
+                            <input type="text" id="qr-sender-input" value="Carlos" placeholder="Ej. Carlos / Floristería"
+                                class="w-full rounded-xl bg-[#060E22] border border-white/15 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-tommy-red">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                            Pista Musical Dedicada (Type-Beat)
+                        </label>
+                        <select id="qr-track-select" class="w-full rounded-xl bg-[#060E22] border border-white/15 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-tommy-red">
+                            <!-- Se llena con las 12 pistas -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                            Frase impresa en la Tarjeta
+                        </label>
+                        <input type="text" id="qr-message-input" value="Las flores se marchitan, pero mi voz cantándote dura para siempre."
+                            class="w-full rounded-xl bg-[#060E22] border border-white/15 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-tommy-red">
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap gap-2">
+                        <button type="button" id="btn-copy-qr-link" class="flex-1 py-2.5 px-3 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition-all">
+                            <span>🔗 Copiar Link Dedicado</span>
+                        </button>
+                        <button type="button" id="btn-download-qr-card" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow transition-all">
+                            <span>🖨️ Imprimir / Guardar Tarjeta</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Vista Previa de la Tarjeta Imprimible con QR -->
+                <div class="md:col-span-5">
+                    <div id="printable-gift-card" class="rounded-2xl bg-gradient-to-b from-[#091534] to-[#040A18] border-2 border-amber-400/50 p-4 text-center shadow-2xl relative overflow-hidden">
+                        <div class="tommy-ribbon h-1.5 w-full absolute top-0 left-0 right-0"></div>
+                        <span class="font-mono text-[9px] uppercase tracking-widest text-amber-400 block mt-1">SERENATA EXCLUSIVA CON IA</span>
+                        <h4 class="text-lg font-extrabold text-white mt-0.5">
+                            Para: <span id="card-preview-recipient" class="text-tommy-red font-serif italic">Valentina</span>
+                        </h4>
+                        <p id="card-preview-msg" class="text-[11px] font-serif italic text-slate-200 mt-1 px-1 leading-snug">
+                            «Las flores se marchitan, pero mi voz cantándote dura para siempre.»
+                        </p>
+                        <!-- Imagen QR generada dinámicamente -->
+                        <div class="my-3 mx-auto w-32 h-32 rounded-xl bg-white p-2 flex items-center justify-center shadow-inner">
+                            <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fpcluna8a.github.io%2FSerenatiAr%2F" alt="Código QR SerenatiAr" class="w-full h-full object-contain">
+                        </div>
+                        <div class="font-mono text-[10px] text-amber-300 font-bold truncate" id="card-preview-track">
+                            🎵 P01 • Noche de Balcón
+                        </div>
+                        <div class="font-mono text-[9px] text-slate-400 mt-0.5">
+                            De: <span id="card-preview-sender" class="text-white">Carlos</span> • Escanea con tu cámara
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         FASE 5: BARRA RÁPIDA MOBILE-FIRST (Visible en Smartphones < md)
+    =========================================================== -->
+    <div id="mobile-quick-bar" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#060D1E]/95 backdrop-blur-lg border-t border-white/15 px-3 py-2.5 flex items-center justify-between gap-2 shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+        <button type="button" onclick="scrollToJukebox()" class="flex-1 py-2.5 px-3 rounded-xl bg-tommy-red text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(225,29,42,0.5)]">
+            <span>🎙️ Cantar (1 🪙)</span>
+        </button>
+        <button type="button" onclick="openCheckoutModal()" class="py-2.5 px-3 rounded-xl bg-amber-400/20 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold">
+            <span>🪙 Recargar</span>
+        </button>
+        <button type="button" onclick="openB2BQrModal()" class="py-2.5 px-3 rounded-xl bg-white/10 border border-white/15 text-white font-mono text-xs">
+            <span>🎁 QR</span>
+        </button>
     </div>
 
     <!-- ==========================================================
@@ -2908,6 +3056,144 @@
                 .catch(() => {
                     // Mantiene LATAM_COP + LATAM como fallback seguro
                 });
+
+            // ----------------------------------------------------------
+            // 7. FASE 5: GENERADOR DE TARJETA QR (B2B FLORISTERÍAS) + DETECTOR DE DEDICATORIAS ENTRANTES
+            // ----------------------------------------------------------
+            const b2bQrModal = document.getElementById('b2b-qr-modal');
+            const closeB2bModalBtn = document.getElementById('close-b2b-modal-btn');
+            const qrRecipientInput = document.getElementById('qr-recipient-input');
+            const qrSenderInput = document.getElementById('qr-sender-input');
+            const qrTrackSelect = document.getElementById('qr-track-select');
+            const qrMessageInput = document.getElementById('qr-message-input');
+            const cardPreviewRecipient = document.getElementById('card-preview-recipient');
+            const cardPreviewSender = document.getElementById('card-preview-sender');
+            const cardPreviewMsg = document.getElementById('card-preview-msg');
+            const cardPreviewTrack = document.getElementById('card-preview-track');
+            const qrCodeImg = document.getElementById('qr-code-img');
+            const btnCopyQrLink = document.getElementById('btn-copy-qr-link');
+            const btnDownloadQrCard = document.getElementById('btn-download-qr-card');
+
+            if (qrTrackSelect) {
+                qrTrackSelect.innerHTML = GEO_CATALOG.tracks.map((t) =>
+                    `<option value="${t.id}">${t.code} • ${t.title} (${t.vibe})</option>`
+                ).join('');
+            }
+
+            function buildDedicatedUrl() {
+                const para = (qrRecipientInput && qrRecipientInput.value.trim()) || 'Valentina';
+                const de = (qrSenderInput && qrSenderInput.value.trim()) || 'Carlos';
+                const trkId = (qrTrackSelect && qrTrackSelect.value) || 'TRK-01';
+                const msg = (qrMessageInput && qrMessageInput.value.trim()) || '';
+                const baseUrl = 'https://pcluna8a.github.io/SerenatiAr/';
+                const params = new URLSearchParams({ para, de, track: trkId, msg });
+                return `${baseUrl}?${params.toString()}`;
+            }
+
+            function updateQrCardPreview() {
+                const para = (qrRecipientInput && qrRecipientInput.value.trim()) || 'Valentina';
+                const de = (qrSenderInput && qrSenderInput.value.trim()) || 'Carlos';
+                const trkId = (qrTrackSelect && qrTrackSelect.value) || 'TRK-01';
+                const msg = (qrMessageInput && qrMessageInput.value.trim()) || 'Las flores se marchitan, pero mi voz cantándote dura para siempre.';
+                const trkObj = findTrackById(trkId);
+
+                if (cardPreviewRecipient) cardPreviewRecipient.innerText = para;
+                if (cardPreviewSender) cardPreviewSender.innerText = de;
+                if (cardPreviewMsg) cardPreviewMsg.innerText = `«${msg}»`;
+                if (cardPreviewTrack) cardPreviewTrack.innerText = `🎵 ${trkObj.code} • ${trkObj.title}`;
+
+                const fullUrl = buildDedicatedUrl();
+                if (qrCodeImg) {
+                    qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(fullUrl)}`;
+                }
+            }
+
+            [qrRecipientInput, qrSenderInput, qrTrackSelect, qrMessageInput].forEach((el) => {
+                if (el) {
+                    el.addEventListener('input', updateQrCardPreview);
+                    el.addEventListener('change', updateQrCardPreview);
+                }
+            });
+
+            window.openB2BQrModal = function () {
+                playMechButtonSound();
+                if (activeTrackId && qrTrackSelect) {
+                    qrTrackSelect.value = activeTrackId;
+                }
+                updateQrCardPreview();
+                if (b2bQrModal) {
+                    b2bQrModal.classList.remove('hidden');
+                    b2bQrModal.classList.add('flex');
+                }
+            };
+
+            function closeB2BQrModal() {
+                if (b2bQrModal) {
+                    b2bQrModal.classList.add('hidden');
+                    b2bQrModal.classList.remove('flex');
+                }
+            }
+
+            if (closeB2bModalBtn) closeB2bModalBtn.addEventListener('click', closeB2BQrModal);
+            if (b2bQrModal) {
+                b2bQrModal.addEventListener('click', (e) => {
+                    if (e.target === b2bQrModal) closeB2BQrModal();
+                });
+            }
+
+            if (btnCopyQrLink) {
+                btnCopyQrLink.addEventListener('click', () => {
+                    playCoinSound();
+                    const url = buildDedicatedUrl();
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(url);
+                    }
+                    btnCopyQrLink.innerHTML = '<span>✓ ¡Link Copiado al Portapapeles!</span>';
+                    setTimeout(() => {
+                        btnCopyQrLink.innerHTML = '<span>🔗 Copiar Link Dedicado</span>';
+                    }, 2200);
+                });
+            }
+
+            if (btnDownloadQrCard) {
+                btnDownloadQrCard.addEventListener('click', () => {
+                    playCoinSound();
+                    window.print();
+                });
+            }
+
+            // Detector automático cuando el destinatario abre un Link o QR dedicado (`?para=...&de=...&track=...`)
+            const urlParams = new URLSearchParams(window.location.search);
+            const dedicatedPara = urlParams.get('para');
+            const dedicatedDe = urlParams.get('de');
+            const dedicatedTrackId = urlParams.get('track');
+            const dedicatedMsg = urlParams.get('msg');
+
+            if (dedicatedPara) {
+                const banner = document.getElementById('incoming-dedication-banner');
+                const greetingTitle = document.getElementById('dedication-greeting-title');
+                const customMsgEl = document.getElementById('dedication-custom-msg');
+                const btnPlayDed = document.getElementById('btn-play-dedicated-serenade');
+                const targetTrk = findTrackById(dedicatedTrackId || 'TRK-01');
+
+                if (banner) banner.classList.remove('hidden');
+                if (greetingTitle) {
+                    greetingTitle.innerText = dedicatedDe
+                        ? `¡Hola ${dedicatedPara}! ${dedicatedDe} te dedicó «${targetTrk.title}»`
+                        : `¡Hola ${dedicatedPara}! Tienes una serenata dedicada: «${targetTrk.title}»`;
+                }
+                if (customMsgEl && dedicatedMsg) {
+                    customMsgEl.innerText = `«${dedicatedMsg}»`;
+                }
+
+                if (btnPlayDed) {
+                    btnPlayDed.addEventListener('click', () => {
+                        window.setJukeboxGeoZone(targetTrk.geoZone);
+                        selectTrackObject(targetTrk);
+                        openStudioMasterModal(targetTrk);
+                    });
+                }
+            }
         });
     </script>
 </body>

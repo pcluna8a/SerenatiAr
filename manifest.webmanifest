@@ -1,0 +1,12 @@
+{
+  "name": "SerenatiAr — Rockola de Serenatas con IA",
+  "short_name": "SerenatiAr",
+  "description": "No más flores... ¡vamos a SerenatiAr! Canta 15 segundos y nuestra IA afina tu voz a nivel estudio o crea un videoclip 9:16.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#060D1E",
+  "theme_color": "#E11D2A",
+  "orientation": "portrait-primary",
+  "lang": "es-CO",
+  "categories": ["music", "entertainment", "lifestyle"]
+}

@@ -4,3 +4,7 @@ Thumbs.db
 .env.local
 node_modules/
 dist/
+
+supabase/Supabase.txt
+*.secret
+.env
