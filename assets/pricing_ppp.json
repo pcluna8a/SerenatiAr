@@ -1,0 +1,370 @@
+{
+  "version": "1.0.0",
+  "project": "SerenatiAr",
+  "updatedAt": "2026-11-12",
+  "tokenRules": {
+    "audioVoiceToVoiceCoins": 1,
+    "videoFaceSwapCoins": 3,
+    "welcomeFreeCoins": 3
+  },
+  "countryToRegionMap": {
+    "CO": "LATAM_COP",
+    "MX": "LATAM_MXN",
+    "US": "NA_USD",
+    "CA": "NA_USD",
+    "GB": "NA_USD",
+    "ES": "EU_EUR",
+    "DE": "EU_EUR",
+    "IT": "EU_EUR",
+    "FR": "EU_EUR",
+    "PT": "EU_EUR",
+    "NL": "EU_EUR",
+    "IN": "EMERGING_USD",
+    "PH": "EMERGING_USD",
+    "ID": "EMERGING_USD",
+    "VN": "EMERGING_USD"
+  },
+  "defaultRegion": "LATAM_COP",
+  "regions": {
+    "LATAM_COP": {
+      "tier": "TIER 3 • LATAM (COLOMBIA)",
+      "flag": "🇨🇴",
+      "countryName": "Colombia",
+      "currencyCode": "COP",
+      "currencySymbol": "$",
+      "gateway": "Wompi / ePayco",
+      "paymentMethods": "Nequi, PSE, Efecty, Bancolombia y Tarjetas",
+      "packages": [
+        {
+          "id_paquete": "pkg_t3_cop_01",
+          "tier_region": "LATAM_COP",
+          "nombre": "Bronce",
+          "badge": "1 VIDEO + 1 AUDIO",
+          "moneda_codigo": "COP",
+          "precio_fijo": 12000,
+          "precio_formateado": "$12.000",
+          "equiv_usd": "~$3.00 USD",
+          "monedas_base": 4,
+          "bonus": 0,
+          "total_monedas": 4,
+          "destacado": false,
+          "features": [
+            "4 Monedas en tu billetera",
+            "Alcanza para 1 Videoclip Pro (3🪙) + 1 Audio Pro (1🪙)",
+            "Sin marcas de agua • Descarga MP4/WAV"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t3_cop_02",
+          "tier_region": "LATAM_COP",
+          "nombre": "Plata",
+          "badge": "MÁS POPULAR • +1 MONEDA BONUS",
+          "moneda_codigo": "COP",
+          "precio_fijo": 25000,
+          "precio_formateado": "$25.000",
+          "equiv_usd": "~$6.25 USD",
+          "monedas_base": 9,
+          "bonus": 1,
+          "total_monedas": 10,
+          "destacado": true,
+          "features": [
+            "10 Monedas totales (9 Base + 1 Bonus Gratis)",
+            "Alcanza para 3 Videoclips Pro + 1 Audio Pro",
+            "Procesamiento prioritario en GPU Serverless"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t3_cop_03",
+          "tier_region": "LATAM_COP",
+          "nombre": "Oro",
+          "badge": "MEJOR VALOR • +5 MONEDAS BONUS",
+          "moneda_codigo": "COP",
+          "precio_fijo": 50000,
+          "precio_formateado": "$50.000",
+          "equiv_usd": "~$12.50 USD",
+          "monedas_base": 20,
+          "bonus": 5,
+          "total_monedas": 25,
+          "destacado": false,
+          "features": [
+            "25 Monedas totales (20 Base + 5 Bonus Gratis)",
+            "Alcanza para 8 Videoclips Pro + 1 Audio Pro",
+            "Ideal para creadores, eventos y dedicatorias múltiples"
+          ]
+        }
+      ]
+    },
+    "LATAM_MXN": {
+      "tier": "TIER 3 • LATAM (MÉXICO)",
+      "flag": "🇲🇽",
+      "countryName": "México",
+      "currencyCode": "MXN",
+      "currencySymbol": "$",
+      "gateway": "MercadoPago / Stripe MX",
+      "paymentMethods": "SPEI, OXXO, Tarjetas Débito/Crédito",
+      "packages": [
+        {
+          "id_paquete": "pkg_t3_mxn_01",
+          "tier_region": "LATAM_MXN",
+          "nombre": "Bronce",
+          "badge": "1 VIDEO + 1 AUDIO",
+          "moneda_codigo": "MXN",
+          "precio_fijo": 59,
+          "precio_formateado": "$59",
+          "equiv_usd": "~$3.00 USD",
+          "monedas_base": 4,
+          "bonus": 0,
+          "total_monedas": 4,
+          "destacado": false,
+          "features": [
+            "4 Monedas en tu billetera",
+            "Alcanza para 1 Videoclip Pro (3🪙) + 1 Audio Pro (1🪙)",
+            "Sin marcas de agua • Descarga MP4/WAV"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t3_mxn_02",
+          "tier_region": "LATAM_MXN",
+          "nombre": "Plata",
+          "badge": "MÁS POPULAR • +1 MONEDA BONUS",
+          "moneda_codigo": "MXN",
+          "precio_fijo": 129,
+          "precio_formateado": "$129",
+          "equiv_usd": "~$6.25 USD",
+          "monedas_base": 9,
+          "bonus": 1,
+          "total_monedas": 10,
+          "destacado": true,
+          "features": [
+            "10 Monedas totales (9 Base + 1 Bonus Gratis)",
+            "Alcanza para 3 Videoclips Pro + 1 Audio Pro",
+            "Procesamiento prioritario en GPU Serverless"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t3_mxn_03",
+          "tier_region": "LATAM_MXN",
+          "nombre": "Oro",
+          "badge": "MEJOR VALOR • +5 MONEDAS BONUS",
+          "moneda_codigo": "MXN",
+          "precio_fijo": 249,
+          "precio_formateado": "$249",
+          "equiv_usd": "~$12.50 USD",
+          "monedas_base": 20,
+          "bonus": 5,
+          "total_monedas": 25,
+          "destacado": false,
+          "features": [
+            "25 Monedas totales (20 Base + 5 Bonus Gratis)",
+            "Alcanza para 8 Videoclips Pro + 1 Audio Pro",
+            "Ideal para creadores, eventos y dedicatorias múltiples"
+          ]
+        }
+      ]
+    },
+    "NA_USD": {
+      "tier": "TIER 1 • NORTEAMÉRICA & UK",
+      "flag": "🇺🇸",
+      "countryName": "USA / Canadá / UK",
+      "currencyCode": "USD",
+      "currencySymbol": "$",
+      "gateway": "Stripe Global",
+      "paymentMethods": "Apple Pay, Google Pay, Visa, Mastercard",
+      "packages": [
+        {
+          "id_paquete": "pkg_t1_01",
+          "tier_region": "NA_USD",
+          "nombre": "Bronce",
+          "badge": "1 VIDEO + 1 AUDIO",
+          "moneda_codigo": "USD",
+          "precio_fijo": 5.99,
+          "precio_formateado": "$5.99",
+          "equiv_usd": "Cobro en USD / GBP",
+          "monedas_base": 4,
+          "bonus": 0,
+          "total_monedas": 4,
+          "destacado": false,
+          "features": [
+            "4 Monedas en tu billetera",
+            "Alcanza para 1 Videoclip Pro (3🪙) + 1 Audio Pro (1🪙)",
+            "Sin marcas de agua • Descarga MP4/WAV"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t1_02",
+          "tier_region": "NA_USD",
+          "nombre": "Plata",
+          "badge": "MÁS POPULAR • +1 MONEDA BONUS",
+          "moneda_codigo": "USD",
+          "precio_fijo": 12.99,
+          "precio_formateado": "$12.99",
+          "equiv_usd": "Incluye 1 moneda bonus",
+          "monedas_base": 9,
+          "bonus": 1,
+          "total_monedas": 10,
+          "destacado": true,
+          "features": [
+            "10 Monedas totales (9 Base + 1 Bonus Gratis)",
+            "Alcanza para 3 Videoclips Pro + 1 Audio Pro",
+            "Procesamiento prioritario en GPU Serverless"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t1_03",
+          "tier_region": "NA_USD",
+          "nombre": "Oro",
+          "badge": "MEJOR VALOR • +5 MONEDAS BONUS",
+          "moneda_codigo": "USD",
+          "precio_fijo": 24.99,
+          "precio_formateado": "$24.99",
+          "equiv_usd": "Incluye 5 monedas bonus",
+          "monedas_base": 20,
+          "bonus": 5,
+          "total_monedas": 25,
+          "destacado": false,
+          "features": [
+            "25 Monedas totales (20 Base + 5 Bonus Gratis)",
+            "Alcanza para 8 Videoclips Pro + 1 Audio Pro",
+            "Ideal para creadores, eventos y dedicatorias múltiples"
+          ]
+        }
+      ]
+    },
+    "EU_EUR": {
+      "tier": "TIER 2 • EUROPA OCCIDENTAL",
+      "flag": "🇪🇺",
+      "countryName": "España / Alemania / Italia",
+      "currencyCode": "EUR",
+      "currencySymbol": "€",
+      "gateway": "Stripe Europe",
+      "paymentMethods": "Apple Pay, Google Pay, SEPA, Bizum, Tarjetas",
+      "packages": [
+        {
+          "id_paquete": "pkg_t2_01",
+          "tier_region": "EU_EUR",
+          "nombre": "Bronce",
+          "badge": "1 VIDEO + 1 AUDIO",
+          "moneda_codigo": "EUR",
+          "precio_fijo": 4.99,
+          "precio_formateado": "€4.99",
+          "equiv_usd": "IVA Incluido (EUR)",
+          "monedas_base": 4,
+          "bonus": 0,
+          "total_monedas": 4,
+          "destacado": false,
+          "features": [
+            "4 Monedas en tu billetera",
+            "Alcanza para 1 Videoclip Pro (3🪙) + 1 Audio Pro (1🪙)",
+            "Sin marcas de agua • Descarga MP4/WAV"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t2_02",
+          "tier_region": "EU_EUR",
+          "nombre": "Plata",
+          "badge": "MÁS POPULAR • +1 MONEDA BONUS",
+          "moneda_codigo": "EUR",
+          "precio_fijo": 10.99,
+          "precio_formateado": "€10.99",
+          "equiv_usd": "Incluye 1 moneda bonus",
+          "monedas_base": 9,
+          "bonus": 1,
+          "total_monedas": 10,
+          "destacado": true,
+          "features": [
+            "10 Monedas totales (9 Base + 1 Bonus Gratis)",
+            "Alcanza para 3 Videoclips Pro + 1 Audio Pro",
+            "Procesamiento prioritario en GPU Serverless"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t2_03",
+          "tier_region": "EU_EUR",
+          "nombre": "Oro",
+          "badge": "MEJOR VALOR • +5 MONEDAS BONUS",
+          "moneda_codigo": "EUR",
+          "precio_fijo": 19.99,
+          "precio_formateado": "€19.99",
+          "equiv_usd": "Incluye 5 monedas bonus",
+          "monedas_base": 20,
+          "bonus": 5,
+          "total_monedas": 25,
+          "destacado": false,
+          "features": [
+            "25 Monedas totales (20 Base + 5 Bonus Gratis)",
+            "Alcanza para 8 Videoclips Pro + 1 Audio Pro",
+            "Ideal para creadores, eventos y dedicatorias múltiples"
+          ]
+        }
+      ]
+    },
+    "EMERGING_USD": {
+      "tier": "TIER 4 • ASIA & EMERGENTES",
+      "flag": "🌏",
+      "countryName": "Mercados Emergentes",
+      "currencyCode": "USD",
+      "currencySymbol": "$",
+      "gateway": "Stripe / Local Gateways",
+      "paymentMethods": "UPI, GrabPay, Tarjetas Internacionales",
+      "packages": [
+        {
+          "id_paquete": "pkg_t4_01",
+          "tier_region": "EMERGING_USD",
+          "nombre": "Bronce",
+          "badge": "1 VIDEO + 1 AUDIO",
+          "moneda_codigo": "USD",
+          "precio_fijo": 1.99,
+          "precio_formateado": "$1.99",
+          "equiv_usd": "USD Localizado (PPP)",
+          "monedas_base": 4,
+          "bonus": 0,
+          "total_monedas": 4,
+          "destacado": false,
+          "features": [
+            "4 Monedas en tu billetera",
+            "Alcanza para 1 Videoclip Pro (3🪙) + 1 Audio Pro (1🪙)",
+            "Sin marcas de agua • Descarga MP4/WAV"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t4_02",
+          "tier_region": "EMERGING_USD",
+          "nombre": "Plata",
+          "badge": "MÁS POPULAR • +1 MONEDA BONUS",
+          "moneda_codigo": "USD",
+          "precio_fijo": 4.49,
+          "precio_formateado": "$4.49",
+          "equiv_usd": "Incluye 1 moneda bonus",
+          "monedas_base": 9,
+          "bonus": 1,
+          "total_monedas": 10,
+          "destacado": true,
+          "features": [
+            "10 Monedas totales (9 Base + 1 Bonus Gratis)",
+            "Alcanza para 3 Videoclips Pro + 1 Audio Pro",
+            "Procesamiento prioritario en GPU Serverless"
+          ]
+        },
+        {
+          "id_paquete": "pkg_t4_03",
+          "tier_region": "EMERGING_USD",
+          "nombre": "Oro",
+          "badge": "MEJOR VALOR • +5 MONEDAS BONUS",
+          "moneda_codigo": "USD",
+          "precio_fijo": 9.99,
+          "precio_formateado": "$9.99",
+          "equiv_usd": "Incluye 5 monedas bonus",
+          "monedas_base": 20,
+          "bonus": 5,
+          "total_monedas": 25,
+          "destacado": false,
+          "features": [
+            "25 Monedas totales (20 Base + 5 Bonus Gratis)",
+            "Alcanza para 8 Videoclips Pro + 1 Audio Pro",
+            "Ideal para creadores, eventos y dedicatorias múltiples"
+          ]
+        }
+      ]
+    }
+  }
+}

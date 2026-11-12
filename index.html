@@ -642,24 +642,24 @@
                             </p>
                         </div>
 
-                        <!-- Micro-UI: Simulador de Costo por Moneda -->
+                        <!-- Micro-UI: Regla Base de Consumo de Monedas (Tokens/GPU) -->
                         <div class="lg:col-span-5 bg-[#050C1C] rounded-xl p-5 border border-white/10">
                             <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
-                                <span>SIMULADOR DE CRÉDITOS</span>
-                                <span class="text-amber-400">PPP TIER 3 LATAM</span>
+                                <span>REGLA BASE DE LA ECONOMÍA</span>
+                                <span id="bento-tier-badge" class="text-amber-400">PPP TIER 3 LATAM</span>
                             </div>
                             <div class="space-y-2.5 text-xs sm:text-sm">
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/10">
                                     <span class="font-semibold text-white">🎁 Muestra Freemium (Con marca de agua)</span>
-                                    <span class="font-mono font-bold text-emerald-400">GRATIS</span>
+                                    <span class="font-mono font-bold text-emerald-400">0 Monedas</span>
                                 </div>
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/10">
-                                    <span class="font-semibold text-white">🎵 Audio Pro (Pocket Serenade)</span>
-                                    <span class="font-mono font-bold text-amber-400">1 Moneda ($1.49 USD)</span>
+                                    <span class="font-semibold text-white">🎵 1 Serenata de Audio (Voice-to-Voice)</span>
+                                    <span class="font-mono font-bold text-amber-400">1 Moneda (🪙)</span>
                                 </div>
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-tommy-red/15 border border-tommy-red/40">
-                                    <span class="font-semibold text-white">🎬 Video Pro (Stage Star 1080p)</span>
-                                    <span class="font-mono font-bold text-tommy-red">3 Monedas ($4.99 USD)</span>
+                                    <span class="font-semibold text-white">🎬 1 Videoclip (Face-Swap + Audio)</span>
+                                    <span class="font-mono font-bold text-tommy-red">3 Monedas (🪙🪙🪙)</span>
                                 </div>
                             </div>
                         </div>
@@ -737,82 +737,69 @@
             </div>
         </section>
 
-        <!-- ==========================================
-             SECCIÓN DE PRECIOS / MONEDAS (TIER 3 LATAM)
-        =========================================== -->
+        <!-- ==========================================================
+             SECCIÓN DE PAQUETES DE MONEDAS & GEOLOCALIZACIÓN PPP (4 TIERS)
+        =========================================================== -->
         <section id="precios" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="text-center max-w-2xl mx-auto mb-12 gsap-reveal">
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-amber-400">ECONOMÍA GAMIFICADA • SIN MENSUALIDADES</span>
-                <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
-                    Elige tu Serenata y paga en moneda local
+            <div class="text-center max-w-3xl mx-auto mb-10 gsap-reveal">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 font-mono text-xs text-amber-300 mb-3">
+                    <span id="geo-flag-icon">🇨🇴</span>
+                    <span id="geo-status-banner">DETECTANDO REGIÓN PPP: TIER 3 • LATAM (COLOMBIA - COP)</span>
+                </div>
+                <h2 class="mt-1 text-3xl sm:text-5xl font-extrabold text-white">
+                    Paquetes de Monedas <span class="font-serif italic text-tommy-red">Bronce, Plata y Oro</span>
                 </h2>
                 <p class="mt-3 text-slate-300 text-sm sm:text-base">
-                    Aceptamos Nequi, PSE, Efecty y tarjetas vía Wompi / ePayco. Hoy puedes reclamar <strong class="text-amber-400">3 Monedas Gratis</strong> en nuestro acceso anticipado.
+                    Precios locales cerrados adaptados al poder adquisitivo de tu país (<strong>Purchasing Power Parity - PPP</strong>). Recuerda la regla base: <strong class="text-amber-300">1 Audio RVC = 1 🪙</strong> y <strong class="text-tommy-red">1 Videoclip Face-Swap = 3 🪙</strong>.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Plan 1: Muestra Gratis -->
-                <div class="rounded-2xl bg-tommy-deep/50 border border-white/10 p-7 flex flex-col justify-between">
-                    <div>
-                        <span class="font-mono text-xs uppercase text-slate-400">FREEMIUM</span>
-                        <h3 class="text-xl font-bold text-white mt-1">Muestra de Rockola</h3>
-                        <div class="mt-4 flex items-baseline gap-1">
-                            <span class="text-4xl font-extrabold text-white">$0</span>
-                            <span class="text-xs font-mono text-slate-400">USD / 1er Audio</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Afinación RVC de 15 segundos</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Acceso a los 12 Type-Beats</li>
-                            <li class="flex items-center gap-2 text-slate-400"><i data-lucide="volume-2" class="w-4 h-4 text-amber-400"></i> Incluye marca de agua sonora</li>
-                        </ul>
-                    </div>
-                    <button onclick="openFakeDoorModal('Freemium Audio')" class="mt-8 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-sm transition-all">
-                        Probar Muestra Gratis
+            <!-- Barra Interactiva de Enrutamiento PPP (4 Tiers Globales) -->
+            <div class="max-w-4xl mx-auto mb-10 p-3 rounded-2xl bg-[#071128] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-xs font-mono text-slate-300 px-2">
+                    <i data-lucide="globe-2" class="w-4 h-4 text-sky-400 shrink-0"></i>
+                    <span>SIMULADOR DE GEOLOCALIZACIÓN (TIER):</span>
+                </div>
+                <div id="ppp-region-selector" class="flex flex-wrap items-center justify-center gap-1.5">
+                    <button type="button" data-region="LATAM_COP" class="ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-tommy-red text-white border border-tommy-red transition-all">
+                        🇨🇴 Tier 3 (COP)
+                    </button>
+                    <button type="button" data-region="LATAM_MXN" class="ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all">
+                        🇲🇽 Tier 3 (MXN)
+                    </button>
+                    <button type="button" data-region="NA_USD" class="ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all">
+                        🇺🇸 Tier 1 (USD/UK)
+                    </button>
+                    <button type="button" data-region="EU_EUR" class="ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all">
+                        🇪🇺 Tier 2 (EUR)
+                    </button>
+                    <button type="button" data-region="EMERGING_USD" class="ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all">
+                        🌏 Tier 4 (Asia)
                     </button>
                 </div>
+            </div>
 
-                <!-- Plan 2: Audio Pro -->
-                <div class="rounded-2xl bg-tommy-deep/80 border border-white/15 p-7 flex flex-col justify-between">
-                    <div>
-                        <span class="font-mono text-xs uppercase text-amber-400">POCKET SERENADE</span>
-                        <h3 class="text-xl font-bold text-white mt-1">Audio Pro Master</h3>
-                        <div class="mt-4 flex items-baseline gap-2">
-                            <span class="text-4xl font-extrabold text-white">$1.49</span>
-                            <span class="text-xs font-mono text-slate-400">USD (~$6.200 COP)</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Sin marca de agua sonora</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Masterización de estudio WAV/MP3</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Envío directo a WhatsApp con carátula</li>
-                        </ul>
-                    </div>
-                    <button onclick="openFakeDoorModal('Audio Pro - Pocket Serenade')" class="mt-8 w-full py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm transition-all">
-                        Reclamar con 1 Moneda Gratis
-                    </button>
+            <!-- Grid Dinámico de Paquetes: Bronce (4🪙), Plata (10🪙), Oro (25🪙) -->
+            <div id="ppp-packages-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Renderizado dinámicamente según el Tier PPP activo -->
+            </div>
+
+            <!-- Pie de Pasarela y Esquema SQL Supabase -->
+            <div class="mt-8 rounded-2xl bg-[#050C1C] border border-white/10 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>PASARELA ENRUTADA: <strong id="ppp-gateway-label" class="text-white">Wompi / ePayco (Nequi, PSE, Efecty, Tarjetas)</strong></span>
                 </div>
-
-                <!-- Plan 3: Video Pro (Destacado) -->
-                <div class="relative rounded-2xl bg-gradient-to-b from-[#162B5B] to-tommy-deep border-2 border-tommy-red p-7 flex flex-col justify-between shadow-[0_0_40px_rgba(225,29,42,0.25)]">
-                    <span class="absolute -top-3 right-6 px-3 py-0.5 rounded-full bg-tommy-red text-white font-mono text-[10px] font-bold uppercase tracking-wider">
-                        MÁS POPULAR • STAGE STAR
-                    </span>
-                    <div>
-                        <span class="font-mono text-xs uppercase text-red-300">VIDEOCLIP COMPLETO</span>
-                        <h3 class="text-xl font-bold text-white mt-1">Video Pro Face-Swap</h3>
-                        <div class="mt-4 flex items-baseline gap-2">
-                            <span class="text-4xl font-extrabold text-white">$4.99</span>
-                            <span class="text-xs font-mono text-slate-300">USD (~$20.900 COP)</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-200">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Voz afinada RVC + Videoclip 1080p</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Tu rostro en Plantilla Maestra de actor real</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Formato vertical 9:16 listo para Reels/TikTok</li>
-                        </ul>
-                    </div>
-                    <button onclick="openFakeDoorModal('Video Pro - Stage Star')" class="mt-8 w-full py-3.5 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-extrabold text-sm shadow-[0_0_25px_rgba(225,29,42,0.5)] transition-all">
-                        Canjear mis 3 Monedas Gratis
-                    </button>
+                <div class="flex items-center gap-3">
+                    <a href="supabase/schema_ppp.sql" target="_blank" class="text-sky-400 hover:underline flex items-center gap-1">
+                        <i data-lucide="database" class="w-3.5 h-3.5"></i>
+                        <span>Ver SQL paquetes_recarga</span>
+                    </a>
+                    <span>•</span>
+                    <a href="assets/pricing_ppp.json" target="_blank" class="text-amber-300 hover:underline flex items-center gap-1">
+                        <i data-lucide="file-json" class="w-3.5 h-3.5"></i>
+                        <span>Ver JSON PPP</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -968,12 +955,12 @@
                         </div>
                         <div>
                             <label class="block font-mono text-[11px] uppercase tracking-wider text-slate-300 mb-1.5">
-                                Formato Preferido
+                                Formato Preferido (Regla Base)
                             </label>
                             <select id="lead-format" class="w-full rounded-xl bg-[#050C1D] border border-white/20 px-3.5 py-3 text-sm text-white focus:outline-none focus:border-tommy-red">
-                                <option value="Video Pro Face-Swap ($4.99)">🎬 Video Face-Swap + Voz</option>
-                                <option value="Audio Pro RVC ($1.49)">🎵 Solo Audio Pro RVC</option>
-                                <option value="Muestra Gratis">🎁 Muestra Gratis</option>
+                                <option value="Videoclip Face-Swap + Voz (3 Monedas)">🎬 Videoclip Face-Swap + Voz (3 🪙)</option>
+                                <option value="Serenata Audio RVC (1 Moneda)">🎵 Serenata Audio RVC (1 🪙)</option>
+                                <option value="Paquete Plata (10 Monedas)">🥈 Paquete Plata (9 + 1 Bonus = 10 🪙)</option>
                             </select>
                         </div>
                     </div>
@@ -1744,6 +1731,178 @@
                     });
                 }
             });
+
+            // ----------------------------------------------------------
+            // 6. MOTOR DE GEOLOCALIZACIÓN Y MONETIZACIÓN GLOBAL (PPP - 4 TIERS)
+            // ----------------------------------------------------------
+            const PPP_MATRIX = {
+                countryToRegionMap: {
+                    CO: 'LATAM_COP',
+                    MX: 'LATAM_MXN',
+                    US: 'NA_USD', CA: 'NA_USD', GB: 'NA_USD',
+                    ES: 'EU_EUR', DE: 'EU_EUR', IT: 'EU_EUR', FR: 'EU_EUR', PT: 'EU_EUR', NL: 'EU_EUR',
+                    IN: 'EMERGING_USD', PH: 'EMERGING_USD', ID: 'EMERGING_USD', VN: 'EMERGING_USD'
+                },
+                regions: {
+                    LATAM_COP: {
+                        tier: 'TIER 3 • LATAM (COLOMBIA)',
+                        flag: '🇨🇴',
+                        currencyCode: 'COP',
+                        gateway: 'Wompi / ePayco (Nequi, PSE, Efecty, Bancolombia)',
+                        packages: [
+                            { id_paquete: 'pkg_t3_01', nombre: 'Bronce', badge: '1 VIDEO + 1 AUDIO', precio_formateado: '$12.000', moneda: 'COP', equiv: '~$3.00 USD', base: 4, bonus: 0, total: 4, destacado: false },
+                            { id_paquete: 'pkg_t3_02', nombre: 'Plata', badge: 'MÁS POPULAR • +1 MONEDA BONUS', precio_formateado: '$25.000', moneda: 'COP', equiv: '~$6.25 USD', base: 9, bonus: 1, total: 10, destacado: true },
+                            { id_paquete: 'pkg_t3_03', nombre: 'Oro', badge: 'MEJOR VALOR • +5 MONEDAS BONUS', precio_formateado: '$50.000', moneda: 'COP', equiv: '~$12.50 USD', base: 20, bonus: 5, total: 25, destacado: false }
+                        ]
+                    },
+                    LATAM_MXN: {
+                        tier: 'TIER 3 • LATAM (MÉXICO)',
+                        flag: '🇲🇽',
+                        currencyCode: 'MXN',
+                        gateway: 'MercadoPago / Stripe MX (SPEI, OXXO, Tarjetas)',
+                        packages: [
+                            { id_paquete: 'pkg_t3_mx_01', nombre: 'Bronce', badge: '1 VIDEO + 1 AUDIO', precio_formateado: '$59', moneda: 'MXN', equiv: '~$3.00 USD', base: 4, bonus: 0, total: 4, destacado: false },
+                            { id_paquete: 'pkg_t3_mx_02', nombre: 'Plata', badge: 'MÁS POPULAR • +1 MONEDA BONUS', precio_formateado: '$129', moneda: 'MXN', equiv: '~$6.25 USD', base: 9, bonus: 1, total: 10, destacado: true },
+                            { id_paquete: 'pkg_t3_mx_03', nombre: 'Oro', badge: 'MEJOR VALOR • +5 MONEDAS BONUS', precio_formateado: '$249', moneda: 'MXN', equiv: '~$12.50 USD', base: 20, bonus: 5, total: 25, destacado: false }
+                        ]
+                    },
+                    NA_USD: {
+                        tier: 'TIER 1 • NORTEAMÉRICA & UK',
+                        flag: '🇺🇸',
+                        currencyCode: 'USD',
+                        gateway: 'Stripe Global (Apple Pay, Google Pay, Cards)',
+                        packages: [
+                            { id_paquete: 'pkg_t1_01', nombre: 'Bronce', badge: '1 VIDEO + 1 AUDIO', precio_formateado: '$5.99', moneda: 'USD', equiv: 'Apple Pay / Google Pay', base: 4, bonus: 0, total: 4, destacado: false },
+                            { id_paquete: 'pkg_t1_02', nombre: 'Plata', badge: 'MÁS POPULAR • +1 MONEDA BONUS', precio_formateado: '$12.99', moneda: 'USD', equiv: 'Incluye 1 moneda bonus', base: 9, bonus: 1, total: 10, destacado: true },
+                            { id_paquete: 'pkg_t1_03', nombre: 'Oro', badge: 'MEJOR VALOR • +5 MONEDAS BONUS', precio_formateado: '$24.99', moneda: 'USD', equiv: 'Incluye 5 monedas bonus', base: 20, bonus: 5, total: 25, destacado: false }
+                        ]
+                    },
+                    EU_EUR: {
+                        tier: 'TIER 2 • EUROPA OCCIDENTAL',
+                        flag: '🇪🇺',
+                        currencyCode: 'EUR',
+                        gateway: 'Stripe Europe (Apple Pay, SEPA, Bizum, Tarjetas)',
+                        packages: [
+                            { id_paquete: 'pkg_t2_01', nombre: 'Bronce', badge: '1 VIDEO + 1 AUDIO', precio_formateado: '€4.99', moneda: 'EUR', equiv: 'IVA Incluido (EUR)', base: 4, bonus: 0, total: 4, destacado: false },
+                            { id_paquete: 'pkg_t2_02', nombre: 'Plata', badge: 'MÁS POPULAR • +1 MONEDA BONUS', precio_formateado: '€10.99', moneda: 'EUR', equiv: 'Incluye 1 moneda bonus', base: 9, bonus: 1, total: 10, destacado: true },
+                            { id_paquete: 'pkg_t2_03', nombre: 'Oro', badge: 'MEJOR VALOR • +5 MONEDAS BONUS', precio_formateado: '€19.99', moneda: 'EUR', equiv: 'Incluye 5 monedas bonus', base: 20, bonus: 5, total: 25, destacado: false }
+                        ]
+                    },
+                    EMERGING_USD: {
+                        tier: 'TIER 4 • ASIA & EMERGENTES',
+                        flag: '🌏',
+                        currencyCode: 'USD',
+                        gateway: 'Stripe / Pasarelas Asiáticas Locales (UPI, GrabPay)',
+                        packages: [
+                            { id_paquete: 'pkg_t4_01', nombre: 'Bronce', badge: '1 VIDEO + 1 AUDIO', precio_formateado: '$1.99', moneda: 'USD', equiv: 'USD Localizado (PPP)', base: 4, bonus: 0, total: 4, destacado: false },
+                            { id_paquete: 'pkg_t4_02', nombre: 'Plata', badge: 'MÁS POPULAR • +1 MONEDA BONUS', precio_formateado: '$4.49', moneda: 'USD', equiv: 'Incluye 1 moneda bonus', base: 9, bonus: 1, total: 10, destacado: true },
+                            { id_paquete: 'pkg_t4_03', nombre: 'Oro', badge: 'MEJOR VALOR • +5 MONEDAS BONUS', precio_formateado: '$9.99', moneda: 'USD', equiv: 'Incluye 5 monedas bonus', base: 20, bonus: 5, total: 25, destacado: false }
+                        ]
+                    }
+                }
+            };
+
+            const pppPackagesGrid = document.getElementById('ppp-packages-grid');
+            const geoFlagIcon = document.getElementById('geo-flag-icon');
+            const geoStatusBanner = document.getElementById('geo-status-banner');
+            const pppGatewayLabel = document.getElementById('ppp-gateway-label');
+            const bentoTierBadge = document.getElementById('bento-tier-badge');
+            const pppTabBtns = document.querySelectorAll('.ppp-tab-btn');
+
+            function renderPPPRegion(regionKey) {
+                const region = PPP_MATRIX.regions[regionKey] || PPP_MATRIX.regions.LATAM_COP;
+                if (geoFlagIcon) geoFlagIcon.innerText = region.flag;
+                if (geoStatusBanner) geoStatusBanner.innerText = `REGIÓN PPP ACTIVA: ${region.tier} (${region.currencyCode})`;
+                if (pppGatewayLabel) pppGatewayLabel.innerText = region.gateway;
+                if (bentoTierBadge) bentoTierBadge.innerText = region.tier;
+
+                pppTabBtns.forEach((btn) => {
+                    const isActive = btn.getAttribute('data-region') === regionKey;
+                    btn.className = isActive
+                        ? 'ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-tommy-red text-white border border-tommy-red transition-all shadow'
+                        : 'ppp-tab-btn px-3 py-1.5 rounded-xl font-mono text-xs font-bold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all';
+                });
+
+                if (!pppPackagesGrid) return;
+                pppPackagesGrid.innerHTML = '';
+
+                region.packages.forEach((pkg) => {
+                    const videosCount = Math.floor(pkg.total / 3);
+                    const audiosRem = pkg.total % 3;
+                    const capacityText = `${videosCount} ${videosCount === 1 ? 'Videoclip Face-Swap' : 'Videoclips Face-Swap'} (3🪙 c/u) + ${audiosRem} Audio RVC (1🪙)`;
+
+                    const card = document.createElement('div');
+                    card.className = pkg.destacado
+                        ? 'relative rounded-2xl bg-gradient-to-b from-[#162B5B] to-tommy-deep border-2 border-tommy-red p-7 flex flex-col justify-between shadow-[0_0_40px_rgba(225,29,42,0.25)]'
+                        : 'rounded-2xl bg-tommy-deep/70 border border-white/15 p-7 flex flex-col justify-between hover:border-white/30 transition-all';
+
+                    card.innerHTML = `
+                        ${pkg.destacado ? `<span class="absolute -top-3 right-6 px-3 py-0.5 rounded-full bg-tommy-red text-white font-mono text-[10px] font-bold uppercase tracking-wider">${pkg.badge}</span>` : ''}
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-xs uppercase ${pkg.destacado ? 'text-red-300' : 'text-amber-400'}">PAQUETE ${pkg.nombre.toUpperCase()}</span>
+                                <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-black/40 border border-white/10 text-slate-300">${pkg.id_paquete}</span>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-white mt-1.5 flex items-center gap-2">
+                                <span>🪙 ${pkg.total} Monedas</span>
+                                ${pkg.bonus > 0 ? `<span class="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">+${pkg.bonus} Bonus</span>` : ''}
+                            </h3>
+                            <div class="mt-4 flex items-baseline gap-2">
+                                <span class="text-4xl font-extrabold text-white">${pkg.precio_formateado}</span>
+                                <span class="text-xs font-mono text-slate-300">${pkg.moneda} (${pkg.equiv})</span>
+                            </div>
+                            <ul class="mt-6 space-y-3 text-sm text-slate-200">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Monedas Base:</strong> ${pkg.base} 🪙 ${pkg.bonus > 0 ? `+ <strong>${pkg.bonus} 🪙 Gratis</strong>` : ''}</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="video" class="w-4 h-4 text-tommy-red shrink-0 mt-0.5"></i>
+                                    <span>Alcanza para: <strong>${capacityText}</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="shield-check" class="w-4 h-4 text-sky-400 shrink-0 mt-0.5"></i>
+                                    <span>Pasarela: ${region.gateway.split('(')[0]}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="mt-8 w-full py-3.5 rounded-xl ${pkg.destacado ? 'bg-tommy-red hover:bg-red-600 text-white shadow-[0_0_25px_rgba(225,29,42,0.5)]' : 'bg-amber-400 hover:bg-amber-300 text-slate-950'} font-extrabold text-sm transition-all">
+                            Recargar ${pkg.total} Monedas (${pkg.precio_formateado} ${pkg.moneda})
+                        </button>
+                    `;
+
+                    card.querySelector('button').addEventListener('click', () => {
+                        openFakeDoorModal(`Paquete ${pkg.nombre} (${pkg.total} Monedas - ${pkg.precio_formateado} ${pkg.moneda})`);
+                    });
+
+                    pppPackagesGrid.appendChild(card);
+                });
+
+                lucide.createIcons();
+            }
+
+            // Eventos para simular cualquier Tier PPP con un clic
+            pppTabBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    playPageFlipSound();
+                    renderPPPRegion(btn.getAttribute('data-region'));
+                });
+            });
+
+            // Renderizar Colombia (LATAM_COP) inmediatamente por defecto y consultar ipapi.co en segundo plano
+            renderPPPRegion('LATAM_COP');
+
+            fetch('https://ipapi.co/json/')
+                .then((r) => r.ok ? r.json() : null)
+                .then((geo) => {
+                    if (geo && geo.country_code) {
+                        const detectedRegion = PPP_MATRIX.countryToRegionMap[geo.country_code] || 'LATAM_COP';
+                        renderPPPRegion(detectedRegion);
+                    }
+                })
+                .catch(() => {
+                    // Mantiene LATAM_COP como fallback seguro
+                });
         });
     </script>
 </body>
