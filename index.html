@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="es-CO" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SerenatiAr — No más flores... ¡vamos a SerenatiAr!</title>
+    <meta name="description" content="La primera Rockola Digital con IA. Canta 15 segundos, afina tu voz con RVC a nivel estudio y protagoniza tu propio videoclip musical con Face-Swap.">
+    
+    <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond, IBM Plex Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tommy: {
+                            navy: '#060D1E',
+                            deep: '#0A1633',
+                            panel: '#0F2046',
+                            red: '#E11D2A',
+                            crimson: '#B9101C',
+                            cream: '#F7F5F0',
+                            gold: '#F59E0B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP + ScrollTrigger & Lucide Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #060D1E;
+            color: #F7F5F0;
+            overflow-x: hidden;
+        }
+
+        /* Cinta icónica Tommy Hilfiger */
+        .tommy-ribbon {
+            background: linear-gradient(90deg, 
+                #0A1633 0%, #0A1633 38%, 
+                #F7F5F0 38%, #F7F5F0 62%, 
+                #E11D2A 62%, #E11D2A 100%
+            );
+        }
+
+        /* Botones Mecánicos 3D estilo Rockola de los 80s */
+        .mech-btn {
+            transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease, border-color 0.2s ease;
+            box-shadow: 0 7px 0 #030712, 0 10px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        }
+        .mech-btn:hover:not(:disabled) {
+            border-color: rgba(225, 29, 42, 0.6);
+            box-shadow: 0 7px 0 #030712, 0 12px 25px rgba(225, 29, 42, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .mech-btn:active:not(:disabled), .mech-btn.pressed {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #030712, 0 4px 8px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Botón Mecánico de Moneda Dorada */
+        .coin-btn {
+            transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+            box-shadow: 0 6px 0 #92400E, 0 10px 25px rgba(245, 158, 11, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.45);
+        }
+        .coin-btn:hover:not(:disabled) {
+            box-shadow: 0 6px 0 #92400E, 0 14px 30px rgba(245, 158, 11, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+        }
+        .coin-btn:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 #92400E, 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Perspectiva 3D para la Rockola en Hero */
+        .jukebox-perspective {
+            perspective: 1400px;
+        }
+        #jukebox-chassis {
+            transform: rotateX(10deg) translateY(10px);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Tubos de Neón Laterales de la Vitrola */
+        .neon-tube-red {
+            box-shadow: 0 0 15px rgba(225, 29, 42, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+        .neon-tube-blue {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Animación de Vinilo */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .vinyl-spin {
+            animation: spinSlow 4s linear infinite;
+            animation-play-state: paused;
+        }
+        .vinyl-spin.playing {
+            animation-play-state: running;
+        }
+
+        /* Marquee Infinito */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 32s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Trazado SVG Animado */
+        @keyframes dashFlow {
+            to { stroke-dashoffset: -40; }
+        }
+        .svg-flow-line {
+            stroke-dasharray: 6 6;
+            animation: dashFlow 1.2s linear infinite;
+        }
+
+        /* Scrollbar estética */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #060D1E; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E11D2A; }
+    </style>
+</head>
+<body class="antialiased selection:bg-tommy-red selection:text-white">
+
+    <!-- Glows Radiales Ambientales -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-tommy-red/15 rounded-full blur-[150px]"></div>
+        <div class="absolute top-[40%] -left-48 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px]"></div>
+        <div class="absolute bottom-10 right-0 w-[600px] h-[500px] bg-tommy-red/10 rounded-full blur-[160px]"></div>
+    </div>
+
+    <!-- ==========================================
+         1. NAVBAR (Glassmorphism + Cinta Tommy)
+    =========================================== -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-tommy-navy/80 backdrop-blur-md border-b border-white/10">
+        <div class="tommy-ribbon h-1.5 w-full"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-tommy-deep border border-white/15 flex items-center justify-center shadow-lg group-hover:border-tommy-red transition-colors">
+                    <i data-lucide="disc-3" class="w-6 h-6 text-tommy-red group-hover:rotate-90 transition-transform duration-500"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-extrabold tracking-tight text-white leading-none">
+                        Serenat<span class="text-tommy-red font-serif italic font-bold">iA</span>r
+                    </span>
+                    <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">Rockola AI Studio</span>
+                </div>
+            </a>
+
+            <!-- Enlaces Centrales -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#rockola" class="hover:text-white transition-colors">La Rockola</a>
+                <a href="#como-funciona" class="hover:text-white transition-colors">Tecnología IA</a>
+                <a href="#arquitectura" class="hover:text-white transition-colors">Motor RVC + Video</a>
+                <a href="#precios" class="hover:text-white transition-colors">Monedas & Precios</a>
+            </nav>
+
+            <!-- Botones Derecha (Billetera + Log in + CTA) -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Indicador de Monedas Interactivo -->
+                <button id="nav-coin-badge" onclick="scrollToJukebox()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-tommy-deep/90 border border-amber-500/30 text-xs font-mono text-amber-300 hover:border-amber-400 transition-all" title="Tus créditos en la Rockola">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span>🪙 CRÉDITOS: <strong id="nav-coin-count">0</strong></span>
+                </button>
+
+                <button onclick="openFakeDoorModal('login')" class="hidden sm:inline-flex text-sm font-semibold text-slate-300 hover:text-white transition-colors px-2">
+                    Iniciar Sesión
+                </button>
+
+                <button onclick="scrollToJukebox()" class="relative group overflow-hidden rounded-xl bg-tommy-red px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-[0_0_25px_rgba(225,29,42,0.4)] hover:bg-red-600 transition-all">
+                    <span class="relative z-10 flex items-center gap-1.5">
+                        <span>Crear Serenata</span>
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         2. HÉROE + CHASIS DE LA ROCKOLA 80s
+    =========================================== -->
+    <main class="relative z-10 pt-32 pb-20">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <!-- Badge Superior -->
+            <div class="gsap-hero inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-tommy-deep/90 border border-white/10 text-xs font-mono uppercase tracking-widest text-slate-300 mb-6 shadow-inner">
+                <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-bold text-[10px]">MVP 1.0</span>
+                <span>Voice-to-Voice RVC + Face-Swap en &lt; 3 Minutos</span>
+                <button id="sound-toggle-btn" class="ml-2 text-amber-400 hover:text-amber-300 flex items-center gap-1 border-l border-white/10 pl-2" title="Sonidos mecánicos sintetizados activados">
+                    <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+                    <span class="text-[10px]">SFX ON</span>
+                </button>
+            </div>
+
+            <!-- Titular Masivo -->
+            <h1 class="gsap-hero max-w-4xl mx-auto text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-tommy-cream leading-[1.06] mb-6">
+                No más flores... <br>
+                <span class="font-serif italic font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-tommy-cream to-tommy-red">
+                    ¡vamos a SerenatiAr!
+                </span>
+            </h1>
+
+            <!-- Subtítulo -->
+            <p class="gsap-hero max-w-2xl mx-auto text-base sm:text-lg text-slate-300 font-normal leading-relaxed mb-9">
+                Canta solo <strong class="text-white font-semibold">15 segundos</strong> desde tu celular. Nuestra IA afina tu voz como un cantante de estudio y reemplaza tu rostro en un videoclip profesional para que dediques una serenata inolvidable.
+            </p>
+
+            <!-- Grupo de Dos Botones (Primario + Demo) -->
+            <div class="gsap-hero flex flex-wrap items-center justify-center gap-4 mb-14">
+                <button onclick="triggerHeroCoinInsert()" class="group relative inline-flex items-center gap-3 rounded-2xl bg-tommy-red px-7 py-4 text-base font-bold text-white shadow-[0_0_35px_rgba(225,29,42,0.5)] hover:bg-red-600 hover:-translate-y-0.5 transition-all">
+                    <span class="text-xl">🪙</span>
+                    <span>Insertar Moneda Gratis</span>
+                    <i data-lucide="arrow-down-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform"></i>
+                </button>
+
+                <button onclick="openDemoPreviewModal()" class="inline-flex items-center gap-2.5 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/15 px-6 py-4 text-base font-semibold text-tommy-cream hover:-translate-y-0.5 transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-tommy-red"></i>
+                    <span>Escuchar Antes / Después IA</span>
+                </button>
+            </div>
+
+            <!-- ==========================================================
+                 LA ROCKOLA / VITROLA DE LOS 80s (MOCKUP INTERACTIVO 3D)
+            =========================================================== -->
+            <div id="rockola" class="jukebox-perspective max-w-4xl mx-auto pt-2 scroll-mt-28">
+                <div id="jukebox-chassis" class="relative bg-gradient-to-b from-[#102048] via-[#09132C] to-[#050B1A] rounded-t-[3.5rem] sm:rounded-t-[5rem] rounded-b-3xl border-[6px] sm:border-[10px] border-[#1B2D59] p-5 sm:p-8 lg:p-10 shadow-[0_35px_90px_rgba(0,0,0,0.85),0_0_50px_rgba(225,29,42,0.18)] overflow-hidden">
+                    
+                    <!-- Arco de Neón Superior Ochentero -->
+                    <div class="absolute top-0 left-8 right-8 h-2 rounded-b-full bg-gradient-to-r from-tommy-red via-amber-400 to-tommy-red opacity-90 neon-tube-red"></div>
+                    
+                    <!-- Tubos de Neón Verticales Laterales -->
+                    <div class="hidden sm:block absolute top-16 bottom-12 left-2.5 w-2 rounded-full bg-tommy-red/80 neon-tube-red"></div>
+                    <div class="hidden sm:block absolute top-16 bottom-12 right-2.5 w-2 rounded-full bg-sky-400/70 neon-tube-blue"></div>
+
+                    <!-- Cabecera Metálica de la Vitrola -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-5 mb-6 border-b border-white/10 px-2 sm:px-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-tommy-red shadow-[0_0_10px_#E11D2A]"></span>
+                            <span class="w-3 h-3 rounded-full bg-white/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span class="ml-2 font-mono text-[11px] uppercase tracking-widest text-slate-400">MODELO SR-88 • RVC STUDIO CONSOLE</span>
+                        </div>
+                        <div class="flex items-center gap-3 font-mono text-xs">
+                            <span class="px-2.5 py-1 rounded bg-black/50 border border-white/10 text-amber-400">
+                                CRÉDITOS: <strong id="jukebox-credit-display">00</strong>
+                            </span>
+                            <span id="jukebox-step-pill" class="px-2.5 py-1 rounded bg-tommy-red/20 border border-tommy-red/40 text-red-300">
+                                PASO 1/3: INSERTAR MONEDA
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Layout Interior de la Rockola: Pantalla Visor + Consola de Selección -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        
+                        <!-- COLUMNA IZQUIERDA (7 cols): Pantalla de Cristal (Glassmorphism) + Vinilo + Micrófono -->
+                        <div class="lg:col-span-7 flex flex-col justify-between">
+                            <div id="screen-panel" class="relative h-full min-h-[330px] bg-[#060E22]/80 backdrop-blur-md border-2 border-white/15 rounded-2xl p-6 flex flex-col items-center justify-between text-center shadow-[inset_0_0_35px_rgba(0,0,0,0.85)] transition-all duration-500 overflow-hidden">
+                                
+                                <!-- Scanlines sutiles de monitor retro -->
+                                <div class="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40"></div>
+
+                                <!-- Barra de Estado Superior del Visor -->
+                                <div class="relative z-10 w-full flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-white/10 pb-2.5">
+                                    <span id="screen-channel-code" class="text-tommy-red font-bold">CANAL: --</span>
+                                    <span id="screen-engine-tag" class="uppercase tracking-wider">MOTOR IA: EN ESPERA</span>
+                                    <span class="text-emerald-400">● 48kHz STEREO</span>
+                                </div>
+
+                                <!-- Centro del Visor: Tocadiscos Vinilo + Estado Dinámico -->
+                                <div class="relative z-10 my-4 flex flex-col items-center">
+                                    <!-- Disco de Vinilo Animado -->
+                                    <div id="vinyl-disc" class="vinyl-spin relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-tr from-slate-950 via-slate-800 to-slate-950 border-4 border-slate-700 shadow-[0_0_30px_rgba(0,0,0,0.9)] flex items-center justify-center mb-4">
+                                        <div class="absolute inset-2 rounded-full border border-white/10"></div>
+                                        <div class="absolute inset-5 rounded-full border border-white/10"></div>
+                                        <div id="vinyl-label" class="w-11 h-11 rounded-full bg-gradient-to-br from-tommy-red to-red-900 border-2 border-white flex items-center justify-center shadow-inner">
+                                            <div class="w-2.5 h-2.5 rounded-full bg-tommy-navy"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Título de la Marca dentro del Visor -->
+                                    <div class="text-2xl sm:text-3xl font-black tracking-wider text-white drop-shadow">
+                                        Serenat<span class="text-tommy-red">iA</span>r
+                                    </div>
+
+                                    <!-- Texto de Estado Principal -->
+                                    <p id="status-text" class="mt-2 text-tommy-red font-mono text-xs sm:text-sm tracking-widest uppercase animate-pulse font-semibold">
+                                        ► INSERTE UNA MONEDA PARA ACTIVAR LA ROCKOLA
+                                    </p>
+                                    <p id="sub-status-text" class="mt-1 text-xs text-slate-400 max-w-sm">
+                                        Haz clic en el botón dorado para desbloquear los 4 Type-Beats originales libres de regalías.
+                                    </p>
+
+                                    <!-- Animación de Ondas de Voz / Procesamiento (Oculta por defecto) -->
+                                    <div id="wave-animation" class="hidden mt-4 flex gap-1.5 items-end justify-center h-10 px-4 py-1.5 rounded-xl bg-black/40 border border-white/10">
+                                        <div class="w-1.5 bg-tommy-red h-3 animate-[bounce_0.8s_infinite_0.1s] rounded-full"></div>
+                                        <div class="w-1.5 bg-amber-400 h-7 animate-[bounce_0.8s_infinite_0.2s] rounded-full"></div>
+                                        <div class="w-1.5 bg-tommy-red h-5 animate-[bounce_0.8s_infinite_0.3s] rounded-full"></div>
+                                        <div class="w-1.5 bg-sky-400 h-8 animate-[bounce_0.8s_infinite_0.15s] rounded-full"></div>
+                                        <div class="w-1.5 bg-tommy-red h-4 animate-[bounce_0.8s_infinite_0.4s] rounded-full"></div>
+                                        <div class="w-1.5 bg-emerald-400 h-7 animate-[bounce_0.8s_infinite_0.25s] rounded-full"></div>
+                                        <div class="w-1.5 bg-tommy-red h-3 animate-[bounce_0.8s_infinite_0.35s] rounded-full"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Cabina de Grabación de 15s (Aparece al elegir canción) -->
+                                <div id="recording-dock" class="hidden relative z-10 w-full pt-3 border-t border-white/10 flex-col items-center gap-2.5">
+                                    <div class="w-full bg-black/50 rounded-lg p-2.5 border border-white/10 text-left">
+                                        <span class="block text-[10px] font-mono uppercase text-amber-400">🎤 LETRA SUGERIDA (CANTA 15 SEGUNDOS):</span>
+                                        <p id="lyric-prompt" class="text-xs sm:text-sm italic font-serif text-white mt-0.5">
+                                            "No hace falta un ramo que se marchite mañana, hoy te canto con el alma..."
+                                        </p>
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-full gap-2">
+                                        <button id="btn-start-record" class="flex-1 py-2.5 px-4 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(225,29,42,0.5)] transition-all">
+                                            <i data-lucide="mic" class="w-4 h-4"></i>
+                                            <span id="record-btn-label">Grabar Estribillo (Simulación 4s)</span>
+                                        </button>
+                                        <button id="btn-Change-vibe" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono text-slate-300" title="Cambiar ritmo">
+                                            Cambiar
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Pie del Visor -->
+                                <div id="screen-footer-bar" class="relative z-10 w-full flex items-center justify-between text-[10px] font-mono text-slate-500 pt-2 border-t border-white/5">
+                                    <span>SERENATIAR AUDIO ENGINE v1.0</span>
+                                    <span>LATENCIA GPU: ~2.4 MIN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COLUMNA DERECHA (5 cols): Ranura de Monedas + Botonera Mecánica 3D (Onboarding de Vibra) -->
+                        <div class="lg:col-span-5 flex flex-col justify-between bg-[#071026] rounded-2xl p-5 border border-white/10 shadow-inner">
+                            
+                            <!-- Ranura de Monedas (Gamificación) -->
+                            <div class="mb-5 pb-5 border-b border-white/10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="font-mono text-[11px] uppercase tracking-wider text-slate-400">1. Ranura Mecánica</span>
+                                    <span class="font-mono text-[11px] text-amber-400">1 MONEDA = 1 PROYECTO</span>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <!-- Ranura física visual -->
+                                    <div class="w-12 h-14 rounded-xl bg-slate-950 border-2 border-slate-700 flex flex-col items-center justify-center shadow-inner shrink-0" title="Ranura física 25¢">
+                                        <div class="w-1.5 h-7 rounded-full bg-amber-500/80 border border-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
+                                        <span class="text-[8px] font-mono text-slate-400 mt-1">COIN</span>
+                                    </div>
+
+                                    <!-- Botón Mecánico de Insertar Moneda -->
+                                    <button id="btn-coin" class="coin-btn w-full bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 font-extrabold py-3.5 px-5 rounded-xl border-2 border-amber-300 flex items-center justify-center gap-2.5 text-sm sm:text-base">
+                                        <span class="text-xl">🪙</span>
+                                        <span id="btn-coin-text" class="tracking-wide uppercase">Insertar Moneda</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Botonera Mecánica (Onboarding Gamificado de "Vibra") -->
+                            <div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="font-mono text-[11px] uppercase tracking-wider text-slate-400">2. Selecciona tu Vibra (Type-Beat)</span>
+                                    <span id="panel-lock-badge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
+                                        BLOQUEADO
+                                    </span>
+                                </div>
+
+                                <div id="selection-panel" class="grid grid-cols-2 gap-3.5 opacity-40 pointer-events-none transition-all duration-500">
+                                    
+                                    <!-- Botón A1: Romance 90s -->
+                                    <button class="track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 border-[#233B73] rounded-xl flex flex-col justify-between group" 
+                                        data-code="A1" 
+                                        data-track="Romance 90s (Bolero Pop)"
+                                        data-bpm="76 BPM • Cálido & Orquestal"
+                                        data-lyric="«No hace falta un ramo que se marchite mañana, hoy te canto con el alma en tu ventana...»">
+                                        <div class="flex items-center justify-between w-full mb-1.5">
+                                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-xs font-bold shadow">A1</span>
+                                            <i data-lucide="heart" class="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                        <span class="text-xs sm:text-sm font-bold text-white leading-tight">Romance 90s</span>
+                                        <span class="text-[10px] font-mono text-slate-400 mt-0.5">Bolero / LuisMi Vibe</span>
+                                    </button>
+
+                                    <!-- Botón B2: Urbano Suave -->
+                                    <button class="track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 border-[#233B73] rounded-xl flex flex-col justify-between group" 
+                                        data-code="B2" 
+                                        data-track="Urbano Suave (Acústico)"
+                                        data-bpm="88 BPM • Medellín Melódico"
+                                        data-lyric="«Apaga el celular un ratito nada más, que esta noche mi voz te va a enamorar...»">
+                                        <div class="flex items-center justify-between w-full mb-1.5">
+                                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-xs font-bold shadow">B2</span>
+                                            <i data-lucide="flame" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                        <span class="text-xs sm:text-sm font-bold text-white leading-tight">Urbano Suave</span>
+                                        <span class="text-[10px] font-mono text-slate-400 mt-0.5">Reggaetón Lento</span>
+                                    </button>
+
+                                    <!-- Botón C3: Pop Latino -->
+                                    <button class="track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 border-[#233B73] rounded-xl flex flex-col justify-between group" 
+                                        data-code="C3" 
+                                        data-track="Pop Latino (Balada)"
+                                        data-bpm="95 BPM • Guitarras & Piano"
+                                        data-lyric="«Contigo cualquier martes se siente domingo, y en cada canción siempre te distingo...»">
+                                        <div class="flex items-center justify-between w-full mb-1.5">
+                                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-xs font-bold shadow">C3</span>
+                                            <i data-lucide="Sparkles" class="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                        <span class="text-xs sm:text-sm font-bold text-white leading-tight">Pop Latino</span>
+                                        <span class="text-[10px] font-mono text-slate-400 mt-0.5">Estadio Acústico</span>
+                                    </button>
+
+                                    <!-- Botón D4: Tradicional -->
+                                    <button class="track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 border-[#233B73] rounded-xl flex flex-col justify-between group" 
+                                        data-code="D4" 
+                                        data-track="Tradicional (Nuestra Tierra)"
+                                        data-bpm="82 BPM • Trompetas & Acordeón"
+                                        data-lyric="«Despierta cariño mío que llegó tu serenata, bajo el cielo estrellado que nos abraza...»">
+                                        <div class="flex items-center justify-between w-full mb-1.5">
+                                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-xs font-bold shadow">D4</span>
+                                            <i data-lucide="music" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                        <span class="text-xs sm:text-sm font-bold text-white leading-tight">Tradicional</span>
+                                        <span class="text-[10px] font-mono text-slate-400 mt-0.5">Ranchera / Vallenato</span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <!-- Rejilla de Altavoz Inferior Ochentero -->
+                            <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="w-8 h-1.5 rounded-full bg-slate-800"></span>
+                                    <span class="w-12 h-1.5 rounded-full bg-slate-800"></span>
+                                    <span class="w-8 h-1.5 rounded-full bg-slate-800"></span>
+                                </div>
+                                <span class="text-[10px] font-mono text-slate-500">TYPE-BEATS 100% ROYALTY-FREE</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             3. SOCIAL PROOF (MARQUEE INFINITO)
+        =========================================== -->
+        <section class="mt-20 border-y border-white/10 bg-[#040915]/90 py-6 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 mb-3 text-center">
+                <p class="font-mono text-[11px] uppercase tracking-[0.25em] text-slate-400">
+                    IMPULSADO POR INFRAESTRUCTURA SERVERLESS GPU & PASARELAS LOCALES LATAM
+                </p>
+            </div>
+            <div class="relative flex overflow-x-hidden">
+                <div class="animate-marquee flex items-center gap-14 opacity-50 hover:opacity-80 transition-opacity font-mono text-sm sm:text-base font-bold tracking-widest text-slate-300">
+                    <span>◆ FAL.AI SERVERLESS GPU</span>
+                    <span>◆ RVC VOICE-TO-VOICE v2</span>
+                    <span>◆ INSIGHTFACE LIVE SWAP</span>
+                    <span>◆ SUPABASE POSTGRESQL</span>
+                    <span>◆ WOMPI / NEQUI / PSE</span>
+                    <span>◆ EPAYCO / EFECTY COLOMBIA</span>
+                    <span>◆ RUNPOD INFERENCE CLUSTER</span>
+                    <span>◆ TYPE-BEATS STUDIO MASTER</span>
+                    <!-- Duplicado para loop continuo -->
+                    <span>◆ FAL.AI SERVERLESS GPU</span>
+                    <span>◆ RVC VOICE-TO-VOICE v2</span>
+                    <span>◆ INSIGHTFACE LIVE SWAP</span>
+                    <span>◆ SUPABASE POSTGRESQL</span>
+                    <span>◆ WOMPI / NEQUI / PSE</span>
+                    <span>◆ EPAYCO / EFECTY COLOMBIA</span>
+                    <span>◆ RUNPOD INFERENCE CLUSTER</span>
+                    <span>◆ TYPE-BEATS STUDIO MASTER</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             4. BENTO GRID (3 PROPUESTAS DE VALOR CON MICRO-UI)
+        =========================================== -->
+        <section id="como-funciona" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-reveal">
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-tommy-red font-semibold">INGENIERÍA MUSICAL + IA GENERATIVA</span>
+                <h2 class="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                    De nota desafinada en WhatsApp a <span class="font-serif italic text-tommy-red">Estrella de Videoclip</span>
+                </h2>
+                <p class="mt-4 text-slate-300 text-base sm:text-lg">
+                    Diseñamos una arquitectura "Assets-First" que respeta tu timbre real de voz mientras corrige afinación, ritmo y presencia escénica en menos de 3 minutos.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- TARJETA BENTO 1 (7 Cols): Afinación Vocal RVC Voice-to-Voice -->
+                <div class="gsap-reveal lg:col-span-7 group rounded-2xl bg-tommy-deep/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 hover:-translate-y-1 hover:border-tommy-red/50 hover:shadow-[0_20px_50px_rgba(225,29,42,0.15)] transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="px-3 py-1 rounded-full bg-tommy-red/20 border border-tommy-red/40 font-mono text-xs text-red-300">
+                                01 • RVC VOICE-TO-VOICE
+                            </span>
+                            <span class="font-mono text-xs text-emerald-400">Conserva tu identidad vocal</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-2">
+                            Afinación Vocal de Estudio en 15 Segundos
+                        </h3>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            No necesitas saber cantar. Grabas un estribillo corto y nuestro modelo neuronal transfiere la técnica, vibrato y afinación de un cantante profesional directamente a tu timbre de voz, mezclándolo sobre nuestros <em>Type-Beats</em> originales.
+                        </p>
+                    </div>
+
+                    <!-- Micro-UI Interactiva: Switch Voz Cruda vs Voz RVC Studio -->
+                    <div class="mt-8 rounded-xl bg-[#050C1C] border border-white/10 p-4 sm:p-5">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span id="rvc-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-tommy-red animate-pulse"></span>
+                                <span id="rvc-mode-label" class="font-mono text-xs text-white font-semibold">MODO ACTIVO: RVC STUDIO MASTER (AFINADO 100%)</span>
+                            </div>
+                            <button id="toggle-rvc-demo" class="px-3 py-1.5 rounded-lg bg-tommy-red hover:bg-red-600 text-white font-mono text-xs font-bold transition-all">
+                                Alternar: Cruda / IA
+                            </button>
+                        </div>
+
+                        <!-- Barras de espectro interactivas -->
+                        <div id="rvc-bars-container" class="grid grid-cols-16 gap-1.5 items-end h-20 pt-2">
+                            <div class="rvc-bar bg-tommy-red h-10 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-16 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-amber-400 h-14 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-18 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-sky-400 h-12 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-16 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-emerald-400 h-14 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-16 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-amber-400 h-12 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-16 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-sky-400 h-14 rounded-t transition-all duration-300"></div>
+                            <div class="rvc-bar bg-tommy-red h-10 rounded-t transition-all duration-300"></div>
+                        </div>
+
+                        <div class="mt-3 flex justify-between text-[11px] font-mono text-slate-400">
+                            <span id="rvc-pitch-stat">CORRECCIÓN TONAL: ±0.02 semitonos</span>
+                            <span>COMPRESIÓN + REVERB ANALÓGICO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA BENTO 2 (5 Cols): Face-Swap & Character Sheet -->
+                <div class="gsap-reveal lg:col-span-5 group rounded-2xl bg-tommy-deep/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 hover:-translate-y-1 hover:border-tommy-red/50 hover:shadow-[0_20px_50px_rgba(225,29,42,0.15)] transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 font-mono text-xs text-sky-300">
+                                02 • CHARACTER SHEET + FACE-SWAP
+                            </span>
+                            <span class="font-mono text-xs text-slate-400">3 Selfies → 1080p</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">
+                            Tú eres el Protagonista del Videoclip
+                        </h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Olvídate de videos deformes generados por IA desde cero. Grabamos actores reales en estudio y mapeamos tus 3 selfies con iluminación cinematográfica y sincronía labial exacta.
+                        </p>
+                    </div>
+
+                    <!-- Micro-UI: Escáner de 3 Selfies a Plantilla Maestra -->
+                    <div class="mt-6 rounded-xl bg-[#050C1C] border border-white/10 p-4">
+                        <div class="grid grid-cols-3 gap-2.5 mb-3">
+                            <div class="relative rounded-lg overflow-hidden border border-white/15 aspect-square">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Selfie Frontal" class="w-full h-full object-cover opacity-80">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 font-mono text-[9px] text-white">1. FRONTAL</span>
+                            </div>
+                            <div class="relative rounded-lg overflow-hidden border border-white/15 aspect-square">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Selfie Perfil" class="w-full h-full object-cover opacity-80">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 font-mono text-[9px] text-white">2. PERFIL 45°</span>
+                            </div>
+                            <div class="relative rounded-lg overflow-hidden border border-tommy-red aspect-square">
+                                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" alt="Actor en Estudio" class="w-full h-full object-cover">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-tommy-red font-mono text-[9px] text-white font-bold">STAGE STAR</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-sky-400 via-tommy-red to-amber-400 h-full w-[92%] rounded-full"></div>
+                        </div>
+                        <div class="mt-2 flex justify-between font-mono text-[10px] text-slate-400">
+                            <span>INSIGHTFACE LANDMARKS: 106 PTS</span>
+                            <span class="text-emerald-400">MATCH: 99.4%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA BENTO 3 (12 Cols): Economía de Monedas & Blindaje Legal Type-Beats -->
+                <div class="gsap-reveal lg:col-span-12 rounded-2xl bg-gradient-to-r from-tommy-deep/80 via-[#0E1E42]/80 to-tommy-deep/80 backdrop-blur-md border border-white/10 p-6 sm:p-8 hover:-translate-y-1 hover:border-amber-400/40 transition-all">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 font-mono text-xs text-amber-300">
+                                03 • CERO SUSCRIPCIONES • PAGAS SOLO CUANDO ENAMORAS
+                            </span>
+                            <h3 class="mt-3 text-2xl sm:text-3xl font-bold text-white">
+                                Economía de Monedas + Catálogo 100% Libre de Copyright
+                            </h3>
+                            <p class="mt-2 text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Nadie necesita una suscripción mensual para dar una serenata. Compra monedas sueltas con <strong>Nequi, PSE o Efecty</strong>, crea tu serenata sobre pistas exclusivas de estudio y compártela en WhatsApp, TikTok o Instagram Reels sin bloqueos por derechos de autor.
+                            </p>
+                        </div>
+
+                        <!-- Micro-UI: Simulador de Costo por Moneda -->
+                        <div class="lg:col-span-5 bg-[#050C1C] rounded-xl p-5 border border-white/10">
+                            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
+                                <span>SIMULADOR DE CRÉDITOS</span>
+                                <span class="text-amber-400">PPP TIER 3 LATAM</span>
+                            </div>
+                            <div class="space-y-2.5 text-xs sm:text-sm">
+                                <div class="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/10">
+                                    <span class="font-semibold text-white">🎁 Muestra Freemium (Con marca de agua)</span>
+                                    <span class="font-mono font-bold text-emerald-400">GRATIS</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/10">
+                                    <span class="font-semibold text-white">🎵 Audio Pro (Pocket Serenade)</span>
+                                    <span class="font-mono font-bold text-amber-400">1 Moneda ($1.49 USD)</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 rounded-lg bg-tommy-red/15 border border-tommy-red/40">
+                                    <span class="font-semibold text-white">🎬 Video Pro (Stage Star 1080p)</span>
+                                    <span class="font-mono font-bold text-tommy-red">3 Monedas ($4.99 USD)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             5. MOTOR DE AUTOMATIZACIÓN / INTEGRACIONES (SVG PIPELINE)
+        =========================================== -->
+        <section id="arquitectura" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="rounded-3xl bg-[#071024]/90 border border-white/10 p-6 sm:p-12 relative overflow-hidden">
+                <div class="text-center max-w-3xl mx-auto mb-12 gsap-reveal">
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-sky-400">ARQUITECTURA SERVERLESS • INFERENCIA &lt; 180 SEGUNDOS</span>
+                    <h2 class="mt-2 text-2xl sm:text-4xl font-extrabold text-white">
+                        El "Secreto" Técnico detrás de cada Serenata
+                    </h2>
+                    <p class="mt-3 text-slate-300 text-sm sm:text-base">
+                        Combinamos producción musical real con inferencia distribuida en GPU para lograr calidad cinematográfica con un margen operativo del 88%.
+                    </p>
+                </div>
+
+                <!-- Diagrama de Nodos Conectados por SVG Animado -->
+                <div class="relative grid grid-cols-1 md:grid-cols-4 gap-6 items-center z-10">
+                    
+                    <!-- Línea SVG conectora en Desktop -->
+                    <svg class="hidden md:block absolute top-1/2 left-0 w-full h-12 -translate-y-1/2 pointer-events-none z-0" viewBox="0 0 1000 60" fill="none">
+                        <path d="M 120 30 L 880 30" stroke="rgba(255,255,255,0.1)" stroke-width="3"/>
+                        <path class="svg-flow-line" d="M 120 30 L 880 30" stroke="#E11D2A" stroke-width="3"/>
+                    </svg>
+
+                    <!-- Nodo 1 -->
+                    <div class="relative z-10 rounded-2xl bg-[#0B1838] border border-white/15 p-5 text-center shadow-xl">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-tommy-red/20 border border-tommy-red flex items-center justify-center text-tommy-red mb-3">
+                            <i data-lucide="mic-vocal" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-[10px] text-amber-400 uppercase">INPUT USUARIO</span>
+                        <h4 class="font-bold text-white text-base mt-1">Voz 15s + 3 Selfies</h4>
+                        <p class="text-xs text-slate-400 mt-1">Captura web sin instalar apps + Character Sheet.</p>
+                    </div>
+
+                    <!-- Nodo 2 -->
+                    <div class="relative z-10 rounded-2xl bg-[#0B1838] border border-white/15 p-5 text-center shadow-xl">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-sky-400 mb-3">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-[10px] text-sky-400 uppercase">FAL.AI / RUNPOD GPU</span>
+                        <h4 class="font-bold text-white text-base mt-1">RVC + InsightFace</h4>
+                        <p class="text-xs text-slate-400 mt-1">Afinación Voice-to-Voice y mapeo facial sobre plantilla maestra.</p>
+                    </div>
+
+                    <!-- Nodo 3 -->
+                    <div class="relative z-10 rounded-2xl bg-[#0B1838] border border-white/15 p-5 text-center shadow-xl">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-400 mb-3">
+                            <i data-lucide="database" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-[10px] text-emerald-400 uppercase">SUPABASE POSTGRES</span>
+                        <h4 class="font-bold text-white text-base mt-1">Billetera de Monedas</h4>
+                        <p class="text-xs text-slate-400 mt-1">Integridad relacional ACID, Wompi/ePayco e historial.</p>
+                    </div>
+
+                    <!-- Nodo 4 -->
+                    <div class="relative z-10 rounded-2xl bg-gradient-to-b from-tommy-red/30 to-[#0B1838] border border-tommy-red p-5 text-center shadow-xl">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-tommy-red text-white flex items-center justify-center mb-3 shadow-[0_0_20px_#E11D2A]">
+                            <i data-lucide="share-2" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-[10px] text-white uppercase">OUTPUT VIRAL</span>
+                        <h4 class="font-bold text-white text-base mt-1">MP4 Vertical HD</h4>
+                        <p class="text-xs text-slate-200 mt-1">Listo para dedicar por WhatsApp, TikTok y Reels.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECCIÓN DE PRECIOS / MONEDAS (TIER 3 LATAM)
+        =========================================== -->
+        <section id="precios" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center max-w-2xl mx-auto mb-12 gsap-reveal">
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-amber-400">ECONOMÍA GAMIFICADA • SIN MENSUALIDADES</span>
+                <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
+                    Elige tu Serenata y paga en moneda local
+                </h2>
+                <p class="mt-3 text-slate-300 text-sm sm:text-base">
+                    Aceptamos Nequi, PSE, Efecty y tarjetas vía Wompi / ePayco. Hoy puedes reclamar <strong class="text-amber-400">3 Monedas Gratis</strong> en nuestro acceso anticipado.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Plan 1: Muestra Gratis -->
+                <div class="rounded-2xl bg-tommy-deep/50 border border-white/10 p-7 flex flex-col justify-between">
+                    <div>
+                        <span class="font-mono text-xs uppercase text-slate-400">FREEMIUM</span>
+                        <h3 class="text-xl font-bold text-white mt-1">Muestra de Rockola</h3>
+                        <div class="mt-4 flex items-baseline gap-1">
+                            <span class="text-4xl font-extrabold text-white">$0</span>
+                            <span class="text-xs font-mono text-slate-400">USD / 1er Audio</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Afinación RVC de 15 segundos</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 4 Type-Beats disponibles</li>
+                            <li class="flex items-center gap-2 text-slate-400"><i data-lucide="volume-2" class="w-4 h-4 text-amber-400"></i> Incluye marca de agua sonora</li>
+                        </ul>
+                    </div>
+                    <button onclick="openFakeDoorModal('Freemium Audio')" class="mt-8 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-sm transition-all">
+                        Probar Muestra Gratis
+                    </button>
+                </div>
+
+                <!-- Plan 2: Audio Pro -->
+                <div class="rounded-2xl bg-tommy-deep/80 border border-white/15 p-7 flex flex-col justify-between">
+                    <div>
+                        <span class="font-mono text-xs uppercase text-amber-400">POCKET SERENADE</span>
+                        <h3 class="text-xl font-bold text-white mt-1">Audio Pro Master</h3>
+                        <div class="mt-4 flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold text-white">$1.49</span>
+                            <span class="text-xs font-mono text-slate-400">USD (~$6.200 COP)</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Sin marca de agua sonora</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Masterización de estudio WAV/MP3</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Envío directo a WhatsApp con carátula</li>
+                        </ul>
+                    </div>
+                    <button onclick="openFakeDoorModal('Audio Pro - Pocket Serenade')" class="mt-8 w-full py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm transition-all">
+                        Reclamar con 1 Moneda Gratis
+                    </button>
+                </div>
+
+                <!-- Plan 3: Video Pro (Destacado) -->
+                <div class="relative rounded-2xl bg-gradient-to-b from-[#162B5B] to-tommy-deep border-2 border-tommy-red p-7 flex flex-col justify-between shadow-[0_0_40px_rgba(225,29,42,0.25)]">
+                    <span class="absolute -top-3 right-6 px-3 py-0.5 rounded-full bg-tommy-red text-white font-mono text-[10px] font-bold uppercase tracking-wider">
+                        MÁS POPULAR • STAGE STAR
+                    </span>
+                    <div>
+                        <span class="font-mono text-xs uppercase text-red-300">VIDEOCLIP COMPLETO</span>
+                        <h3 class="text-xl font-bold text-white mt-1">Video Pro Face-Swap</h3>
+                        <div class="mt-4 flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold text-white">$4.99</span>
+                            <span class="text-xs font-mono text-slate-300">USD (~$20.900 COP)</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-200">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Voz afinada RVC + Videoclip 1080p</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Tu rostro en Plantilla Maestra de actor real</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tommy-red"></i> Formato vertical 9:16 listo para Reels/TikTok</li>
+                        </ul>
+                    </div>
+                    <button onclick="openFakeDoorModal('Video Pro - Stage Star')" class="mt-8 w-full py-3.5 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-extrabold text-sm shadow-[0_0_25px_rgba(225,29,42,0.5)] transition-all">
+                        Canjear mis 3 Monedas Gratis
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             6. CTA FINAL MASIVO
+        =========================================== -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+            <div class="relative rounded-3xl bg-gradient-to-br from-tommy-deep via-[#10234E] to-[#2A0B18] border border-white/15 p-8 sm:p-14 text-center overflow-hidden shadow-2xl">
+                <div class="tommy-ribbon absolute top-0 left-0 right-0 h-2"></div>
+                
+                <span class="inline-block font-mono text-xs uppercase tracking-[0.25em] text-amber-400 mb-3">
+                    ¿LISTO PARA SER LA ESTRELLA DE LA DEDICATORIA?
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white max-w-3xl mx-auto leading-tight">
+                    Las flores duran tres días. <br>
+                    <span class="font-serif italic text-tommy-red">Tu serenata con IA dura para siempre.</span>
+                </h2>
+                <p class="mt-4 text-slate-300 max-w-2xl mx-auto text-base sm:text-lg">
+                    Únete a los primeros usuarios en Colombia y LATAM con 3 monedas de regalo o explora programas de formación e innovación digital.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                    <button onclick="openFakeDoorModal('CTA Final - 3 Monedas Gratis')" class="rounded-2xl bg-tommy-red hover:bg-red-600 px-8 py-4 text-base font-extrabold text-white shadow-[0_0_30px_rgba(225,29,42,0.5)] transition-all flex items-center gap-2">
+                        <span>🪙 Reclamar 3 Monedas Gratis</span>
+                    </button>
+
+                    <a href="https://betowa.sena.edu.co/oferta" target="_blank" rel="noopener noreferrer" class="rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 px-7 py-4 text-base font-semibold text-white transition-all flex items-center gap-2">
+                        <span>Explorar Oferta SENA Betowa</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==========================================
+         FOOTER DE 5 COLUMNAS + ESTADO DEL SERVIDOR
+    =========================================== -->
+    <footer class="bg-[#030711] border-t border-white/10 pt-16 pb-12 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+                
+                <!-- Col 1: Marca + Status -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-tommy-deep border border-white/15 flex items-center justify-center">
+                            <i data-lucide="disc-3" class="w-5 h-5 text-tommy-red"></i>
+                        </div>
+                        <span class="text-2xl font-extrabold text-white">
+                            Serenat<span class="text-tommy-red font-serif italic">iA</span>r
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
+                        "No más flores... ¡vamos a SerenatiAr!". Plataforma interactiva de serenatas personalizadas mediante Voice-to-Voice (RVC) y Face-Swap sobre plantillas maestras libres de derechos de autor.
+                    </p>
+                    <!-- Indicador de estado del servidor en vivo -->
+                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-xs font-mono text-emerald-300">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34D399]"></span>
+                        <span>All systems operational • GPU Cluster Ready</span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Producto -->
+                <div>
+                    <h4 class="font-mono text-xs uppercase tracking-wider text-white font-bold mb-4">Producto</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm">
+                        <li><a href="#rockola" class="hover:text-white transition-colors">Rockola Digital 80s</a></li>
+                        <li><a href="#como-funciona" class="hover:text-white transition-colors">Afinación Vocal RVC</a></li>
+                        <li><a href="#como-funciona" class="hover:text-white transition-colors">Face-Swap Stage Star</a></li>
+                        <li><a href="#precios" class="hover:text-white transition-colors">Billetera de Monedas</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Recursos & Catálogo -->
+                <div>
+                    <h4 class="font-mono text-xs uppercase tracking-wider text-white font-bold mb-4">Recursos</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm">
+                        <li><a href="#rockola" class="hover:text-white transition-colors">Catálogo Type-Beats</a></li>
+                        <li><a href="#arquitectura" class="hover:text-white transition-colors">Arquitectura Serverless</a></li>
+                        <li><a href="https://betowa.sena.edu.co/oferta" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Comunidad Betowa SENA</a></li>
+                        <li><button onclick="openFakeDoorModal('Soporte Comercios / B2B')" class="hover:text-white transition-colors">Alianzas Floristerías & Regalos</button></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Legal & Pagos -->
+                <div>
+                    <h4 class="font-mono text-xs uppercase tracking-wider text-white font-bold mb-4">Legal & Blindaje</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm">
+                        <li><span class="text-slate-300">Licencia 100% Royalty-Free</span></li>
+                        <li><span class="text-slate-300">Consentimiento Biométrico IA</span></li>
+                        <li><span class="text-slate-300">Pagos Nequi / PSE / Efecty</span></li>
+                        <li><span class="text-slate-300">Privacidad de Audio (Borrado 24h)</span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+                <p>© 2026 SerenatiAr Labs • Hecho con pasión en Colombia para toda LATAM.</p>
+                <p>Fase 1 MVP • Validación "Puerta Falsa" Activa</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================
+         MODAL DE "PUERTA FALSA" (CAPTURA DE CORREO POR 3 MONEDAS)
+    =========================================================== -->
+    <div id="fake-door-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="relative w-full max-w-lg rounded-3xl bg-gradient-to-b from-[#10224B] to-[#071024] border-2 border-white/15 p-6 sm:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden">
+            
+            <div class="tommy-ribbon absolute top-0 left-0 right-0 h-2"></div>
+
+            <!-- Botón Cerrar -->
+            <button id="close-modal-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Estado Formulario -->
+            <div id="modal-form-view">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 font-mono text-xs mb-4">
+                    <span>🪙 +3 MONEDAS GRATIS DE BIENVENIDA</span>
+                </div>
+
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                    ¡Tu pista <span id="modal-selected-track" class="text-tommy-red font-serif italic">Romance 90s</span> está lista en consola!
+                </h3>
+
+                <p class="mt-2.5 text-sm text-slate-300 leading-relaxed">
+                    Estamos habilitando los nodos de GPU para renderizar voces RVC y Face-Swap por orden de llegada. Déjanos tu correo y recibe <strong class="text-white">3 Monedas Gratis (Valoradas en $4.99 USD)</strong> apenas se abra tu turno.
+                </p>
+
+                <form id="lead-capture-form" class="mt-6 space-y-4">
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase tracking-wider text-slate-300 mb-1.5">
+                            Tu Correo Electrónico (Para enviarte tus 3 monedas)
+                        </label>
+                        <input type="email" id="lead-email" required placeholder="tucorreo@ejemplo.com" 
+                            class="w-full rounded-xl bg-[#050C1D] border border-white/20 px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-tommy-red">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-slate-300 mb-1.5">
+                                ¿A quién se la dedicas?
+                            </label>
+                            <select id="lead-target" class="w-full rounded-xl bg-[#050C1D] border border-white/20 px-3.5 py-3 text-sm text-white focus:outline-none focus:border-tommy-red">
+                                <option value="Pareja / Aniversario">Pareja / Aniversario ❤️</option>
+                                <option value="Conquista / Crush">Conquista / Crush 🔥</option>
+                                <option value="Perdón / Reconciliación">Pedir Perdón 🙏</option>
+                                <option value="Madre / Cumpleaños">Mamá / Cumpleaños 🎂</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-slate-300 mb-1.5">
+                                Formato Preferido
+                            </label>
+                            <select id="lead-format" class="w-full rounded-xl bg-[#050C1D] border border-white/20 px-3.5 py-3 text-sm text-white focus:outline-none focus:border-tommy-red">
+                                <option value="Video Pro Face-Swap ($4.99)">🎬 Video Face-Swap + Voz</option>
+                                <option value="Audio Pro RVC ($1.49)">🎵 Solo Audio Pro RVC</option>
+                                <option value="Muestra Gratis">🎁 Muestra Gratis</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full rounded-xl bg-tommy-red hover:bg-red-600 py-4 px-6 font-extrabold text-white text-sm sm:text-base shadow-[0_0_30px_rgba(225,29,42,0.5)] transition-all flex items-center justify-center gap-2">
+                        <span>🪙 Reclamar mis 3 Monedas Gratis</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+
+                <p class="mt-4 text-center font-mono text-[11px] text-slate-400">
+                    🔒 Cero spam. Tus 3 monedas quedan acreditadas en tu billetera vinculada a tu correo.
+                </p>
+            </div>
+
+            <!-- Estado Confirmación Exitosa -->
+            <div id="modal-success-view" class="hidden text-center py-6">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 mb-4 shadow-[0_0_30px_rgba(52,211,153,0.3)]">
+                    <i data-lucide="check-circle-2" class="w-9 h-9"></i>
+                </div>
+                <span class="font-mono text-xs uppercase tracking-widest text-amber-400">¡BILLETERA ACREDITADA CON ÉXITO!</span>
+                <h3 class="mt-2 text-2xl sm:text-3xl font-extrabold text-white">
+                    Tienes <span class="text-amber-400">3 Monedas Gratis</span> reservadas
+                </h3>
+                <p class="mt-2 text-sm text-slate-300 max-w-md mx-auto">
+                    Guardamos tu registro para el ritmo <strong id="success-track-name" class="text-white">Romance 90s</strong>. Te notificaremos a <strong id="success-email-display" class="text-emerald-400"></strong> en cuanto tu estudio RVC esté habilitado.
+                </p>
+                <div class="mt-6 p-4 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-slate-300">
+                    TICKET DE RESERVA: <span id="lead-ticket-id" class="text-amber-400 font-bold">#SR-8842</span> • SALDO: 🪙 3 CRÉDITOS
+                </div>
+                <button id="btn-finish-modal" class="mt-6 w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all">
+                    Volver a la Rockola con mis 3 Monedas
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         LÓGICA INTERACTIVA VANILLA JS + WEB AUDIO API + GSAP
+    =========================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar íconos Lucide
+            lucide.createIcons();
+
+            // ----------------------------------------------------------
+            // 1. MOTOR DE SONIDO SINTETIZADO (Web Audio API - Sin MP3 externos)
+            // ----------------------------------------------------------
+            let soundEnabled = true;
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            let audioCtx = null;
+
+            function initAudio() {
+                if (!audioCtx && AudioCtx) {
+                    audioCtx = new AudioCtx();
+                }
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            }
+
+            // Sonido de Moneda Mecánica + Clink Metálico
+            function playCoinSound() {
+                if (!soundEnabled) return;
+                initAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+                // Golpe mecánico inicial
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'triangle';
+                osc1.frequency.setValueAtTime(987.77, now); // B5
+                osc1.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+                gain1.gain.setValueAtTime(0.18, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.45);
+            }
+
+            // Sonido de Botón Mecánico 80s (Latch Clunk)
+            function playMechButtonSound() {
+                if (!soundEnabled) return;
+                initAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.exponentialRampToValueAtTime(55, now + 0.09);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.09);
+            }
+
+            // Sonido de Preview de Type-Beat (Acorde sintetizado corto)
+            function playChordPreview(code) {
+                if (!soundEnabled) return;
+                initAudio();
+                if (!audioCtx) return;
+
+                const chords = {
+                    'A1': [261.63, 329.63, 392.00, 493.88], // Cmaj7 (Romance)
+                    'B2': [220.00, 261.63, 329.63, 392.00], // Am7 (Urbano)
+                    'C3': [349.23, 440.00, 523.25, 659.25], // Fmaj7 (Pop)
+                    'D4': [293.66, 369.99, 440.00, 587.33]  // Dmaj (Tradicional)
+                };
+                const notes = chords[code] || chords['A1'];
+                const now = audioCtx.currentTime;
+
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+                    gain.gain.setValueAtTime(0.05, now + idx * 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.04);
+                    osc.stop(now + 0.7);
+                });
+            }
+
+            // Botón de silenciar/activar SFX
+            const soundToggleBtn = document.getElementById('sound-toggle-btn');
+            soundToggleBtn.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                soundToggleBtn.innerHTML = soundEnabled
+                    ? '<i data-lucide="volume-2" class="w-3.5 h-3.5"></i><span class="text-[10px]">SFX ON</span>'
+                    : '<i data-lucide="volume-x" class="w-3.5 h-3.5"></i><span class="text-[10px]">SFX OFF</span>';
+                lucide.createIcons();
+            });
+
+            // ----------------------------------------------------------
+            // 2. ANIMACIONES GSAP (Reveal + Inclinación 3D de la Rockola)
+            // ----------------------------------------------------------
+            if (window.gsap && window.ScrollTrigger) {
+                gsap.registerPlugin(ScrollTrigger);
+
+                const ctx = gsap.context(() => {
+                    // Fade-up en cascada para el Hero
+                    gsap.from('.gsap-hero', {
+                        y: 28,
+                        opacity: 0,
+                        duration: 0.85,
+                        stagger: 0.12,
+                        ease: 'power3.out'
+                    });
+
+                    // Inclinación 3D de la Rockola que se alinea a rotateX(0) con el scroll
+                    gsap.to('#jukebox-chassis', {
+                        rotateX: 0,
+                        y: 0,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: '#rockola',
+                            start: 'top 80%',
+                            end: 'top 20%',
+                            scrub: 1
+                        }
+                    });
+
+                    // Revelación de tarjetas Bento y secciones
+                    gsap.utils.toArray('.gsap-reveal').forEach((el) => {
+                        gsap.from(el, {
+                            y: 36,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: el,
+                                start: 'top 85%'
+                            }
+                        });
+                    });
+                });
+            }
+
+            // ----------------------------------------------------------
+            // 3. LÓGICA DE LA ROCKOLA Y FLUJO DE "PUERTA FALSA"
+            // ----------------------------------------------------------
+            const btnCoin = document.getElementById('btn-coin');
+            const btnCoinText = document.getElementById('btn-coin-text');
+            const selectionPanel = document.getElementById('selection-panel');
+            const panelLockBadge = document.getElementById('panel-lock-badge');
+            const statusText = document.getElementById('status-text');
+            const subStatusText = document.getElementById('sub-status-text');
+            const waveAnimation = document.getElementById('wave-animation');
+            const recordingDock = document.getElementById('recording-dock');
+            const lyricPrompt = document.getElementById('lyric-prompt');
+            const btnStartRecord = document.getElementById('btn-start-record');
+            const recordBtnLabel = document.getElementById('record-btn-label');
+            const btnChangeVibe = document.getElementById('btn-Change-vibe');
+            const trackButtons = document.querySelectorAll('.track-btn');
+            const screenPanel = document.getElementById('screen-panel');
+            const vinylDisc = document.getElementById('vinyl-disc');
+            const screenChannelCode = document.getElementById('screen-channel-code');
+            const screenEngineTag = document.getElementById('screen-engine-tag');
+            const jukeboxCreditDisplay = document.getElementById('jukebox-credit-display');
+            const navCoinCount = document.getElementById('nav-coin-count');
+            const jukeboxStepPill = document.getElementById('jukebox-step-pill');
+
+            let credits = parseInt(localStorage.getItem('serenatiar_credits') || '0', 10);
+            let hasCoinInserted = false;
+            let selectedTrack = 'Romance 90s (Bolero Pop)';
+            let isRecording = false;
+
+            function updateCreditCounters() {
+                jukeboxCreditDisplay.innerText = String(credits).padStart(2, '0');
+                navCoinCount.innerText = String(credits);
+            }
+            updateCreditCounters();
+
+            // Función global para insertar moneda desde cualquier CTA
+            window.scrollToJukebox = function () {
+                document.getElementById('rockola').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            window.triggerHeroCoinInsert = function () {
+                scrollToJukebox();
+                setTimeout(() => {
+                    if (!hasCoinInserted) {
+                        btnCoin.click();
+                    }
+                }, 450);
+            };
+
+            // PASO 1: Insertar Moneda
+            btnCoin.addEventListener('click', () => {
+                if (hasCoinInserted) return;
+
+                playCoinSound();
+                hasCoinInserted = true;
+                credits += 1;
+                updateCreditCounters();
+
+                // Actualizar botón de moneda
+                btnCoin.classList.add('opacity-60', 'cursor-not-allowed');
+                btnCoinText.innerText = 'CRÉDITO ACTIVO (1)';
+
+                // Actualizar estado en pantalla de cristal
+                statusText.classList.remove('text-tommy-red', 'animate-pulse');
+                statusText.classList.add('text-emerald-400');
+                statusText.innerText = '● MONEDA ACEPTADA — SELECCIONE SU VIBRA (A1 - D4)';
+                subStatusText.innerText = 'Presiona uno de los botones mecánicos de la derecha para cargar el Type-Beat.';
+                screenEngineTag.innerText = 'MOTOR IA: LISTO';
+                jukeboxStepPill.innerText = 'PASO 2/3: ELEGIR VIBRA';
+
+                // Desbloquear botonera mecánica
+                selectionPanel.classList.remove('opacity-40', 'pointer-events-none');
+                selectionPanel.classList.add('opacity-100');
+                panelLockBadge.innerText = 'ACTIVO';
+                panelLockBadge.className = 'font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+
+                screenPanel.classList.add('border-emerald-400/40');
+            });
+
+            // PASO 2: Seleccionar Canción / Vibra en la Botonera Mecánica
+            trackButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    if (!hasCoinInserted || isRecording) return;
+
+                    const code = btn.getAttribute('data-code');
+                    const trackName = btn.getAttribute('data-track');
+                    const bpmInfo = btn.getAttribute('data-bpm');
+                    const lyric = btn.getAttribute('data-lyric');
+                    selectedTrack = trackName;
+
+                    playMechButtonSound();
+                    playChordPreview(code);
+
+                    // Marcar visualmente el botón presionado
+                    trackButtons.forEach((b) => b.classList.remove('pressed', 'border-tommy-red'));
+                    btn.classList.add('pressed', 'border-tommy-red');
+
+                    // Girar el disco de vinilo
+                    vinylDisc.classList.add('playing');
+
+                    // Actualizar textos del visor
+                    screenChannelCode.innerText = `CANAL: ${code}`;
+                    screenEngineTag.innerText = bpmInfo;
+                    statusText.classList.remove('text-emerald-400');
+                    statusText.classList.add('text-sky-400');
+                    statusText.innerText = `🎵 PISTA CARGADA: ${trackName}`;
+                    subStatusText.innerText = 'Canta el estribillo de prueba (o simula tu grabación) para afinar tu voz con IA.';
+                    jukeboxStepPill.innerText = 'PASO 3/3: GRABAR 15s';
+
+                    // Mostrar dock de grabación con letra sugerida
+                    lyricPrompt.innerText = lyric;
+                    recordingDock.classList.remove('hidden');
+                    recordingDock.classList.add('flex');
+                    waveAnimation.classList.remove('hidden');
+                });
+            });
+
+            // Botón para cambiar de vibra antes de grabar
+            btnChangeVibe.addEventListener('click', () => {
+                if (isRecording) return;
+                playMechButtonSound();
+                recordingDock.classList.add('hidden');
+                recordingDock.classList.remove('flex');
+                waveAnimation.classList.add('hidden');
+                vinylDisc.classList.remove('playing');
+                trackButtons.forEach((b) => b.classList.remove('pressed', 'border-tommy-red'));
+                statusText.innerText = '● SELECCIONE OTRA VIBRA EN LA BOTONERA';
+            });
+
+            // PASO 3: Simular Grabación de Estribillo -> Abrir Modal "Puerta Falsa"
+            btnStartRecord.addEventListener('click', () => {
+                if (isRecording) return;
+                isRecording = true;
+                playMechButtonSound();
+
+                let secondsLeft = 4;
+                btnStartRecord.classList.add('animate-pulse');
+                recordBtnLabel.innerText = `🎙️ Grabando tu voz... (${secondsLeft}s)`;
+                statusText.classList.remove('text-sky-400');
+                statusText.classList.add('text-amber-400');
+                statusText.innerText = '● CAPTURANDO FORMANTES VOCALES & TIMBRE...';
+
+                const timer = setInterval(() => {
+                    secondsLeft -= 1;
+                    if (secondsLeft > 0) {
+                        recordBtnLabel.innerText = `🎙️ Grabando tu voz... (${secondsLeft}s)`;
+                    } else {
+                        clearInterval(timer);
+                        recordBtnLabel.innerText = '⚡ Procesando con RVC Voice-to-Voice...';
+                        statusText.innerText = '⚡ AISLANDO VOZ Y MEZCLANDO CON TYPE-BEAT...';
+
+                        setTimeout(() => {
+                            isRecording = false;
+                            btnStartRecord.classList.remove('animate-pulse');
+                            recordBtnLabel.innerText = 'Grabar Estribillo (Simulación 4s)';
+                            openFakeDoorModal(selectedTrack);
+                        }, 1100);
+                    }
+                }, 850);
+            });
+
+            // ----------------------------------------------------------
+            // 4. MODAL "PUERTA FALSA" (CAPTURA DE LEADS EN LOCALSTORAGE)
+            // ----------------------------------------------------------
+            const fakeDoorModal = document.getElementById('fake-door-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalSelectedTrack = document.getElementById('modal-selected-track');
+            const leadCaptureForm = document.getElementById('lead-capture-form');
+            const modalFormView = document.getElementById('modal-form-view');
+            const modalSuccessView = document.getElementById('modal-success-view');
+            const successTrackName = document.getElementById('success-track-name');
+            const successEmailDisplay = document.getElementById('success-email-display');
+            const leadTicketId = document.getElementById('lead-ticket-id');
+            const btnFinishModal = document.getElementById('btn-finish-modal');
+
+            window.openFakeDoorModal = function (trackOrContext) {
+                playCoinSound();
+                const label = trackOrContext && trackOrContext !== 'login' ? trackOrContext : selectedTrack;
+                modalSelectedTrack.innerText = label;
+                modalFormView.classList.remove('hidden');
+                modalSuccessView.classList.add('hidden');
+                fakeDoorModal.classList.remove('hidden');
+                fakeDoorModal.classList.add('flex');
+            };
+
+            window.openDemoPreviewModal = function () {
+                scrollToJukebox();
+                const demoSection = document.getElementById('como-funciona');
+                if (demoSection) {
+                    demoSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            function closeFakeDoorModal() {
+                fakeDoorModal.classList.add('hidden');
+                fakeDoorModal.classList.remove('flex');
+            }
+
+            closeModalBtn.addEventListener('click', closeFakeDoorModal);
+            btnFinishModal.addEventListener('click', closeFakeDoorModal);
+            fakeDoorModal.addEventListener('click', (e) => {
+                if (e.target === fakeDoorModal) closeFakeDoorModal();
+            });
+
+            leadCaptureForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                playCoinSound();
+
+                const email = document.getElementById('lead-email').value.trim();
+                const target = document.getElementById('lead-target').value;
+                const format = document.getElementById('lead-format').value;
+                const ticket = '#SR-' + Math.floor(1000 + Math.random() * 9000);
+
+                // Guardar lead en localStorage para validación de mercado MVP
+                const existingLeads = JSON.parse(localStorage.getItem('serenatiar_mvp_leads') || '[]');
+                existingLeads.push({
+                    email,
+                    track: selectedTrack,
+                    target,
+                    format,
+                    ticket,
+                    createdAt: new Date().toISOString()
+                });
+                localStorage.setItem('serenatiar_mvp_leads', JSON.stringify(existingLeads));
+
+                // Acreditar las 3 Monedas Gratis en la billetera local
+                credits = 3;
+                localStorage.setItem('serenatiar_credits', '3');
+                updateCreditCounters();
+
+                // Mostrar vista de éxito
+                successTrackName.innerText = selectedTrack;
+                successEmailDisplay.innerText = email;
+                leadTicketId.innerText = ticket;
+                modalFormView.classList.add('hidden');
+                modalSuccessView.classList.remove('hidden');
+
+                // Resetear estado de la Rockola para permitir seguir explorando
+                hasCoinInserted = false;
+                vinylDisc.classList.remove('playing');
+                recordingDock.classList.add('hidden');
+                recordingDock.classList.remove('flex');
+                waveAnimation.classList.add('hidden');
+                btnCoin.classList.remove('opacity-60', 'cursor-not-allowed');
+                btnCoinText.innerText = 'USAR 1 MONEDA (SALDO: 3)';
+                statusText.className = 'mt-2 text-amber-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold';
+                statusText.innerText = '★ TIENES 3 MONEDAS GRATIS ACREDITADAS EN TU CUENTA';
+            });
+
+            // ----------------------------------------------------------
+            // 5. MICRO-INTERACCIÓN BENTO 1 (Alternar Voz Cruda vs RVC Studio)
+            // ----------------------------------------------------------
+            const toggleRvcDemo = document.getElementById('toggle-rvc-demo');
+            const rvcModeLabel = document.getElementById('rvc-mode-label');
+            const rvcPitchStat = document.getElementById('rvc-pitch-stat');
+            const rvcIndicatorDot = document.getElementById('rvc-indicator-dot');
+            const rvcBars = document.querySelectorAll('.rvc-bar');
+            let isRvcActive = true;
+
+            toggleRvcDemo.addEventListener('click', () => {
+                playMechButtonSound();
+                isRvcActive = !isRvcActive;
+
+                if (isRvcActive) {
+                    rvcModeLabel.innerText = 'MODO ACTIVO: RVC STUDIO MASTER (AFINADO 100%)';
+                    rvcPitchStat.innerText = 'CORRECCIÓN TONAL: ±0.02 semitonos';
+                    rvcIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-tommy-red animate-pulse';
+                    rvcBars.forEach((bar, i) => {
+                        bar.style.height = `${45 + ((i * 13) % 35)}px`;
+                        bar.classList.remove('bg-slate-600');
+                        bar.classList.add(i % 3 === 0 ? 'bg-amber-400' : 'bg-tommy-red');
+                    });
+                } else {
+                    rvcModeLabel.innerText = 'MODO ACTIVO: NOTA DE VOZ CRUDA (SIN AFINAR)';
+                    rvcPitchStat.innerText = 'DESVIACIÓN TONAL: ±1.45 semitonos (Desafinado)';
+                    rvcIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500';
+                    rvcBars.forEach((bar, i) => {
+                        bar.style.height = `${16 + ((i * 7) % 20)}px`;
+                        bar.classList.remove('bg-tommy-red', 'bg-amber-400', 'bg-sky-400', 'bg-emerald-400');
+                        bar.classList.add('bg-slate-600');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
