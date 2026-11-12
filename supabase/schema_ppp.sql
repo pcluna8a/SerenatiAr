@@ -86,7 +86,47 @@ CREATE TABLE IF NOT EXISTS public.transacciones_monedas (
 );
 
 -- ============================================================================
--- TABLA 4: historial_serenatas (Trabajos de Inferencia RVC y Face-Swap)
+-- TABLA 4: catalogo_pistas_geo (Catálogo Global de Type-Beats con Metadatos Geográficos)
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS public.catalogo_pistas_geo (
+    id_pista VARCHAR(16) PRIMARY KEY,        -- 'TRK-01' a 'TRK-12'
+    codigo_rockola VARCHAR(8) NOT NULL,      -- 'P01' a 'P12'
+    geo_zone VARCHAR(16) NOT NULL,           -- 'LATAM', 'NA_UK', 'EUROPE', 'ASIA'
+    categoria_local VARCHAR(64) NOT NULL,    -- 'Acústico y Pop', 'Urbano Suave', 'De nuestra tierra', 'K-Drama OST', etc.
+    titulo VARCHAR(64) NOT NULL,             -- Ej: 'Noche de Balcón', 'Cherry Blossom Tears'
+    instrumentacion TEXT NOT NULL,
+    vibra_referencia VARCHAR(128) NOT NULL,
+    bpm INTEGER NOT NULL,
+    tonalidad VARCHAR(16) NOT NULL,
+    plantilla_video_id VARCHAR(32) NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_catalogo_geo_zone ON public.catalogo_pistas_geo(geo_zone, activo);
+
+INSERT INTO public.catalogo_pistas_geo (id_pista, codigo_rockola, geo_zone, categoria_local, titulo, instrumentacion, vibra_referencia, bpm, tonalidad, plantilla_video_id)
+VALUES
+    -- Fase 1: LATAM e Hispanohablantes
+    ('TRK-01', 'P01', 'LATAM', 'Acústico y Pop',     'Noche de Balcón',       'Guitarras acústicas, tiple y requinto',         'Los Panchos / Julio Jaramillo', 76,  'A Minor', 'TPL-01-BALCON'),
+    ('TRK-02', 'P02', 'LATAM', 'Acústico y Pop',     'Pop de Arena',          'Piano eléctrico cálido y batería suave',        'Chayanne / Luis Miguel 90s',    78,  'C Major', 'TPL-02-ARENA'),
+    ('TRK-03', 'P03', 'LATAM', 'Urbano Suave',       'Atardecer en la Cima',  'Beat reggaetón muy suave con guitarra',         'Feid acústico / Camilo',        86,  'F Minor', 'TPL-03-CIMA'),
+    ('TRK-04', 'P04', 'LATAM', 'De nuestra tierra',  'Sentimiento de Valle',  'Acordeón romántico lento y caja suave',         'Vallenato Romántico',           84,  'D Major', 'TPL-04-VALLE'),
+    ('TRK-05', 'P05', 'LATAM', 'De nuestra tierra',  'Cantina y Despecho',    'Trompetas suaves, requinto y guitarrón',        'Ranchera / Música Popular',     88,  'G Major', 'TPL-05-CANTINA'),
+    -- Fase 2: Norteamérica y UK (Tier 1)
+    ('TRK-06', 'P06', 'NA_UK', 'Acoustic Pop',       'Coffee Shop Romance',   'Solo guitarra acústica cálida fingerpicking',   'Ed Sheeran / Shawn Mendes',     92,  'G Major', 'TPL-06-COFFEESHOP'),
+    ('TRK-07', 'P07', 'NA_UK', 'R&B / Soul',         'Midnight Piano',        'Piano de cola con reverberación profunda',      'John Legend / Adele',           68,  'Eb Major','TPL-07-MIDNIGHT'),
+    ('TRK-08', 'P08', 'NA_UK', 'Country Romántico',  'Nashville Sunset',      'Guitarra con slide y percusión rústica',        'Taylor Swift / Morgan Wallen',  96,  'D Major', 'TPL-08-NASHVILLE'),
+    -- Fase 3: Mercado Europeo (Tier 2)
+    ('TRK-09', 'P09', 'EUROPE','Indie Folk',         'Nordic Woods',          'Guitarras rápidas, bombo y coros etéreos',      'Mumford & Sons / Hozier',       114, 'C Major', 'TPL-09-NORDIC'),
+    ('TRK-10', 'P10', 'EUROPE','Euro-Pop Sintético', 'Neon Heartbeat',        'Sintetizadores retro 80s con bajo marcado',     'The Weeknd / Dua Lipa',         118, 'A Minor', 'TPL-10-NEON'),
+    -- Fase 4: El Gigante Asiático (Tier 4)
+    ('TRK-11', 'P11', 'ASIA',  'K-Drama OST',        'Cherry Blossom Tears',  'Cuerdas orquestales y piano dramático',         'OST Doramas Coreanos (Seúl)',   70,  'F Major', 'TPL-11-KDRAMA'),
+    ('TRK-12', 'P12', 'ASIA',  'J-Pop / Anime Lento','Tokyo Starlight',       'Batería pop con arreglos de cuerdas ligeras',   'Anime Ballad (Tokio)',          98,  'E Major', 'TPL-12-TOKYO')
+ON CONFLICT (id_pista) DO NOTHING;
+
+-- ============================================================================
+-- TABLA 5: historial_serenatas (Trabajos de Inferencia RVC y Face-Swap)
 -- ============================================================================
 -- Regla Base de la Economía:
 --   AUDIO_RVC = 1 Moneda

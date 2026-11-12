@@ -1,322 +1,316 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "project": "SerenatiAr",
   "updatedAt": "2026-11-12",
+  "architecture": "Geo-Localized Cultural Type-Beats + PPP Unified Engine",
   "audioEngine": {
     "sampleRate": 48000,
     "clipDurationSeconds": 15,
     "rvcModelVersion": "v2-hubert-base",
     "watermarkAudioPath": "assets/audio/watermark-serenatiar.mp3"
   },
-  "sides": [
-    {
-      "id": "A",
-      "label": "LADO A • ROMÁNTICO",
-      "subtitle": "Clásicos para enamorar y aniversarios",
-      "channels": [
+  "geoRegions": {
+    "LATAM": {
+      "tierId": "TIER_3_LATAM",
+      "flag": "🇨🇴",
+      "regionName": "LATAM & Hispanohablantes",
+      "citiesExample": "Neiva, Bogotá, Medellín, CDMX",
+      "promptTitle": "¿Qué ritmo le vas a dedicar hoy?",
+      "categories": [
         {
-          "code": "A1",
-          "title": "Romance 90s",
-          "subgenre": "Bolero Pop Orquestal",
-          "vibeReference": "Cálido & Elegante (Vibe 90s)",
-          "bpm": 76,
-          "key": "C Major",
-          "icon": "heart",
-          "accentColor": "text-rose-400",
-          "chordFreqs": [261.63, 329.63, 392.00, 493.88],
-          "lyric": "«No hace falta un ramo que se marchite mañana, hoy te canto con el alma frente a tu ventana...»",
-          "stems": {
-            "instrumental": "assets/stems/A1_instrumental.wav",
-            "vocalGuide": "assets/stems/A1_vocal_guide.wav",
-            "previewMp3": "assets/previews/A1_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-A1-BOLERO",
-            "setting": "Estudio nocturno con micrófono vintage cromado y luces cálidas bokeh",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Romantic 90s Latin Bolero Pop instrumental, lush warm strings, acoustic nylon guitar, soft upright bass, slow brush drums, 76 BPM, C Major, studio master quality, no vocals."
+          "id": "latam_acustico",
+          "emoji": "🎸",
+          "label": "Acústico y Pop",
+          "subtitle": "Romance Clásico 90s y Bolero",
+          "trackIds": ["TRK-01", "TRK-02"]
         },
         {
-          "code": "A2",
-          "title": "Balada Estadio",
-          "subgenre": "Piano & Cuerdas Épicas",
-          "vibeReference": "Emotivo & Potente (Vibe 2000s)",
-          "bpm": 72,
-          "key": "G Major",
-          "icon": "sparkles",
-          "accentColor": "text-sky-400",
-          "chordFreqs": [196.00, 246.94, 293.66, 369.99],
-          "lyric": "«Si volviera a nacer en cualquier otro destino, buscaría tu mirada para andar el mismo camino...»",
-          "stems": {
-            "instrumental": "assets/stems/A2_instrumental.wav",
-            "vocalGuide": "assets/stems/A2_vocal_guide.wav",
-            "previewMp3": "assets/previews/A2_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-A2-BALADA",
-            "setting": "Escenario íntimo con piano de cola negro y contraluz azul marino",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Emotional Latin Pop power ballad instrumental, grand piano, cinematic strings crescendo, acoustic guitar arpeggios, 72 BPM, G Major, high dynamic range, no vocals."
+          "id": "latam_urbano",
+          "emoji": "🔥",
+          "label": "Urbano Suave",
+          "subtitle": "Reggaetón lento y acústico",
+          "trackIds": ["TRK-03"]
         },
         {
-          "code": "A3",
-          "title": "Bachata Sensual",
-          "subgenre": "Guitarra Requinto & Bongó",
-          "vibeReference": "Íntimo & Seductor (Caribe)",
-          "bpm": 124,
-          "key": "A Minor",
-          "icon": "moon",
-          "accentColor": "text-purple-400",
-          "chordFreqs": [220.00, 261.63, 329.63, 392.00],
-          "lyric": "«Baila conmigo cerquita hasta que se apague la luna, que como tú en este mundo no existe ninguna...»",
-          "stems": {
-            "instrumental": "assets/stems/A3_instrumental.wav",
-            "vocalGuide": "assets/stems/A3_vocal_guide.wav",
-            "previewMp3": "assets/previews/A3_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-A3-BACHATA",
-            "setting": "Terraza nocturna con luces de neón rojas y guitarra electroacústica",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Modern sensual Dominican Bachata instrumental, crisp requinto lead guitar with chorus effect, warm bongo, guira, syncopated bass, 124 BPM, A Minor, no vocals."
-        },
-        {
-          "code": "A4",
-          "title": "Vallenato Lírico",
-          "subgenre": "Acordeón Romántico",
-          "vibeReference": "Sentimiento Colombiano",
-          "bpm": 84,
-          "key": "D Major",
-          "icon": "sun",
-          "accentColor": "text-amber-400",
-          "chordFreqs": [293.66, 369.99, 440.00, 587.33],
-          "lyric": "«Este acordeón que hoy suspira lleva grabado tu nombre, para que sepas mi vida cuánto te quiere este hombre...»",
-          "stems": {
-            "instrumental": "assets/stems/A4_instrumental.wav",
-            "vocalGuide": "assets/stems/A4_vocal_guide.wav",
-            "previewMp3": "assets/previews/A4_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-A4-VALLENATO",
-            "setting": "Estudio acústico cálido con acordeón de botones en segundo plano",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Romantic Colombian Vallenato Paseo instrumental, expressive melodic accordion, soft caja vallenata, guacharaca, acoustic guitar, warm bass, 84 BPM, D Major, no vocals."
+          "id": "latam_tierra",
+          "emoji": "🪗",
+          "label": "De nuestra tierra",
+          "subtitle": "Vallenato, Tiple y Popular",
+          "trackIds": ["TRK-04", "TRK-05"]
         }
       ]
     },
-    {
-      "id": "B",
-      "label": "LADO B • URBANO & MODERNO",
-      "subtitle": "Ritmos jóvenes para conquistar o dedicar en Reels",
-      "channels": [
+    "NA_UK": {
+      "tierId": "TIER_1_NA_UK",
+      "flag": "🇺🇸",
+      "regionName": "Norteamérica & Reino Unido",
+      "citiesExample": "Miami, New York, Toronto, London",
+      "promptTitle": "¿Qué ritmo le vas a dedicar hoy? (Tier 1)",
+      "categories": [
         {
-          "code": "B1",
-          "title": "Urbano Suave",
-          "subgenre": "Reggaetón Lento Acústico",
-          "vibeReference": "Medellín Melódico (Feid/Yatra Vibe)",
-          "bpm": 88,
-          "key": "F Minor",
-          "icon": "flame",
-          "accentColor": "text-orange-400",
-          "chordFreqs": [174.61, 207.65, 261.63, 311.13],
-          "lyric": "«Apaga el celular un ratito nada más, que esta noche mi canción te va a enamorar...»",
-          "stems": {
-            "instrumental": "assets/stems/B1_instrumental.wav",
-            "vocalGuide": "assets/stems/B1_vocal_guide.wav",
-            "previewMp3": "assets/previews/B1_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-B1-URBANO",
-            "setting": "Loft urbano con iluminación neón azul/roja y gafas de sol estilo streetwear",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Romantic Melodic Reggaeton Lento instrumental, Medellín style, muted nylon guitar, warm synth pads, soft dembow rhythm, deep sub bass, 88 BPM, F Minor, no vocals."
+          "id": "na_acoustic",
+          "emoji": "🎸",
+          "label": "Acoustic Singer-Songwriter",
+          "subtitle": "Guitarra cálida e íntima",
+          "trackIds": ["TRK-06"]
         },
         {
-          "code": "B2",
-          "title": "Afrobeat Latino",
-          "subgenre": "Groove Caribe & R&B",
-          "vibeReference": "Playa & Atardecer (Beéle Vibe)",
-          "bpm": 100,
-          "key": "E Minor",
-          "icon": "waves",
-          "accentColor": "text-cyan-400",
-          "chordFreqs": [164.81, 196.00, 246.94, 293.66],
-          "lyric": "«Contigo cualquier martes sabe a brisa y a mar, dime dónde estás que te paso a buscar...»",
-          "stems": {
-            "instrumental": "assets/stems/B2_instrumental.wav",
-            "vocalGuide": "assets/stems/B2_vocal_guide.wav",
-            "previewMp3": "assets/previews/B2_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-B2-AFRO",
-            "setting": "Set cálido hora dorada (Golden Hour) con micrófono suspendido",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Warm Latin Afrobeat R&B instrumental, log drum bass, tropical shakers, clean electric guitar plucks, Rhodes electric piano chords, 100 BPM, E Minor, no vocals."
+          "id": "na_rnb",
+          "emoji": "🎹",
+          "label": "R&B / Soul Nocturno",
+          "subtitle": "Piano de cola con reverb profunda",
+          "trackIds": ["TRK-07"]
         },
         {
-          "code": "B3",
-          "title": "Pop Folk Band",
-          "subgenre": "Guitarras & Banjos",
-          "vibeReference": "Alegre & Juvenil (Morat Vibe)",
-          "bpm": 116,
-          "key": "C Major",
-          "icon": "guitar",
-          "accentColor": "text-emerald-400",
-          "chordFreqs": [261.63, 329.63, 392.00, 523.25],
-          "lyric": "«Prometo aprenderme cada historia de tu voz, y que nunca falten risas entre nosotros dos...»",
-          "stems": {
-            "instrumental": "assets/stems/B3_instrumental.wav",
-            "vocalGuide": "assets/stems/B3_vocal_guide.wav",
-            "previewMp3": "assets/previews/B3_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-B3-POPBAND",
-            "setting": "Estudio de ensayo indie con amplificadores clásicos y guitarra acústica",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Upbeat Latin Folk Pop band instrumental, driving strumming acoustic guitars, subtle banjo, energetic kick drum and claps, 116 BPM, C Major, stadium anthem feel, no vocals."
-        },
-        {
-          "code": "B4",
-          "title": "Tropipop Fiesta",
-          "subgenre": "Merengue & Acordeón Pop",
-          "vibeReference": "Cumpleaños & Celebración",
-          "bpm": 128,
-          "key": "A Major",
-          "icon": "party-popper",
-          "accentColor": "text-yellow-400",
-          "chordFreqs": [220.00, 277.18, 329.63, 440.00],
-          "lyric": "«¡Que suene la rockola que hoy venimos a brindar, por un año más de vida y de felicidad!»",
-          "stems": {
-            "instrumental": "assets/stems/B4_instrumental.wav",
-            "vocalGuide": "assets/stems/B4_vocal_guide.wav",
-            "previewMp3": "assets/previews/B4_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-B4-FIESTA",
-            "setting": "Escenario festivo con luces dinámicas doradas y confeti sutil",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Festive Colombian Tropipop Merengue Pop instrumental, cheerful brass section, tambora, alegre percussion, bright acoustic guitar, 128 BPM, A Major, celebration vibe, no vocals."
+          "id": "na_country",
+          "emoji": "🤠",
+          "label": "Country Romántico",
+          "subtitle": "Slide guitar y percusión rústica",
+          "trackIds": ["TRK-08"]
         }
       ]
     },
-    {
-      "id": "C",
-      "label": "LADO C • TRADICIÓN & DESPECHO",
-      "subtitle": "Mariachi de gala, cantina, salsa y reconciliación",
-      "channels": [
+    "EUROPE": {
+      "tierId": "TIER_2_EUROPE",
+      "flag": "🇪🇺",
+      "regionName": "Mercado Europeo",
+      "citiesExample": "Madrid, Berlín, Milán, París",
+      "promptTitle": "¿Qué ritmo le vas a dedicar hoy? (Tier 2)",
+      "categories": [
         {
-          "code": "C1",
-          "title": "Mariachi de Gala",
-          "subgenre": "Ranchera Imperial",
-          "vibeReference": "Serenata de Ventana & Mamá",
-          "bpm": 82,
-          "key": "G Major",
-          "icon": "crown",
-          "accentColor": "text-amber-300",
-          "chordFreqs": [196.00, 246.94, 293.66, 392.00],
-          "lyric": "«Despierta cariño mío que llegó tu serenata, bajo el cielo iluminado que esta noche nos abraza...»",
-          "stems": {
-            "instrumental": "assets/stems/C1_instrumental.wav",
-            "vocalGuide": "assets/stems/C1_vocal_guide.wav",
-            "previewMp3": "assets/previews/C1_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-C1-MARIACHI",
-            "setting": "Balcón colonial nocturno con traje de gala elegante y trompetas al fondo",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Traditional Mexican Mariachi Ranchera instrumental, soaring harmonized trumpets, lush violins, vihuela, deep guitarron, 82 BPM, G Major, classic serenade, no vocals."
+          "id": "eu_indie",
+          "emoji": "🌲",
+          "label": "Indie Folk Europeo",
+          "subtitle": "Guitarras rápidas y coros etéreos",
+          "trackIds": ["TRK-09"]
         },
         {
-          "code": "C2",
-          "title": "Popular / Cantina",
-          "subgenre": "Requinto & Despecho",
-          "vibeReference": "Pedir Perdón / Reconciliación",
-          "bpm": 90,
-          "key": "D Minor",
-          "icon": "wine",
-          "accentColor": "text-red-400",
-          "chordFreqs": [146.83, 174.61, 220.00, 293.66],
-          "lyric": "«Reconozco que fallé y que me duele tu silencio, hoy te pido otra oportunidad desde el corazón...»",
-          "stems": {
-            "instrumental": "assets/stems/C2_instrumental.wav",
-            "vocalGuide": "assets/stems/C2_vocal_guide.wav",
-            "previewMp3": "assets/previews/C2_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-C2-POPULAR",
-            "setting": "Cantina elegante de madera cálida con micrófono clásico y sombrero opcional",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Colombian Musica Popular Despecho instrumental, emotional requinto guitar melody, accordion fills, brass trumpets, waltz ranchera rhythm, 90 BPM, D Minor, no vocals."
+          "id": "eu_synth",
+          "emoji": "⚡",
+          "label": "Euro-Pop Sintético 80s",
+          "subtitle": "Sintetizadores retro y bajo marcado",
+          "trackIds": ["TRK-10"]
         },
         {
-          "code": "C3",
-          "title": "Salsa Romántica",
-          "subgenre": "Piano Montuno & Bronces",
-          "vibeReference": "Cali & Noche de Gala",
-          "bpm": 94,
-          "key": "C Minor",
-          "icon": "music-2",
-          "accentColor": "text-rose-500",
-          "chordFreqs": [261.63, 311.13, 392.00, 466.16],
-          "lyric": "«Que se pare el reloj cuando te tengo de frente, porque un amor así se vive para siempre...»",
-          "stems": {
-            "instrumental": "assets/stems/C3_instrumental.wav",
-            "vocalGuide": "assets/stems/C3_vocal_guide.wav",
-            "previewMp3": "assets/previews/C3_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-C3-SALSA",
-            "setting": "Club nocturno elegante estilo años 80 con reflectores cálidos y conga",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Smooth 90s Romantic Salsa de Alcoba instrumental, syncopated piano montuno, warm trombones, congas, timbales, baby bass, 94 BPM, C Minor, no vocals."
-        },
-        {
-          "code": "C4",
-          "title": "Sierreño / Tumbado",
-          "subgenre": "Docerola & Tololoche",
-          "vibeReference": "Tendencia Viral TikTok",
-          "bpm": 108,
-          "key": "E Minor",
-          "icon": "zap",
-          "accentColor": "text-indigo-400",
-          "chordFreqs": [164.81, 196.00, 246.94, 329.63],
-          "lyric": "«Ya no mando flores, mejor te mando este corrido, pa' que todo el mundo sepa que eres mi destino...»",
-          "stems": {
-            "instrumental": "assets/stems/C4_instrumental.wav",
-            "vocalGuide": "assets/stems/C4_vocal_guide.wav",
-            "previewMp3": "assets/previews/C4_preview.mp3"
-          },
-          "videoTemplate": {
-            "templateId": "TPL-C4-TUMBADO",
-            "setting": "Estudio oscuro contemporáneo con guitarra de 12 cuerdas (Docerola) y contraluz rojo",
-            "resolution": "1080x1920",
-            "fps": 30
-          },
-          "productionPrompt": "Romantic Corrido Tumbado Sierreño instrumental, expressive 12-string acoustic docerola guitar, acoustic bass tololoche, charchetas brass, 6/8 rhythm, 108 BPM, E Minor, no vocals."
+          "id": "eu_classic",
+          "emoji": "🎸",
+          "label": "Romance Mediterráneo",
+          "subtitle": "Guitarras acústicas y piano",
+          "trackIds": ["TRK-01", "TRK-02"]
         }
       ]
+    },
+    "ASIA": {
+      "tierId": "TIER_4_ASIA",
+      "flag": "🌏",
+      "regionName": "El Gigante Asiático",
+      "citiesExample": "Seúl, Tokio, Manila, Singapur",
+      "promptTitle": "¿Qué ritmo le vas a dedicar hoy? (Tier 4)",
+      "categories": [
+        {
+          "id": "asia_kdrama",
+          "emoji": "🌸",
+          "label": "K-Drama OST",
+          "subtitle": "Cuerdas orquestales y piano dramático",
+          "trackIds": ["TRK-11"]
+        },
+        {
+          "id": "asia_jpop",
+          "emoji": "✨",
+          "label": "J-Pop / Anime Lento",
+          "subtitle": "Batería pop con cuerdas ligeras",
+          "trackIds": ["TRK-12"]
+        },
+        {
+          "id": "asia_ballad",
+          "emoji": "🎹",
+          "label": "Midnight Piano Ballad",
+          "subtitle": "Balada minimalista nocturna",
+          "trackIds": ["TRK-07"]
+        }
+      ]
+    }
+  },
+  "tracks": [
+    {
+      "id": "TRK-01",
+      "code": "P01",
+      "phase": "Fase 1 • LATAM",
+      "geoZone": "LATAM",
+      "categoryLabel": "Romance Clásico (90s/Bolero)",
+      "title": "Noche de Balcón",
+      "instrumentation": "Guitarras acústicas, tiple sutil y requinto",
+      "vibe": "Los Panchos / Julio Jaramillo",
+      "bpm": 76,
+      "key": "A Minor",
+      "chordFreqs": [220.00, 261.63, 329.63, 440.00],
+      "lyric": "«Bajo el balcón donde sueña tu ventana, vengo a dejarte mi vida en esta serenata...»",
+      "templateId": "TPL-01-BALCON"
+    },
+    {
+      "id": "TRK-02",
+      "code": "P02",
+      "phase": "Fase 1 • LATAM",
+      "geoZone": "LATAM",
+      "categoryLabel": "Romance Clásico (90s/Bolero)",
+      "title": "Pop de Arena",
+      "instrumentation": "Piano eléctrico cálido y batería suave",
+      "vibe": "Chayanne / Luis Miguel en los 90s",
+      "bpm": 78,
+      "key": "C Major",
+      "chordFreqs": [261.63, 329.63, 392.00, 493.88],
+      "lyric": "«No hace falta un ramo que se marchite mañana, hoy te canto con el alma hasta que salga el sol...»",
+      "templateId": "TPL-02-ARENA"
+    },
+    {
+      "id": "TRK-03",
+      "code": "P03",
+      "phase": "Fase 1 • LATAM",
+      "geoZone": "LATAM",
+      "categoryLabel": "Urbano Lento",
+      "title": "Atardecer en la Cima",
+      "instrumentation": "Beat de reggaetón muy suave con guitarra acústica",
+      "vibe": "Feid acústico / Camilo",
+      "bpm": 86,
+      "key": "F Minor",
+      "chordFreqs": [174.61, 207.65, 261.63, 311.13],
+      "lyric": "«Apaga el celular un ratito nada más, que este atardecer contigo no se vuelve a repetir...»",
+      "templateId": "TPL-03-CIMA"
+    },
+    {
+      "id": "TRK-04",
+      "code": "P04",
+      "phase": "Fase 1 • LATAM",
+      "geoZone": "LATAM",
+      "categoryLabel": "Tradicional Regional",
+      "title": "Sentimiento de Valle",
+      "instrumentation": "Acordeón romántico lento, caja suave y guitarra",
+      "vibe": "Vallenato Romántico Clásico",
+      "bpm": 84,
+      "key": "D Major",
+      "chordFreqs": [293.66, 369.99, 440.00, 587.33],
+      "lyric": "«Este acordeón que hoy suspira lleva grabado tu nombre, desde mi tierra querida hasta tu corazón...»",
+      "templateId": "TPL-04-VALLE"
+    },
+    {
+      "id": "TRK-05",
+      "code": "P05",
+      "phase": "Fase 1 • LATAM",
+      "geoZone": "LATAM",
+      "categoryLabel": "Tradicional Regional",
+      "title": "Cantina y Despecho",
+      "instrumentation": "Trompetas suaves, requinto y guitarrón",
+      "vibe": "Ranchera / Música Popular",
+      "bpm": 88,
+      "key": "G Major",
+      "chordFreqs": [196.00, 246.94, 293.66, 392.00],
+      "lyric": "«Reconozco que fallé y que me duele tu silencio, hoy te pido de rodillas otra oportunidad...»",
+      "templateId": "TPL-05-CANTINA"
+    },
+    {
+      "id": "TRK-06",
+      "code": "P06",
+      "phase": "Fase 2 • Tier 1 (NA/UK)",
+      "geoZone": "NA_UK",
+      "categoryLabel": "Pop Acústico (Singer-Songwriter)",
+      "title": "Coffee Shop Romance",
+      "instrumentation": "Solo guitarra acústica cálida fingerpicking",
+      "vibe": "Ed Sheeran / Shawn Mendes",
+      "bpm": 92,
+      "key": "G Major",
+      "chordFreqs": [196.00, 293.66, 392.00, 493.88],
+      "lyric": "«En una mesa pequeña con dos tazas de café, supe desde el primer segundo que eras para mí...»",
+      "templateId": "TPL-06-COFFEESHOP"
+    },
+    {
+      "id": "TRK-07",
+      "code": "P07",
+      "phase": "Fase 2 • Tier 1 (NA/UK)",
+      "geoZone": "NA_UK",
+      "categoryLabel": "R&B / Soul Nocturno",
+      "title": "Midnight Piano",
+      "instrumentation": "Piano de cola con reverberación profunda",
+      "vibe": "John Legend / Adele",
+      "bpm": 68,
+      "key": "Eb Major",
+      "chordFreqs": [155.56, 196.00, 233.08, 311.13],
+      "lyric": "«Incluso cuando el mundo entero se queda en silencio, mi voz siempre encontrará el camino hacia ti...»",
+      "templateId": "TPL-07-MIDNIGHT"
+    },
+    {
+      "id": "TRK-08",
+      "code": "P08",
+      "phase": "Fase 2 • Tier 1 (NA/UK)",
+      "geoZone": "NA_UK",
+      "categoryLabel": "Country Romántico",
+      "title": "Nashville Sunset",
+      "instrumentation": "Guitarra con slide y percusión rústica cálida",
+      "vibe": "Taylor Swift / Morgan Wallen",
+      "bpm": 96,
+      "key": "D Major",
+      "chordFreqs": [146.83, 220.00, 293.66, 369.99],
+      "lyric": "«Bajo las luces doradas de esta carretera abierta, cada kilómetro recorrido me lleva de vuelta a ti...»",
+      "templateId": "TPL-08-NASHVILLE"
+    },
+    {
+      "id": "TRK-09",
+      "code": "P09",
+      "phase": "Fase 3 • Tier 2 (Europa)",
+      "geoZone": "EUROPE",
+      "categoryLabel": "Indie Folk",
+      "title": "Nordic Woods",
+      "instrumentation": "Guitarras acústicas rápidas, bombo y coros etéreos",
+      "vibe": "Mumford & Sons / Hozier",
+      "bpm": 114,
+      "key": "C Major",
+      "chordFreqs": [261.63, 329.63, 392.00, 523.25],
+      "lyric": "«Cruzaría cada bosque y cada invierno gris, solo para escuchar tu risa una vez más...»",
+      "templateId": "TPL-09-NORDIC"
+    },
+    {
+      "id": "TRK-10",
+      "code": "P10",
+      "phase": "Fase 3 • Tier 2 (Europa)",
+      "geoZone": "EUROPE",
+      "categoryLabel": "Euro-Pop Sintético",
+      "title": "Neon Heartbeat",
+      "instrumentation": "Sintetizadores analógicos de los 80s con bajo marcado",
+      "vibe": "The Weeknd / Dua Lipa",
+      "bpm": 118,
+      "key": "A Minor",
+      "chordFreqs": [220.00, 261.63, 329.63, 493.88],
+      "lyric": "«Entre luces de neón a medianoche en la ciudad, mi corazón late al ritmo de tu electricidad...»",
+      "templateId": "TPL-10-NEON"
+    },
+    {
+      "id": "TRK-11",
+      "code": "P11",
+      "phase": "Fase 4 • Tier 4 (Asia)",
+      "geoZone": "ASIA",
+      "categoryLabel": "K-Drama OST",
+      "title": "Cherry Blossom Tears",
+      "instrumentation": "Cuerdas orquestales emotivas y piano dramático",
+      "vibe": "Cierre épico de Dorama Coreano (Seúl)",
+      "bpm": 70,
+      "key": "F Major",
+      "chordFreqs": [174.61, 220.00, 261.63, 349.23],
+      "lyric": "«Mientras caen los pétalos bajo la primera lluvia, prometo esperarte en el mismo lugar de siempre...»",
+      "templateId": "TPL-11-KDRAMA"
+    },
+    {
+      "id": "TRK-12",
+      "code": "P12",
+      "phase": "Fase 4 • Tier 4 (Asia)",
+      "geoZone": "ASIA",
+      "categoryLabel": "J-Pop / Anime Lento",
+      "title": "Tokyo Starlight",
+      "instrumentation": "Batería pop cristalina con arreglos de cuerdas ligeras",
+      "vibe": "Balada estelar de Anime (Tokio)",
+      "bpm": 98,
+      "key": "E Major",
+      "chordFreqs": [164.81, 207.65, 246.94, 329.63],
+      "lyric": "«Mirando el mismo cielo lleno de estrellas brillantes, mi deseo más sincero lleva tu nombre...»",
+      "templateId": "TPL-12-TOKYO"
     }
   ]
 }

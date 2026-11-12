@@ -405,49 +405,72 @@
                                 </div>
                             </div>
 
-                            <!-- 2. Selector Mecánico de Cancionero (LADO A / LADO B / LADO C) -->
-                            <div class="mb-3">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="font-mono text-[11px] uppercase tracking-wider text-slate-400">2. Cancionero (12 Canales)</span>
+                            <!-- 2. Localización Cultural + "¿Qué ritmo le vas a dedicar hoy?" -->
+                            <div class="mb-2">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span id="jukebox-geo-badge" class="font-mono text-[10px] uppercase tracking-wider text-sky-400 flex items-center gap-1">
+                                        <span>🇨🇴</span>
+                                        <span>LOCALIZACIÓN: LATAM (NEIVA / BOGOTÁ)</span>
+                                    </span>
                                     <span id="panel-lock-badge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
                                         BLOQUEADO
                                     </span>
                                 </div>
 
-                                <!-- Pestañas de Lado A, B, C -->
-                                <div id="side-tabs-container" class="grid grid-cols-3 gap-2 mb-2.5">
-                                    <button type="button" data-side="A" class="side-tab-btn active py-2 px-2 rounded-lg bg-[#11224D] border border-white/15 font-mono text-[11px] font-bold text-slate-200 flex flex-col items-center">
-                                        <span>LADO A</span>
-                                        <span class="text-[9px] font-normal opacity-80">Romántico</span>
-                                    </button>
-                                    <button type="button" data-side="B" class="side-tab-btn py-2 px-2 rounded-lg bg-[#11224D] border border-white/15 font-mono text-[11px] font-bold text-slate-200 flex flex-col items-center">
-                                        <span>LADO B</span>
-                                        <span class="text-[9px] font-normal opacity-80">Urbano & Pop</span>
-                                    </button>
-                                    <button type="button" data-side="C" class="side-tab-btn py-2 px-2 rounded-lg bg-[#11224D] border border-white/15 font-mono text-[11px] font-bold text-slate-200 flex flex-col items-center">
-                                        <span>LADO C</span>
-                                        <span class="text-[9px] font-normal opacity-80">Tradición</span>
-                                    </button>
+                                <h3 id="jukebox-prompt-title" class="text-sm sm:text-base font-extrabold text-white text-left mb-2.5">
+                                    "¿Qué ritmo le vas a dedicar hoy?"
+                                </h3>
+
+                                <!-- Las 3 Categorías Localizadas (Ej. 🎸 Acústico y Pop, 🔥 Urbano Suave, 🪗 De nuestra tierra) -->
+                                <div id="geo-categories-container" class="grid grid-cols-3 gap-1.5 mb-2.5">
+                                    <!-- Se inyectan según la región geolocalizada -->
                                 </div>
 
-                                <p id="side-subtitle-label" class="text-[11px] font-mono text-amber-300/90 text-left mb-2.5">
-                                    ► LADO A: Clásicos para enamorar y aniversarios (A1 - A4)
+                                <p id="side-subtitle-label" class="text-[11px] font-mono text-amber-300/90 text-left mb-2">
+                                    ► Selecciona una categoría o elige tu pista original:
                                 </p>
 
-                                <!-- Grid Dinámico de 4 Botones Mecánicos por Lado (Renderizado desde catalog.json) -->
-                                <div id="selection-panel" class="grid grid-cols-2 gap-3 opacity-40 pointer-events-none transition-all duration-500">
-                                    <!-- Los botones se inyectan dinámicamente al cargar el catálogo -->
+                                <!-- Pistas filtradas de la categoría activa (o del mundo) -->
+                                <div id="selection-panel" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 opacity-40 pointer-events-none transition-all duration-500">
+                                    <!-- Las pistas originales se inyectan aquí -->
+                                </div>
+
+                                <!-- Botón Mágico: 🌍 Explorar ritmos del mundo -->
+                                <div class="mt-3 pt-2.5 border-t border-white/10">
+                                    <button type="button" id="btn-explore-world" class="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 font-mono text-xs text-slate-200 hover:text-amber-300 flex items-center justify-between transition-all">
+                                        <span class="flex items-center gap-2">
+                                            <span>🌍</span>
+                                            <span id="explore-world-label">Explorar ritmos del mundo (4 Regiones)</span>
+                                        </span>
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </button>
+
+                                    <!-- Panel desplegable para cambiar de Continente Cultural -->
+                                    <div id="world-regions-drawer" class="hidden mt-2 grid grid-cols-2 gap-1.5 p-2 rounded-xl bg-black/50 border border-white/10">
+                                        <button type="button" data-geozone="LATAM" class="world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-tommy-red text-white text-left flex items-center gap-1.5">
+                                            <span>🇨🇴</span><span>Fase 1: LATAM</span>
+                                        </button>
+                                        <button type="button" data-geozone="NA_UK" class="world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 text-left flex items-center gap-1.5">
+                                            <span>🇺🇸</span><span>Fase 2: USA / UK</span>
+                                        </button>
+                                        <button type="button" data-geozone="EUROPE" class="world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 text-left flex items-center gap-1.5">
+                                            <span>🇪🇺</span><span>Fase 3: Europa</span>
+                                        </button>
+                                        <button type="button" data-geozone="ASIA" class="world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 text-left flex items-center gap-1.5">
+                                            <span>🌏</span><span>Fase 4: Asia (K-OST)</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Rejilla de Altavoz Inferior Ochentero -->
-                            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                            <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between">
                                 <div class="flex gap-1.5">
                                     <span class="w-8 h-1.5 rounded-full bg-slate-800"></span>
                                     <span class="w-12 h-1.5 rounded-full bg-slate-800"></span>
                                     <span class="w-8 h-1.5 rounded-full bg-slate-800"></span>
                                 </div>
-                                <span class="text-[10px] font-mono text-slate-400">PÁGINAS: A (1-4) • B (1-4) • C (1-4)</span>
+                                <span class="text-[10px] font-mono text-slate-400">100% PROPIEDAD INTELECTUAL PROPIA</span>
                             </div>
 
                         </div>
@@ -1003,205 +1026,188 @@
          LÓGICA INTERACTIVA VANILLA JS + CATÁLOGO 12 CANALES + AUDIO API
     =========================================================== -->
     <script>
-        // Catálogo maestro embebido como fallback inmediato + sincronizado con assets/catalog.json
-        const DEFAULT_CATALOG = {
-            sides: [
-                {
-                    id: "A",
-                    label: "LADO A • ROMÁNTICO",
-                    subtitle: "Clásicos para enamorar y aniversarios (A1 - A4)",
-                    channels: [
-                        {
-                            code: "A1",
-                            title: "Romance 90s",
-                            subgenre: "Bolero Pop Orquestal",
-                            bpm: 76,
-                            key: "C Major",
-                            icon: "heart",
-                            accentColor: "text-rose-400",
-                            chordFreqs: [261.63, 329.63, 392.00, 493.88],
-                            lyric: "«No hace falta un ramo que se marchite mañana, hoy te canto con el alma frente a tu ventana...»",
-                            templateId: "TPL-A1-BOLERO",
-                            setting: "Estudio nocturno con micrófono vintage cromado y luces cálidas bokeh"
-                        },
-                        {
-                            code: "A2",
-                            title: "Balada Estadio",
-                            subgenre: "Piano & Cuerdas Épicas",
-                            bpm: 72,
-                            key: "G Major",
-                            icon: "sparkles",
-                            accentColor: "text-sky-400",
-                            chordFreqs: [196.00, 246.94, 293.66, 369.99],
-                            lyric: "«Si volviera a nacer en cualquier otro destino, buscaría tu mirada para andar el mismo camino...»",
-                            templateId: "TPL-A2-BALADA",
-                            setting: "Escenario íntimo con piano de cola negro y contraluz azul marino"
-                        },
-                        {
-                            code: "A3",
-                            title: "Bachata Sensual",
-                            subgenre: "Guitarra Requinto & Bongó",
-                            bpm: 124,
-                            key: "A Minor",
-                            icon: "moon",
-                            accentColor: "text-purple-400",
-                            chordFreqs: [220.00, 261.63, 329.63, 392.00],
-                            lyric: "«Baila conmigo cerquita hasta que se apague la luna, que como tú en este mundo no existe ninguna...»",
-                            templateId: "TPL-A3-BACHATA",
-                            setting: "Terraza nocturna con luces de neón rojas y guitarra electroacústica"
-                        },
-                        {
-                            code: "A4",
-                            title: "Vallenato Lírico",
-                            subgenre: "Acordeón Romántico",
-                            bpm: 84,
-                            key: "D Major",
-                            icon: "sun",
-                            accentColor: "text-amber-400",
-                            chordFreqs: [293.66, 369.99, 440.00, 587.33],
-                            lyric: "«Este acordeón que hoy suspira lleva grabado tu nombre, para que sepas mi vida cuánto te quiere este hombre...»",
-                            templateId: "TPL-A4-VALLENATO",
-                            setting: "Estudio acústico cálido con acordeón de botones en segundo plano"
-                        }
+        // Catálogo Base de Pistas Originales ("Type-Beats") con Arquitectura de Metadatos Geográficos
+        const GEO_CATALOG = {
+            geoRegions: {
+                LATAM: {
+                    flag: "🇨🇴",
+                    badgeText: "LOCALIZACIÓN: LATAM (NEIVA / BOGOTÁ / CDMX)",
+                    promptTitle: "«¿Qué ritmo le vas a dedicar hoy?»",
+                    categories: [
+                        { id: "latam_acustico", emoji: "🎸", label: "Acústico y Pop", subtitle: "Romance Clásico 90s y Bolero (Pistas 1 y 2)", trackIds: ["TRK-01", "TRK-02"] },
+                        { id: "latam_urbano", emoji: "🔥", label: "Urbano Suave", subtitle: "Reggaetón lento con guitarra (Pista 3)", trackIds: ["TRK-03"] },
+                        { id: "latam_tierra", emoji: "🪗", label: "De nuestra tierra", subtitle: "Vallenato, Tiple y Popular (Pistas 4 y 5)", trackIds: ["TRK-04", "TRK-05"] }
                     ]
                 },
-                {
-                    id: "B",
-                    label: "LADO B • URBANO & POP",
-                    subtitle: "Ritmos jóvenes para conquistar o dedicar en Reels (B1 - B4)",
-                    channels: [
-                        {
-                            code: "B1",
-                            title: "Urbano Suave",
-                            subgenre: "Reggaetón Lento Acústico",
-                            bpm: 88,
-                            key: "F Minor",
-                            icon: "flame",
-                            accentColor: "text-orange-400",
-                            chordFreqs: [174.61, 207.65, 261.63, 311.13],
-                            lyric: "«Apaga el celular un ratito nada más, que esta noche mi canción te va a enamorar...»",
-                            templateId: "TPL-B1-URBANO",
-                            setting: "Loft urbano con iluminación neón azul/roja y estética streetwear"
-                        },
-                        {
-                            code: "B2",
-                            title: "Afrobeat Latino",
-                            subgenre: "Groove Caribe & R&B",
-                            bpm: 100,
-                            key: "E Minor",
-                            icon: "waves",
-                            accentColor: "text-cyan-400",
-                            chordFreqs: [164.81, 196.00, 246.94, 293.66],
-                            lyric: "«Contigo cualquier martes sabe a brisa y a mar, dime dónde estás que te paso a buscar...»",
-                            templateId: "TPL-B2-AFRO",
-                            setting: "Set cálido hora dorada (Golden Hour) con micrófono suspendido"
-                        },
-                        {
-                            code: "B3",
-                            title: "Pop Folk Band",
-                            subgenre: "Guitarras & Banjos",
-                            bpm: 116,
-                            key: "C Major",
-                            icon: "guitar",
-                            accentColor: "text-emerald-400",
-                            chordFreqs: [261.63, 329.63, 392.00, 523.25],
-                            lyric: "«Prometo aprenderme cada historia de tu voz, y que nunca falten risas entre nosotros dos...»",
-                            templateId: "TPL-B3-POPBAND",
-                            setting: "Estudio indie con amplificadores clásicos y guitarra acústica"
-                        },
-                        {
-                            code: "B4",
-                            title: "Tropipop Fiesta",
-                            subgenre: "Merengue & Acordeón Pop",
-                            bpm: 128,
-                            key: "A Major",
-                            icon: "party-popper",
-                            accentColor: "text-yellow-400",
-                            chordFreqs: [220.00, 277.18, 329.63, 440.00],
-                            lyric: "«¡Que suene la rockola que hoy venimos a brindar, por un año más de vida y de felicidad!»",
-                            templateId: "TPL-B4-FIESTA",
-                            setting: "Escenario festivo con luces dinámicas doradas para cumpleaños"
-                        }
+                NA_UK: {
+                    flag: "🇺🇸",
+                    badgeText: "LOCALIZACIÓN: NORTEAMÉRICA & UK (TIER 1)",
+                    promptTitle: "«¿Qué ritmo le vas a dedicar hoy?» (Tier 1)",
+                    categories: [
+                        { id: "na_acoustic", emoji: "🎸", label: "Pop Acústico", subtitle: "Acoustic Singer-Songwriter (Pista 6)", trackIds: ["TRK-06"] },
+                        { id: "na_rnb", emoji: "🎹", label: "R&B / Soul", subtitle: "Serenatas nocturnas al piano (Pista 7)", trackIds: ["TRK-07"] },
+                        { id: "na_country", emoji: "🤠", label: "Country Romántico", subtitle: "Slide guitar & Nashville vibe (Pista 8)", trackIds: ["TRK-08"] }
                     ]
                 },
-                {
-                    id: "C",
-                    label: "LADO C • TRADICIÓN & DESPECHO",
-                    subtitle: "Mariachi de gala, cantina, salsa y reconciliación (C1 - C4)",
-                    channels: [
-                        {
-                            code: "C1",
-                            title: "Mariachi de Gala",
-                            subgenre: "Ranchera Imperial",
-                            bpm: 82,
-                            key: "G Major",
-                            icon: "crown",
-                            accentColor: "text-amber-300",
-                            chordFreqs: [196.00, 246.94, 293.66, 392.00],
-                            lyric: "«Despierta cariño mío que llegó tu serenata, bajo el cielo iluminado que esta noche nos abraza...»",
-                            templateId: "TPL-C1-MARIACHI",
-                            setting: "Balcón colonial nocturno con traje de gala elegante y trompetas"
-                        },
-                        {
-                            code: "C2",
-                            title: "Popular / Cantina",
-                            subgenre: "Requinto & Despecho",
-                            bpm: 90,
-                            key: "D Minor",
-                            icon: "wine",
-                            accentColor: "text-red-400",
-                            chordFreqs: [146.83, 174.61, 220.00, 293.66],
-                            lyric: "«Reconozco que fallé y que me duele tu silencio, hoy te pido otra oportunidad desde el corazón...»",
-                            templateId: "TPL-C2-POPULAR",
-                            setting: "Cantina elegante de madera cálida con micrófono clásico"
-                        },
-                        {
-                            code: "C3",
-                            title: "Salsa Romántica",
-                            subgenre: "Piano Montuno & Bronces",
-                            bpm: 94,
-                            key: "C Minor",
-                            icon: "music-2",
-                            accentColor: "text-rose-500",
-                            chordFreqs: [261.63, 311.13, 392.00, 466.16],
-                            lyric: "«Que se pare el reloj cuando te tengo de frente, porque un amor así se vive para siempre...»",
-                            templateId: "TPL-C3-SALSA",
-                            setting: "Club nocturno elegante estilo años 80 con reflectores cálidos"
-                        },
-                        {
-                            code: "C4",
-                            title: "Sierreño / Tumbado",
-                            subgenre: "Docerola & Tololoche",
-                            bpm: 108,
-                            key: "E Minor",
-                            icon: "zap",
-                            accentColor: "text-indigo-400",
-                            chordFreqs: [164.81, 196.00, 246.94, 329.63],
-                            lyric: "«Ya no mando flores, mejor te mando este corrido, pa' que todo el mundo sepa que eres mi destino...»",
-                            templateId: "TPL-C4-TUMBADO",
-                            setting: "Estudio oscuro contemporáneo con guitarra de 12 cuerdas (Docerola)"
-                        }
+                EUROPE: {
+                    flag: "🇪🇺",
+                    badgeText: "LOCALIZACIÓN: MERCADO EUROPEO (TIER 2)",
+                    promptTitle: "«¿Qué ritmo le vas a dedicar hoy?» (Europa)",
+                    categories: [
+                        { id: "eu_indie", emoji: "🌲", label: "Indie Folk", subtitle: "Guitarras rápidas y coros etéreos (Pista 9)", trackIds: ["TRK-09"] },
+                        { id: "eu_synth", emoji: "⚡", label: "Euro-Pop 80s", subtitle: "Sintetizadores retro y bajo (Pista 10)", trackIds: ["TRK-10"] },
+                        { id: "eu_latam", emoji: "🎸", label: "Acústico & Balada", subtitle: "Clásicos acústicos globales (Pistas 1 y 6)", trackIds: ["TRK-01", "TRK-06"] }
                     ]
+                },
+                ASIA: {
+                    flag: "🌏",
+                    badgeText: "LOCALIZACIÓN: GIGANTE ASIÁTICO (SEÚL / TOKIO)",
+                    promptTitle: "«¿Qué ritmo le vas a dedicar hoy?» (Asia)",
+                    categories: [
+                        { id: "asia_kdrama", emoji: "🌸", label: "K-Drama OST", subtitle: "Cuerdas orquestales y piano dramático (Pista 11)", trackIds: ["TRK-11"] },
+                        { id: "asia_jpop", emoji: "✨", label: "J-Pop / Anime", subtitle: "Balada estelar con cuerdas ligeras (Pista 12)", trackIds: ["TRK-12"] },
+                        { id: "asia_piano", emoji: "🎹", label: "Midnight Piano", subtitle: "Balada nocturna íntima (Pista 7)", trackIds: ["TRK-07"] }
+                    ]
+                }
+            },
+            tracks: [
+                {
+                    id: "TRK-01", code: "P01", phase: "Fase 1 • LATAM", geoZone: "LATAM",
+                    categoryLabel: "🎸 Acústico y Pop (Romance 90s/Bolero)",
+                    title: "Noche de Balcón",
+                    subgenre: "Guitarras acústicas y requinto",
+                    vibe: "Los Panchos / Julio Jaramillo",
+                    bpm: 76, key: "A Minor",
+                    chordFreqs: [220.00, 261.63, 329.63, 440.00],
+                    lyric: "«Bajo el balcón donde sueña tu ventana, vengo a dejarte mi vida en esta serenata...»",
+                    templateId: "TPL-01-BALCON"
+                },
+                {
+                    id: "TRK-02", code: "P02", phase: "Fase 1 • LATAM", geoZone: "LATAM",
+                    categoryLabel: "🎸 Acústico y Pop (Romance 90s/Bolero)",
+                    title: "Pop de Arena",
+                    subgenre: "Piano y batería suave",
+                    vibe: "Chayanne / Luis Miguel en los 90s",
+                    bpm: 78, key: "C Major",
+                    chordFreqs: [261.63, 329.63, 392.00, 493.88],
+                    lyric: "«No hace falta un ramo que se marchite mañana, hoy te canto con el alma hasta que salga el sol...»",
+                    templateId: "TPL-02-ARENA"
+                },
+                {
+                    id: "TRK-03", code: "P03", phase: "Fase 1 • LATAM", geoZone: "LATAM",
+                    categoryLabel: "🔥 Urbano Suave",
+                    title: "Atardecer en la Cima",
+                    subgenre: "Reggaetón muy suave con guitarra",
+                    vibe: "Feid acústico / Camilo",
+                    bpm: 86, key: "F Minor",
+                    chordFreqs: [174.61, 207.65, 261.63, 311.13],
+                    lyric: "«Apaga el celular un ratito nada más, que este atardecer contigo no se vuelve a repetir...»",
+                    templateId: "TPL-03-CIMA"
+                },
+                {
+                    id: "TRK-04", code: "P04", phase: "Fase 1 • LATAM", geoZone: "LATAM",
+                    categoryLabel: "🪗 De nuestra tierra (Tradicional)",
+                    title: "Sentimiento de Valle",
+                    subgenre: "Acordeón romántico lento",
+                    vibe: "Vallenato Romántico",
+                    bpm: 84, key: "D Major",
+                    chordFreqs: [293.66, 369.99, 440.00, 587.33],
+                    lyric: "«Este acordeón que hoy suspira lleva grabado tu nombre, desde mi tierra querida hasta tu corazón...»",
+                    templateId: "TPL-04-VALLE"
+                },
+                {
+                    id: "TRK-05", code: "P05", phase: "Fase 1 • LATAM", geoZone: "LATAM",
+                    categoryLabel: "🪗 De nuestra tierra (Tradicional)",
+                    title: "Cantina y Despecho",
+                    subgenre: "Trompetas suaves y guitarra",
+                    vibe: "Ranchera / Música Popular",
+                    bpm: 88, key: "G Major",
+                    chordFreqs: [196.00, 246.94, 293.66, 392.00],
+                    lyric: "«Reconozco que fallé y que me duele tu silencio, hoy te pido de rodillas otra oportunidad...»",
+                    templateId: "TPL-05-CANTINA"
+                },
+                {
+                    id: "TRK-06", code: "P06", phase: "Fase 2 • Tier 1 (NA/UK)", geoZone: "NA_UK",
+                    categoryLabel: "🎸 Pop Acústico (Singer-Songwriter)",
+                    title: "Coffee Shop Romance",
+                    subgenre: "Solo guitarra acústica cálida",
+                    vibe: "Ed Sheeran / Shawn Mendes",
+                    bpm: 92, key: "G Major",
+                    chordFreqs: [196.00, 293.66, 392.00, 493.88],
+                    lyric: "«En una mesa pequeña con dos tazas de café, supe desde el primer segundo que eras para mí...»",
+                    templateId: "TPL-06-COFFEESHOP"
+                },
+                {
+                    id: "TRK-07", code: "P07", phase: "Fase 2 • Tier 1 (NA/UK)", geoZone: "NA_UK",
+                    categoryLabel: "🎹 R&B / Soul Nocturno",
+                    title: "Midnight Piano",
+                    subgenre: "Piano de cola con reverb profunda",
+                    vibe: "John Legend / Adele",
+                    bpm: 68, key: "Eb Major",
+                    chordFreqs: [155.56, 196.00, 233.08, 311.13],
+                    lyric: "«Incluso cuando el mundo entero se queda en silencio, mi voz siempre encontrará el camino hacia ti...»",
+                    templateId: "TPL-07-MIDNIGHT"
+                },
+                {
+                    id: "TRK-08", code: "P08", phase: "Fase 2 • Tier 1 (NA/UK)", geoZone: "NA_UK",
+                    categoryLabel: "🤠 Country Romántico",
+                    title: "Nashville Sunset",
+                    subgenre: "Guitarra con slide y percusión rústica",
+                    vibe: "Taylor Swift / Morgan Wallen",
+                    bpm: 96, key: "D Major",
+                    chordFreqs: [146.83, 220.00, 293.66, 369.99],
+                    lyric: "«Bajo las luces doradas de esta carretera abierta, cada kilómetro recorrido me lleva de vuelta a ti...»",
+                    templateId: "TPL-08-NASHVILLE"
+                },
+                {
+                    id: "TRK-09", code: "P09", phase: "Fase 3 • Tier 2 (Europa)", geoZone: "EUROPE",
+                    categoryLabel: "🌲 Indie Folk",
+                    title: "Nordic Woods",
+                    subgenre: "Guitarras rápidas, bombo y coros etéreos",
+                    vibe: "Mumford & Sons / Hozier",
+                    bpm: 114, key: "C Major",
+                    chordFreqs: [261.63, 329.63, 392.00, 523.25],
+                    lyric: "«Cruzaría cada bosque y cada invierno gris, solo para escuchar tu risa una vez más...»",
+                    templateId: "TPL-09-NORDIC"
+                },
+                {
+                    id: "TRK-10", code: "P10", phase: "Fase 3 • Tier 2 (Europa)", geoZone: "EUROPE",
+                    categoryLabel: "⚡ Euro-Pop Sintético",
+                    title: "Neon Heartbeat",
+                    subgenre: "Sintetizadores retro 80s con bajo marcado",
+                    vibe: "The Weeknd / Dua Lipa",
+                    bpm: 118, key: "A Minor",
+                    chordFreqs: [220.00, 261.63, 329.63, 493.88],
+                    lyric: "«Entre luces de neón a medianoche en la ciudad, mi corazón late al ritmo de tu electricidad...»",
+                    templateId: "TPL-10-NEON"
+                },
+                {
+                    id: "TRK-11", code: "P11", phase: "Fase 4 • Tier 4 (Asia)", geoZone: "ASIA",
+                    categoryLabel: "🌸 K-Drama OST",
+                    title: "Cherry Blossom Tears",
+                    subgenre: "Cuerdas orquestales y piano dramático",
+                    vibe: "OST de Doramas Coreanos (Seúl)",
+                    bpm: 70, key: "F Major",
+                    chordFreqs: [174.61, 220.00, 261.63, 349.23],
+                    lyric: "«Mientras caen los pétalos bajo la primera lluvia, prometo esperarte en el mismo lugar de siempre...»",
+                    templateId: "TPL-11-KDRAMA"
+                },
+                {
+                    id: "TRK-12", code: "P12", phase: "Fase 4 • Tier 4 (Asia)", geoZone: "ASIA",
+                    categoryLabel: "✨ J-Pop / Anime Lento",
+                    title: "Tokyo Starlight",
+                    subgenre: "Batería pop con arreglos de cuerdas ligeras",
+                    vibe: "Balada estelar de Anime (Tokio)",
+                    bpm: 98, key: "E Major",
+                    chordFreqs: [164.81, 207.65, 246.94, 329.63],
+                    lyric: "«Mirando el mismo cielo lleno de estrellas brillantes, mi deseo más sincero lleva tu nombre...»",
+                    templateId: "TPL-12-TOKYO"
                 }
             ]
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
             lucide.createIcons();
-
-            // Intentar cargar assets/catalog.json si está disponible por HTTP
-            let catalogData = DEFAULT_CATALOG;
-            try {
-                const res = await fetch('assets/catalog.json');
-                if (res.ok) {
-                    const json = await res.json();
-                    if (json && Array.isArray(json.sides)) {
-                        catalogData = json;
-                    }
-                }
-            } catch (_) {
-                // Usa DEFAULT_CATALOG si se abre vía file://
-            }
 
             // ----------------------------------------------------------
             // 1. MOTOR DE SONIDO SINTETIZADO (Web Audio API)
@@ -1350,12 +1356,14 @@
             }
 
             // ----------------------------------------------------------
-            // 3. RENDERIZADO DINÁMICO DE LOS 12 CANALES (LADO A / B / C)
+            // 3. LOCALIZACIÓN CULTURAL EN LA ROCKOLA (4 REGIONES + 12 PISTAS ORIGINALES)
             // ----------------------------------------------------------
             const btnCoin = document.getElementById('btn-coin');
             const btnCoinText = document.getElementById('btn-coin-text');
             const selectionPanel = document.getElementById('selection-panel');
-            const sideTabs = document.querySelectorAll('.side-tab-btn');
+            const geoCategoriesContainer = document.getElementById('geo-categories-container');
+            const jukeboxGeoBadge = document.getElementById('jukebox-geo-badge');
+            const jukeboxPromptTitle = document.getElementById('jukebox-prompt-title');
             const sideSubtitleLabel = document.getElementById('side-subtitle-label');
             const panelLockBadge = document.getElementById('panel-lock-badge');
             const statusText = document.getElementById('status-text');
@@ -1378,12 +1386,16 @@
             const navCoinCount = document.getElementById('nav-coin-count');
             const jukeboxStepPill = document.getElementById('jukebox-step-pill');
             const catalogShowcaseGrid = document.getElementById('catalog-showcase-grid');
+            const btnExploreWorld = document.getElementById('btn-explore-world');
+            const worldRegionsDrawer = document.getElementById('world-regions-drawer');
+            const worldZoneBtns = document.querySelectorAll('.world-zone-btn');
 
             let credits = parseInt(localStorage.getItem('serenatiar_credits') || '0', 10);
             let hasCoinInserted = false;
-            let currentSideId = 'A';
-            let activeChannelCode = null;
-            let selectedTrack = 'A1 • Romance 90s (Bolero Pop Orquestal)';
+            let currentGeoZone = 'LATAM';
+            let currentCategoryId = 'latam_acustico';
+            let activeTrackId = null;
+            let selectedTrack = 'P01 • Noche de Balcón (Los Panchos / Julio Jaramillo Vibe)';
             let isRecording = false;
 
             function updateCreditCounters() {
@@ -1392,144 +1404,184 @@
             }
             updateCreditCounters();
 
-            // Seleccionar un canal (desde la botonera o desde el explorador inferior)
-            function selectChannelObject(ch) {
+            function findTrackById(trackId) {
+                return GEO_CATALOG.tracks.find((t) => t.id === trackId) || GEO_CATALOG.tracks[0];
+            }
+
+            // Seleccionar una pista original (ej. "Noche de Balcón" o "Cherry Blossom Tears")
+            function selectTrackObject(trk) {
                 if (!hasCoinInserted) {
                     btnCoin.click();
                 }
                 if (isRecording) return;
 
-                activeChannelCode = ch.code;
-                selectedTrack = `${ch.code} • ${ch.title} (${ch.subgenre})`;
-                const tplId = (ch.videoTemplate && ch.videoTemplate.templateId) || ch.templateId || `TPL-${ch.code}`;
+                activeTrackId = trk.id;
+                selectedTrack = `${trk.code} • "${trk.title}" (${trk.vibe})`;
 
                 playMechButtonSound();
-                playChordPreview(ch.chordFreqs);
+                playChordPreview(trk.chordFreqs);
 
-                // Actualizar estado de botones en el grid actual
                 document.querySelectorAll('.track-btn').forEach((b) => {
-                    if (b.getAttribute('data-code') === ch.code) {
+                    if (b.getAttribute('data-track-id') === trk.id) {
                         b.classList.add('pressed', 'border-tommy-red');
                     } else {
                         b.classList.remove('pressed', 'border-tommy-red');
                     }
                 });
 
-                // Girar vinilo con código del canal
                 vinylDisc.classList.add('playing');
-                vinylCodeText.innerText = ch.code;
+                vinylCodeText.innerText = trk.code;
 
-                // Actualizar visor de cristal
-                screenChannelCode.innerText = `CANAL: ${ch.code}`;
-                screenEngineTag.innerText = `${ch.bpm} BPM • ${ch.key}`;
-                screenTemplateTag.innerText = `● ${tplId}`;
+                screenChannelCode.innerText = `PISTA: ${trk.code}`;
+                screenEngineTag.innerText = `${trk.bpm} BPM • ${trk.key}`;
+                screenTemplateTag.innerText = `● ${trk.templateId}`;
                 statusText.className = 'mt-1.5 text-sky-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold';
-                statusText.innerText = `🎵 PISTA CARGADA: ${ch.code} — ${ch.title}`;
-                subStatusText.innerText = `Subgénero: ${ch.subgenre}. Canta el estribillo de 15 segundos para afinar tu voz con IA.`;
+                statusText.innerText = `🎵 "${trk.title.toUpperCase()}"`;
+                subStatusText.innerText = `${trk.subgenre} • Vibra: ${trk.vibe}`;
                 jukeboxStepPill.innerText = 'PASO 3/3: GRABAR 15s';
 
-                // Actualizar cabina de grabación
-                assetStemLabel.innerText = `STEM: ${ch.code}_instrumental.wav`;
-                assetTplLabel.innerText = `PLANTILLA: ${tplId} (9:16)`;
-                lyricPrompt.innerText = ch.lyric;
+                assetStemLabel.innerText = `STEM: ${trk.id}_instrumental.wav`;
+                assetTplLabel.innerText = `PLANTILLA: ${trk.templateId} (9:16)`;
+                lyricPrompt.innerText = trk.lyric;
                 recordingDock.classList.remove('hidden');
                 recordingDock.classList.add('flex');
                 waveAnimation.classList.remove('hidden');
             }
 
-            // Renderizar los 4 botones del Lado activo (A, B o C)
-            function renderSideButtons(sideId) {
-                const sideObj = catalogData.sides.find((s) => s.id === sideId) || catalogData.sides[0];
-                currentSideId = sideObj.id;
-                sideSubtitleLabel.innerText = `► ${sideObj.label}: ${sideObj.subtitle}`;
+            // Renderizar las pistas de la categoría seleccionada dentro de la Rockola
+            function renderCategoryTracks(catObj) {
+                currentCategoryId = catObj.id;
+                sideSubtitleLabel.innerText = `► ${catObj.emoji} ${catObj.label}: ${catObj.subtitle}`;
 
-                selectionPanel.innerHTML = '';
-                sideObj.channels.forEach((ch) => {
-                    const isPressed = activeChannelCode === ch.code;
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.setAttribute('data-code', ch.code);
-                    btn.className = `track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 ${isPressed ? 'pressed border-tommy-red' : 'border-[#233B73]'} rounded-xl flex flex-col justify-between group`;
-                    btn.innerHTML = `
-                        <div class="flex items-center justify-between w-full mb-1.5">
-                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-xs font-bold shadow">${ch.code}</span>
-                            <div class="flex items-center gap-1.5">
-                                <span class="font-mono text-[9px] text-slate-400">${ch.bpm} BPM</span>
-                                <i data-lucide="${ch.icon || 'music'}" class="w-4 h-4 ${ch.accentColor || 'text-rose-400'} group-hover:scale-110 transition-transform"></i>
-                            </div>
-                        </div>
-                        <span class="text-xs sm:text-sm font-bold text-white leading-tight">${ch.title}</span>
-                        <span class="text-[10px] font-mono text-slate-400 mt-0.5 truncate">${ch.subgenre}</span>
-                    `;
-                    btn.addEventListener('click', () => selectChannelObject(ch));
-                    selectionPanel.appendChild(btn);
+                document.querySelectorAll('.geo-cat-btn').forEach((btn) => {
+                    btn.classList.toggle('active', btn.getAttribute('data-cat-id') === catObj.id);
                 });
 
-                lucide.createIcons();
+                selectionPanel.innerHTML = '';
+                const tracksToRender = catObj.trackIds.map(findTrackById);
+
+                tracksToRender.forEach((trk) => {
+                    const isPressed = activeTrackId === trk.id;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.setAttribute('data-track-id', trk.id);
+                    btn.className = `track-btn mech-btn bg-[#11224D] text-left p-3.5 border-2 ${isPressed ? 'pressed border-tommy-red' : 'border-[#233B73]'} rounded-xl flex flex-col justify-between group ${tracksToRender.length === 1 ? 'sm:col-span-2' : ''}`;
+                    btn.innerHTML = `
+                        <div class="flex items-center justify-between w-full mb-1.5">
+                            <span class="px-2 py-0.5 rounded bg-tommy-red text-white font-mono text-[11px] font-bold shadow">${trk.code}</span>
+                            <span class="font-mono text-[10px] text-amber-300 truncate max-w-[160px]">${trk.vibe}</span>
+                        </div>
+                        <span class="text-sm font-extrabold text-white leading-tight">«${trk.title}»</span>
+                        <span class="text-[11px] text-slate-300 mt-1">${trk.subgenre}</span>
+                    `;
+                    btn.addEventListener('click', () => selectTrackObject(trk));
+                    selectionPanel.appendChild(btn);
+                });
             }
 
-            // Renderizar la vitrina completa de los 12 canales en la sección Fase 2
+            // Cambiar de Zona Geográfica Cultural en la Rockola (LATAM, NA_UK, EUROPE, ASIA)
+            window.setJukeboxGeoZone = function (geoZoneKey) {
+                const regionObj = GEO_CATALOG.geoRegions[geoZoneKey] || GEO_CATALOG.geoRegions.LATAM;
+                currentGeoZone = geoZoneKey;
+
+                if (jukeboxGeoBadge) {
+                    jukeboxGeoBadge.innerHTML = `<span>${regionObj.flag}</span><span>${regionObj.badgeText}</span>`;
+                }
+                if (jukeboxPromptTitle) {
+                    jukeboxPromptTitle.innerText = regionObj.promptTitle;
+                }
+
+                // Actualizar botones del drawer mundial
+                worldZoneBtns.forEach((b) => {
+                    const active = b.getAttribute('data-geozone') === geoZoneKey;
+                    b.className = active
+                        ? 'world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-tommy-red text-white text-left flex items-center gap-1.5'
+                        : 'world-zone-btn px-2.5 py-1.5 rounded-lg font-mono text-[10px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 text-left flex items-center gap-1.5';
+                });
+
+                // Renderizar los 3 botones de Categoría Local (Ej: 🎸 Acústico y Pop | 🔥 Urbano Suave | 🪗 De nuestra tierra)
+                geoCategoriesContainer.innerHTML = '';
+                regionObj.categories.forEach((cat, idx) => {
+                    const catBtn = document.createElement('button');
+                    catBtn.type = 'button';
+                    catBtn.setAttribute('data-cat-id', cat.id);
+                    catBtn.className = `geo-cat-btn side-tab-btn ${idx === 0 ? 'active' : ''} py-2 px-1.5 rounded-xl bg-[#11224D] border border-white/15 font-sans text-xs font-bold text-slate-100 flex flex-col items-center text-center`;
+                    catBtn.innerHTML = `
+                        <span class="text-base leading-none mb-1">${cat.emoji}</span>
+                        <span class="text-[11px] font-bold leading-tight">${cat.label}</span>
+                    `;
+                    catBtn.addEventListener('click', () => {
+                        playPageFlipSound();
+                        renderCategoryTracks(cat);
+                    });
+                    geoCategoriesContainer.appendChild(catBtn);
+                });
+
+                // Mostrar la primera categoría de esa región por defecto
+                renderCategoryTracks(regionObj.categories[0]);
+            };
+
+            // Botón "🌍 Explorar ritmos del mundo"
+            if (btnExploreWorld && worldRegionsDrawer) {
+                btnExploreWorld.addEventListener('click', () => {
+                    playPageFlipSound();
+                    worldRegionsDrawer.classList.toggle('hidden');
+                });
+            }
+
+            worldZoneBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    playPageFlipSound();
+                    const zone = btn.getAttribute('data-geozone');
+                    window.setJukeboxGeoZone(zone);
+                });
+            });
+
+            // Renderizar la vitrina global de las 12 Pistas Originales en la sección inferior
             function renderCatalogShowcase() {
                 if (!catalogShowcaseGrid) return;
                 catalogShowcaseGrid.innerHTML = '';
 
-                catalogData.sides.forEach((side) => {
-                    side.channels.forEach((ch) => {
-                        const tplId = (ch.videoTemplate && ch.videoTemplate.templateId) || ch.templateId || `TPL-${ch.code}`;
-                        const settingDesc = (ch.videoTemplate && ch.videoTemplate.setting) || ch.setting || 'Set de estudio 9:16';
-
-                        const card = document.createElement('div');
-                        card.className = 'rounded-2xl bg-tommy-deep/60 border border-white/10 p-4 flex flex-col justify-between hover:border-tommy-red/50 transition-all';
-                        card.innerHTML = `
-                            <div>
-                                <div class="flex items-center justify-between gap-2 mb-2">
-                                    <span class="px-2.5 py-0.5 rounded bg-tommy-red font-mono text-xs font-bold text-white">${ch.code}</span>
-                                    <span class="font-mono text-[10px] text-slate-400">${ch.bpm} BPM • ${ch.key}</span>
-                                </div>
-                                <h4 class="font-bold text-white text-base">${ch.title}</h4>
-                                <p class="text-xs text-amber-300/90 font-mono mt-0.5">${ch.subgenre}</p>
-                                <p class="mt-2.5 text-xs text-slate-300 italic line-clamp-2">${ch.lyric}</p>
+                GEO_CATALOG.tracks.forEach((trk) => {
+                    const card = document.createElement('div');
+                    card.className = 'rounded-2xl bg-tommy-deep/60 border border-white/10 p-4 flex flex-col justify-between hover:border-tommy-red/50 transition-all';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="px-2 py-0.5 rounded bg-tommy-red font-mono text-xs font-bold text-white">${trk.code}</span>
+                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-white/5 text-amber-300 border border-white/10">${trk.phase}</span>
                             </div>
-                            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
-                                <span class="font-mono text-[10px] text-emerald-400 truncate" title="${settingDesc}">🎬 ${tplId}</span>
-                                <button type="button" data-Load-code="${ch.code}" data-Load-side="${side.id}" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-tommy-red text-white font-mono text-[10px] font-bold transition-colors shrink-0">
-                                    Cargar en Rockola
-                                </button>
-                            </div>
-                        `;
+                            <h4 class="font-extrabold text-white text-base">«${trk.title}»</h4>
+                            <p class="text-xs text-sky-300 font-mono mt-0.5">${trk.subgenre}</p>
+                            <p class="text-[11px] text-slate-400 mt-1"><strong>Vibra:</strong> ${trk.vibe}</p>
+                            <p class="mt-2.5 text-xs text-slate-300 italic line-clamp-2">${trk.lyric}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                            <span class="font-mono text-[10px] text-emerald-400 truncate">🎬 ${trk.templateId}</span>
+                            <button type="button" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-tommy-red text-white font-mono text-[10px] font-bold transition-colors shrink-0">
+                                Probar Pista
+                            </button>
+                        </div>
+                    `;
 
-                        const loadBtn = card.querySelector('button');
-                        loadBtn.addEventListener('click', () => {
-                            // Cambiar a la pestaña correspondiente, subir a la rockola y activar el canal
-                            sideTabs.forEach((t) => {
-                                t.classList.toggle('active', t.getAttribute('data-side') === side.id);
-                            });
-                            renderSideButtons(side.id);
-                            window.scrollToJukebox();
-                            setTimeout(() => {
-                                selectChannelObject(ch);
-                            }, 400);
-                        });
-
-                        catalogShowcaseGrid.appendChild(card);
+                    card.querySelector('button').addEventListener('click', () => {
+                        window.setJukeboxGeoZone(trk.geoZone);
+                        const regionObj = GEO_CATALOG.geoRegions[trk.geoZone];
+                        const matchingCat = regionObj.categories.find((c) => c.trackIds.includes(trk.id)) || regionObj.categories[0];
+                        renderCategoryTracks(matchingCat);
+                        window.scrollToJukebox();
+                        setTimeout(() => {
+                            selectTrackObject(trk);
+                        }, 380);
                     });
+
+                    catalogShowcaseGrid.appendChild(card);
                 });
             }
 
-            // Inicializar Lado A y el explorador de 12 canales
-            renderSideButtons('A');
+            // Inicializar en LATAM (Neiva / Bogotá) por defecto
+            window.setJukeboxGeoZone('LATAM');
             renderCatalogShowcase();
-
-            // Eventos de cambio de pestaña Lado A / B / C
-            sideTabs.forEach((tab) => {
-                tab.addEventListener('click', () => {
-                    const targetSide = tab.getAttribute('data-side');
-                    playPageFlipSound();
-                    sideTabs.forEach((t) => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    renderSideButtons(targetSide);
-                });
-            });
 
             window.scrollToJukebox = function () {
                 document.getElementById('rockola').scrollIntoView({ behavior: 'smooth' });
@@ -1558,14 +1610,14 @@
 
                 statusText.classList.remove('text-tommy-red', 'animate-pulse');
                 statusText.classList.add('text-emerald-400');
-                statusText.innerText = '● MONEDA ACEPTADA — ELIGE LADO (A, B, C) Y CANAL';
-                subStatusText.innerText = 'Tienes 12 Type-Beats desbloqueados. Alterna entre Lado A, B y C o presiona cualquier canal.';
+                statusText.innerText = '● ¿QUÉ RITMO LE VAS A DEDICAR HOY?';
+                subStatusText.innerText = 'Elige tu categoría local (🎸 Acústico, 🔥 Urbano, 🪗 Nuestra Tierra) o explora ritmos del mundo 🌍.';
                 screenEngineTag.innerText = 'MOTOR IA: LISTO';
-                jukeboxStepPill.innerText = 'PASO 2/3: ELEGIR CANAL (12)';
+                jukeboxStepPill.innerText = 'PASO 2/3: ELEGIR PISTA';
 
                 selectionPanel.classList.remove('opacity-40', 'pointer-events-none');
                 selectionPanel.classList.add('opacity-100');
-                panelLockBadge.innerText = '12 CANALES ACTIVOS';
+                panelLockBadge.innerText = 'DESBLOQUEADO';
                 panelLockBadge.className = 'font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
 
                 screenPanel.classList.add('border-emerald-400/40');
@@ -1578,9 +1630,9 @@
                 recordingDock.classList.remove('flex');
                 waveAnimation.classList.add('hidden');
                 vinylDisc.classList.remove('playing');
-                activeChannelCode = null;
+                activeTrackId = null;
                 document.querySelectorAll('.track-btn').forEach((b) => b.classList.remove('pressed', 'border-tommy-red'));
-                statusText.innerText = '● SELECCIONA CUALQUIERA DE LOS 12 CANALES (LADOS A, B, C)';
+                statusText.innerText = '● ¿QUÉ RITMO LE VAS A DEDICAR HOY?';
             });
 
             // PASO 3: Simular Grabación de Estribillo -> Abrir Modal "Puerta Falsa"
@@ -1881,11 +1933,23 @@
                 lucide.createIcons();
             }
 
-            // Eventos para simular cualquier Tier PPP con un clic
+            // Eventos para simular cualquier Tier PPP con un clic (y sincronizar el Catálogo Cultural de la Rockola)
+            const pppToCatalogZoneMap = {
+                LATAM_COP: 'LATAM',
+                LATAM_MXN: 'LATAM',
+                NA_USD: 'NA_UK',
+                EU_EUR: 'EUROPE',
+                EMERGING_USD: 'ASIA'
+            };
+
             pppTabBtns.forEach((btn) => {
                 btn.addEventListener('click', () => {
                     playPageFlipSound();
-                    renderPPPRegion(btn.getAttribute('data-region'));
+                    const reg = btn.getAttribute('data-region');
+                    renderPPPRegion(reg);
+                    if (window.setJukeboxGeoZone && pppToCatalogZoneMap[reg]) {
+                        window.setJukeboxGeoZone(pppToCatalogZoneMap[reg]);
+                    }
                 });
             });
 
@@ -1898,10 +1962,13 @@
                     if (geo && geo.country_code) {
                         const detectedRegion = PPP_MATRIX.countryToRegionMap[geo.country_code] || 'LATAM_COP';
                         renderPPPRegion(detectedRegion);
+                        if (window.setJukeboxGeoZone && pppToCatalogZoneMap[detectedRegion]) {
+                            window.setJukeboxGeoZone(pppToCatalogZoneMap[detectedRegion]);
+                        }
                     }
                 })
                 .catch(() => {
-                    // Mantiene LATAM_COP como fallback seguro
+                    // Mantiene LATAM_COP + LATAM como fallback seguro
                 });
         });
     </script>
