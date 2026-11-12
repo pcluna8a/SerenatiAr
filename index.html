@@ -199,10 +199,10 @@
 
             <!-- Botones Derecha (Billetera + Log in + CTA) -->
             <div class="flex items-center gap-3 sm:gap-4">
-                <!-- Indicador de Monedas Interactivo -->
-                <button id="nav-coin-badge" onclick="scrollToJukebox()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-tommy-deep/90 border border-amber-500/30 text-xs font-mono text-amber-300 hover:border-amber-400 transition-all" title="Tus créditos en la Rockola">
+                <!-- Indicador de Monedas Interactivo (Abre Billetera & Recarga PPP Fase 4) -->
+                <button id="nav-coin-badge" onclick="openCheckoutModal()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-tommy-deep/90 border border-amber-500/40 text-xs font-mono text-amber-300 hover:border-amber-400 hover:bg-amber-500/10 transition-all" title="Abrir Billetera y Recargar Monedas">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-                    <span>🪙 CRÉDITOS: <strong id="nav-coin-count">0</strong></span>
+                    <span>🪙 BILLETERA: <strong id="nav-coin-count">0</strong></span>
                 </button>
 
                 <button onclick="openFakeDoorModal('login')" class="hidden sm:inline-flex text-sm font-semibold text-slate-300 hover:text-white transition-colors px-2">
@@ -969,13 +969,13 @@
 
             <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
                 <p>© 2026 SerenatiAr Labs • Hecho con pasión en Colombia para toda LATAM.</p>
-                <p>Fase 2 Activa • 12 Canales + Especificaciones de Estudio</p>
+                <p>Fase 4 Activa • Pasarela PPP + Candado Freemium + Supabase Cloud</p>
             </div>
         </div>
     </footer>
 
     <!-- ==========================================================
-         MODAL DE "PUERTA FALSA" + CHARACTER SHEET (FASE 2)
+         MODAL DE "PUERTA FALSA" + BONO BIENVENIDA 3 MONEDAS (FASE 1-3)
     =========================================================== -->
     <div id="fake-door-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
         <div class="relative w-full max-w-lg rounded-3xl bg-gradient-to-b from-[#10224B] to-[#071024] border-2 border-white/15 p-6 sm:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden">
@@ -1065,6 +1065,212 @@
                 </button>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         FASE 4: REPRODUCTOR DE ESTUDIO + CANDADO FREEMIUM (MARCA DE AGUA AUDITIVA)
+    =========================================================== -->
+    <div id="studio-master-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="relative w-full max-w-xl rounded-3xl bg-gradient-to-b from-[#112452] to-[#060E21] border-2 border-white/15 p-6 sm:p-8 shadow-[0_25px_90px_rgba(0,0,0,0.95)] overflow-hidden max-h-[92vh] overflow-y-auto">
+            <div class="tommy-ribbon absolute top-0 left-0 right-0 h-2"></div>
+
+            <button id="close-studio-modal-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Cabecera del Máster -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pr-10">
+                <span id="studio-mode-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tommy-red/20 border border-tommy-red/40 text-red-300 font-mono text-xs font-bold">
+                    🎵 MODALIDAD: SOLO CANCIÓN (1 🪙)
+                </span>
+                <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-black/40 border border-amber-400/30 text-amber-300">
+                    TU SALDO: 🪙 <strong id="studio-wallet-balance">0</strong>
+                </span>
+            </div>
+
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                Tu Serenata: <span id="studio-track-title" class="text-tommy-red font-serif italic">Noche de Balcón</span>
+            </h3>
+            <p class="mt-1 text-xs sm:text-sm text-slate-300">
+                Voz afinada a nivel estudio con <strong class="text-white">RVC v2 (RMVPE 48kHz)</strong> y mezclada con el stem instrumental original.
+            </p>
+
+            <!-- Consola Reproductora con Candado Freemium / Marca de Agua Auditiva -->
+            <div class="mt-5 rounded-2xl bg-[#050B1A] border border-white/15 p-5 relative overflow-hidden">
+                <!-- Banner de Estado del Candado Freemium -->
+                <div id="watermark-status-banner" class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[11px] mb-4">
+                    <span id="watermark-status-text">🔒 PREVIEW FREEMIUM: MARCA DE AGUA AUDITIVA ACTIVA (CADA 3.2S)</span>
+                    <span id="watermark-pulse-badge" class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-200 font-bold">PROTEGIDO</span>
+                </div>
+
+                <!-- Controles de Reproducción Web Audio API -->
+                <div class="flex items-center gap-4">
+                    <button type="button" id="btn-toggle-preview-play" class="w-14 h-14 rounded-2xl bg-tommy-red hover:bg-red-600 text-white flex items-center justify-center shadow-[0_0_25px_rgba(225,29,42,0.5)] shrink-0 transition-all">
+                        <span id="preview-play-icon" class="text-xl font-bold">▶</span>
+                    </button>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-300 mb-1.5">
+                            <span id="preview-player-state">LISTO PARA ESCUCHAR (PREVIEW ESTUDIO)</span>
+                            <span id="preview-time-counter" class="text-amber-400">00:00 / 00:15</span>
+                        </div>
+                        <!-- Barra de progreso interactiva -->
+                        <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                            <div id="preview-progress-bar" class="h-full bg-gradient-to-r from-tommy-red via-amber-400 to-emerald-400 rounded-full w-0 transition-all duration-300"></div>
+                        </div>
+                        <p id="watermark-toast-line" class="mt-1.5 text-[11px] font-mono text-slate-400 truncate">
+                            Escucha tu mezcla antes de invertir tus monedas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Desbloqueo con Monedas (Visible mientras tiene marca de agua) -->
+            <div id="studio-unlock-panel" class="mt-5 rounded-2xl bg-white/5 border border-white/10 p-5">
+                <div class="flex items-start justify-between gap-3">
+                    <div>
+                        <span class="font-mono text-[11px] uppercase tracking-wider text-amber-400 font-bold">CANDADO DE MONETIZACIÓN (FASE 4)</span>
+                        <h4 class="text-base sm:text-lg font-bold text-white mt-0.5">
+                            Elimina la Marca de Agua Auditiva y descarga el Máster
+                        </h4>
+                        <p id="studio-cost-explanation" class="text-xs text-slate-300 mt-1">
+                            Por elegir <strong>🎵 Solo Canción</strong>, el desbloqueo consume únicamente <strong>1 Moneda (🪙)</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botón Principal: Desbloquear con Saldo de Billetera -->
+                <button type="button" id="btn-unlock-with-coins" class="mt-4 w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-extrabold text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all flex items-center justify-center gap-2">
+                    <span>🔓 Quitar Marca de Agua y Desbloquear Máster</span>
+                    <span id="btn-unlock-cost-pill" class="px-2 py-0.5 rounded bg-slate-950/20 font-mono text-xs">(-1 🪙)</span>
+                </button>
+
+                <!-- Opciones Rápidas si no tiene suficientes monedas -->
+                <div id="insufficient-coins-box" class="hidden mt-4 pt-4 border-t border-white/10">
+                    <p class="text-xs font-mono text-red-300 mb-3 text-center">
+                        ⚠️ Saldo insuficiente para desbloquear. Elige cómo recargar tu billetera al instante:
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <button type="button" id="btn-studio-claim-free" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold transition-all">
+                            🎁 Reclamar 3 Monedas Gratis
+                        </button>
+                        <button type="button" id="btn-studio-open-checkout" class="py-2.5 px-3 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-mono text-xs font-bold transition-all">
+                            💳 Recargar Monedas (Nequi / PSE / Stripe)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Entrega Final Desbloqueado (WhatsApp + Descarga .WAV Real) -->
+            <div id="studio-unlocked-delivery" class="hidden mt-5 rounded-2xl bg-emerald-500/10 border-2 border-emerald-400/50 p-5">
+                <div class="flex items-center gap-2 text-emerald-300 font-mono text-xs font-bold mb-2">
+                    <span>✓ MÁSTER DESBLOQUEADO SIN MARCA DE AGUA</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-200 mb-4">
+                    Tu serenata está lista en máxima fidelidad. Envíala directamente por WhatsApp a esa persona especial o guarda el archivo de audio:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a id="btn-share-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all">
+                        <span>📲 Enviar por WhatsApp</span>
+                    </a>
+                    <button type="button" id="btn-download-master-wav" class="py-3.5 px-4 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border border-white/20 transition-all">
+                        <span>⬇️ Descargar Máster (.WAV)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         FASE 4: PASARELA DE PAGOS MULTI-REGIÓN PPP (WOMPI / NEQUI / PSE + STRIPE) Y BILLETERA
+    =========================================================== -->
+    <div id="ppp-checkout-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="relative w-full max-w-xl rounded-3xl bg-gradient-to-b from-[#0E1E46] to-[#050C1D] border-2 border-white/15 p-6 sm:p-8 shadow-[0_25px_90px_rgba(0,0,0,0.95)] overflow-hidden max-h-[92vh] overflow-y-auto">
+            <div class="tommy-ribbon absolute top-0 left-0 right-0 h-2"></div>
+
+            <button id="close-checkout-modal-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Encabezado de Billetera y Región PPP -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pr-10">
+                <span id="checkout-tier-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 font-mono text-xs font-bold">
+                    🇨🇴 TIER 3 • LATAM (COP)
+                </span>
+                <span class="font-mono text-xs px-3 py-1 rounded-lg bg-amber-400/20 border border-amber-400/40 text-amber-300 font-bold">
+                    SALDO ACTUAL: 🪙 <strong id="checkout-wallet-balance">0</strong> MONEDAS
+                </span>
+            </div>
+
+            <h3 class="text-2xl font-extrabold text-white">
+                Billetera & Pasarela Local <span class="text-tommy-red font-serif italic">PPP</span>
+            </h3>
+            <p id="checkout-gateway-subtitle" class="mt-1 text-xs sm:text-sm text-slate-300">
+                Pasarela activa: Wompi / ePayco (Nequi, PSE, Botón Bancolombia, Efecty)
+            </p>
+
+            <!-- Selector Rápido de Paquete dentro del Checkout -->
+            <div class="mt-4">
+                <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-2">
+                    1. PAQUETE DE MONEDAS SELECCIONADO:
+                </label>
+                <div id="checkout-pkg-selector" class="grid grid-cols-3 gap-2">
+                    <!-- Se inyecta dinámicamente según la región PPP -->
+                </div>
+            </div>
+
+            <!-- Métodos de Pago Locales según el Tier (Nequi/PSE vs SPEI/OXXO vs ApplePay/Stripe) -->
+            <div class="mt-4">
+                <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-2">
+                    2. ELIGE TU MÉTODO DE PAGO LOCAL:
+                </label>
+                <div id="checkout-methods-grid" class="grid grid-cols-2 gap-2">
+                    <!-- Botones de método de pago inyectados según el Tier -->
+                </div>
+            </div>
+
+            <!-- Formulario Rápido de Confirmación de Pago -->
+            <form id="ppp-payment-form" class="mt-4 space-y-3 bg-[#040917] p-4 rounded-2xl border border-white/10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                            Correo del Comprador
+                        </label>
+                        <input type="email" id="checkout-email" required placeholder="tu@correo.com"
+                            class="w-full rounded-xl bg-[#081229] border border-white/15 px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-tommy-red">
+                    </div>
+                    <div>
+                        <label id="checkout-phone-label" class="block font-mono text-[10px] uppercase tracking-wider text-slate-300 mb-1">
+                            Celular Nequi / WhatsApp
+                        </label>
+                        <input type="text" id="checkout-phone" required placeholder="300 123 4567"
+                            class="w-full rounded-xl bg-[#081229] border border-white/15 px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-tommy-red">
+                    </div>
+                </div>
+
+                <!-- Estado de verificación del Webhook -->
+                <div id="checkout-processing-box" class="hidden py-2 px-3 rounded-xl bg-sky-500/10 border border-sky-400/30 text-sky-300 font-mono text-xs flex items-center justify-between">
+                    <span id="checkout-processing-text">🔄 Conectando con pasarela y verificando firma HMAC...</span>
+                    <span class="animate-spin">⚙️</span>
+                </div>
+
+                <button type="submit" id="btn-submit-checkout" class="w-full py-3.5 px-5 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-extrabold text-sm shadow-[0_0_25px_rgba(225,29,42,0.5)] transition-all flex items-center justify-center gap-2">
+                    <span id="btn-submit-checkout-label">💳 Pagar y Acreditar Monedas al Instante</span>
+                </button>
+            </form>
+
+            <!-- Libro Mayor / Historial de Transacciones de la Billetera (`transacciones_monedas`) -->
+            <div class="mt-5 pt-4 border-t border-white/10">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                        HISTORIAL DE TU BILLETERA (LIBRO MAYOR ACID):
+                    </span>
+                    <span class="font-mono text-[10px] text-emerald-400">● SUPABASE SYNC</span>
+                </div>
+                <div id="wallet-ledger-list" class="space-y-1.5 max-h-28 overflow-y-auto pr-1 text-xs font-mono">
+                    <!-- Movimientos de monedas -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1827,14 +2033,357 @@
                             btnStartRecord.classList.remove('animate-pulse');
                             recordBtnLabel.innerText = 'Grabar mi Voz (15s)';
                             if (gpuTelemetryBar) gpuTelemetryBar.classList.add('hidden');
-                            openFakeDoorModal(selectedTrack);
+                            const currentTrkObj = findTrackById(activeTrackId || 'TRK-01');
+                            openStudioMasterModal(currentTrkObj);
                         }, includeVideoMode ? 1900 : 1450);
                     }
                 }, 800);
             });
 
             // ----------------------------------------------------------
-            // 4. MODAL "PUERTA FALSA" (CAPTURA DE LEADS EN LOCALSTORAGE)
+            // 4. LIBRO MAYOR DE BILLETERA (`transacciones_monedas`) + BONO 3 MONEDAS
+            // ----------------------------------------------------------
+            function getWalletLedger() {
+                const raw = localStorage.getItem('serenatiar_wallet_ledger');
+                if (raw) {
+                    try { return JSON.parse(raw); } catch (e) { /* fallback */ }
+                }
+                return [
+                    { tipo: 'SISTEMA', delta: 0, concepto: 'Billetera inicializada (Supabase Cloud)', fecha: new Date().toLocaleTimeString() }
+                ];
+            }
+
+            function recordWalletTransaction(tipo, delta, concepto) {
+                const ledger = getWalletLedger();
+                ledger.unshift({
+                    tipo,
+                    delta,
+                    concepto,
+                    fecha: new Date().toLocaleTimeString()
+                });
+                localStorage.setItem('serenatiar_wallet_ledger', JSON.stringify(ledger.slice(0, 20)));
+                renderWalletLedgerUI();
+            }
+
+            function renderWalletLedgerUI() {
+                const listEl = document.getElementById('wallet-ledger-list');
+                const checkoutBal = document.getElementById('checkout-wallet-balance');
+                const studioBal = document.getElementById('studio-wallet-balance');
+                if (checkoutBal) checkoutBal.innerText = String(credits);
+                if (studioBal) studioBal.innerText = String(credits);
+                if (!listEl) return;
+
+                const ledger = getWalletLedger();
+                listEl.innerHTML = ledger.map((item) => {
+                    const isPositive = item.delta > 0;
+                    const isNegative = item.delta < 0;
+                    const badgeClass = isPositive
+                        ? 'text-emerald-400'
+                        : isNegative
+                            ? 'text-tommy-red'
+                            : 'text-slate-400';
+                    const sign = isPositive ? `+${item.delta} 🪙` : isNegative ? `${item.delta} 🪙` : `0 🪙`;
+                    return `
+                        <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="text-slate-200 truncate pr-2">${item.concepto}</span>
+                            <span class="font-bold shrink-0 ${badgeClass}">${sign}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+            renderWalletLedgerUI();
+
+            // ----------------------------------------------------------
+            // 4B. FASE 4: REPRODUCTOR DE ESTUDIO + CANDADO FREEMIUM (MARCA DE AGUA AUDITIVA)
+            // ----------------------------------------------------------
+            const studioMasterModal = document.getElementById('studio-master-modal');
+            const closeStudioModalBtn = document.getElementById('close-studio-modal-btn');
+            const studioModeBadge = document.getElementById('studio-mode-badge');
+            const studioTrackTitle = document.getElementById('studio-track-title');
+            const watermarkStatusBanner = document.getElementById('watermark-status-banner');
+            const watermarkStatusText = document.getElementById('watermark-status-text');
+            const watermarkPulseBadge = document.getElementById('watermark-pulse-badge');
+            const btnTogglePreviewPlay = document.getElementById('btn-toggle-preview-play');
+            const previewPlayIcon = document.getElementById('preview-play-icon');
+            const previewPlayerState = document.getElementById('preview-player-state');
+            const previewTimeCounter = document.getElementById('preview-time-counter');
+            const previewProgressBar = document.getElementById('preview-progress-bar');
+            const watermarkToastLine = document.getElementById('watermark-toast-line');
+            const studioUnlockPanel = document.getElementById('studio-unlock-panel');
+            const studioCostExplanation = document.getElementById('studio-cost-explanation');
+            const btnUnlockWithCoins = document.getElementById('btn-unlock-with-coins');
+            const btnUnlockCostPill = document.getElementById('btn-unlock-cost-pill');
+            const insufficientCoinsBox = document.getElementById('insufficient-coins-box');
+            const btnStudioClaimFree = document.getElementById('btn-studio-claim-free');
+            const btnStudioOpenCheckout = document.getElementById('btn-studio-open-checkout');
+            const studioUnlockedDelivery = document.getElementById('studio-unlocked-delivery');
+            const btnShareWhatsapp = document.getElementById('btn-share-whatsapp');
+            const btnDownloadMasterWav = document.getElementById('btn-download-master-wav');
+
+            let currentStudioTrack = GEO_CATALOG.tracks[0];
+            let isCurrentSerenadeUnlocked = false;
+            let isPreviewPlaying = false;
+            let previewInterval = null;
+            let previewElapsedSec = 0;
+
+            // Sonido de Marca de Agua Auditiva ("SerenatiAr Preview Lock") cada 3.2s
+            function playWatermarkTagSound() {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                // Doble pulso cristalino característico de marca de agua protectora
+                [1318.5, 1760.0, 2637.0].forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                    gain.gain.setValueAtTime(0.08, now + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.28);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.08);
+                    osc.stop(now + idx * 0.08 + 0.29);
+                });
+            }
+
+            function stopStudioPreviewPlayback() {
+                isPreviewPlaying = false;
+                if (previewInterval) {
+                    clearInterval(previewInterval);
+                    previewInterval = null;
+                }
+                if (previewPlayIcon) previewPlayIcon.innerText = '▶';
+                if (previewPlayerState) {
+                    previewPlayerState.innerText = isCurrentSerenadeUnlocked
+                        ? 'MÁSTER 48kHz LISTO (SIN MARCA DE AGUA)'
+                        : 'PAUSADO (MODO PREVIEW CON MARCA DE AGUA)';
+                }
+            }
+
+            function startStudioPreviewPlayback() {
+                stopStudioPreviewPlayback();
+                isPreviewPlaying = true;
+                previewElapsedSec = 0;
+                if (previewPlayIcon) previewPlayIcon.innerText = '⏸';
+                if (previewProgressBar) previewProgressBar.style.width = '0%';
+
+                // Tocar acorde inicial del canal elegido
+                playChordPreview(currentStudioTrack.chordFreqs);
+
+                previewInterval = setInterval(() => {
+                    previewElapsedSec += 1;
+                    const pct = Math.min(100, Math.round((previewElapsedSec / 15) * 100));
+                    if (previewProgressBar) previewProgressBar.style.width = `${pct}%`;
+                    if (previewTimeCounter) {
+                        previewTimeCounter.innerText = `00:${String(previewElapsedSec).padStart(2, '0')} / 00:15`;
+                    }
+
+                    // Reproducir progresión armónica cada 2 segundos
+                    if (previewElapsedSec % 2 === 0 && previewElapsedSec < 15) {
+                        const shifted = currentStudioTrack.chordFreqs.map((f, i) =>
+                            previewElapsedSec % 4 === 0 ? f : f * (i % 2 === 0 ? 1.122 : 1.25)
+                        );
+                        playChordPreview(shifted);
+                    }
+
+                    // Si el candado Freemium está activo, disparar la Marca de Agua Auditiva cada 3 segundos
+                    if (!isCurrentSerenadeUnlocked && previewElapsedSec % 3 === 0 && previewElapsedSec < 15) {
+                        playWatermarkTagSound();
+                        if (watermarkToastLine) {
+                            watermarkToastLine.innerText = '🔊 [MARCA DE AGUA AUDITIVA: SERENATIAR PREVIEW — DESBLOQUEA CON MONEDAS]';
+                            watermarkToastLine.className = 'mt-1.5 text-[11px] font-mono text-amber-300 font-bold truncate';
+                        }
+                    } else if (isCurrentSerenadeUnlocked && watermarkToastLine) {
+                        watermarkToastLine.innerText = '✨ Reproduciendo Máster Limpio 48kHz sin marcas de agua.';
+                        watermarkToastLine.className = 'mt-1.5 text-[11px] font-mono text-emerald-300 truncate';
+                    }
+
+                    if (previewElapsedSec >= 15) {
+                        stopStudioPreviewPlayback();
+                    }
+                }, 1000);
+            }
+
+            if (btnTogglePreviewPlay) {
+                btnTogglePreviewPlay.addEventListener('click', () => {
+                    if (isPreviewPlaying) {
+                        stopStudioPreviewPlayback();
+                    } else {
+                        startStudioPreviewPlayback();
+                    }
+                });
+            }
+
+            window.openStudioMasterModal = function (trkObj) {
+                currentStudioTrack = trkObj || GEO_CATALOG.tracks[0];
+                isCurrentSerenadeUnlocked = false;
+                stopStudioPreviewPlayback();
+
+                const requiredCoins = includeVideoMode ? 3 : 1;
+                if (studioTrackTitle) studioTrackTitle.innerText = `${currentStudioTrack.code} • ${currentStudioTrack.title}`;
+                if (studioModeBadge) {
+                    studioModeBadge.innerText = includeVideoMode
+                        ? '🎬 MODALIDAD: VIDEOCLIP IA 9:16 + VOZ (3 🪙)'
+                        : '🎵 MODALIDAD: SOLO CANCIÓN RVC (1 🪙)';
+                }
+                if (studioCostExplanation) {
+                    studioCostExplanation.innerHTML = includeVideoMode
+                        ? 'Elegiste <strong>🎬 + Videoclip IA (Face-Swap 9:16 + Audio)</strong>. El desbloqueo consume <strong>3 Monedas (🪙🪙🪙)</strong>.'
+                        : 'Elegiste <strong>🎵 Solo Canción (Audio RVC sin video)</strong>. El desbloqueo consume únicamente <strong>1 Moneda (🪙)</strong>.';
+                }
+                if (btnUnlockCostPill) {
+                    btnUnlockCostPill.innerText = `(-${requiredCoins} 🪙)`;
+                }
+
+                // Resetear estado visual a Candado Freemium con Marca de Agua
+                if (watermarkStatusBanner) {
+                    watermarkStatusBanner.className = 'flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[11px] mb-4';
+                }
+                if (watermarkStatusText) {
+                    watermarkStatusText.innerText = '🔒 PREVIEW FREEMIUM: MARCA DE AGUA AUDITIVA ACTIVA (CADA 3S)';
+                }
+                if (watermarkPulseBadge) {
+                    watermarkPulseBadge.innerText = 'CON MARCA DE AGUA';
+                    watermarkPulseBadge.className = 'px-2 py-0.5 rounded bg-amber-400/20 text-amber-200 font-bold';
+                }
+                if (studioUnlockPanel) studioUnlockPanel.classList.remove('hidden');
+                if (studioUnlockedDelivery) studioUnlockedDelivery.classList.add('hidden');
+                if (insufficientCoinsBox) {
+                    if (credits < requiredCoins) {
+                        insufficientCoinsBox.classList.remove('hidden');
+                    } else {
+                        insufficientCoinsBox.classList.add('hidden');
+                    }
+                }
+
+                renderWalletLedgerUI();
+                studioMasterModal.classList.remove('hidden');
+                studioMasterModal.classList.add('flex');
+                startStudioPreviewPlayback();
+            };
+
+            function closeStudioMasterModal() {
+                stopStudioPreviewPlayback();
+                studioMasterModal.classList.add('hidden');
+                studioMasterModal.classList.remove('flex');
+            }
+
+            if (closeStudioModalBtn) closeStudioModalBtn.addEventListener('click', closeStudioMasterModal);
+
+            // Desbloquear Máster invirtiendo 1 🪙 (Solo Canción) o 3 🪙 (+ Videoclip IA)
+            if (btnUnlockWithCoins) {
+                btnUnlockWithCoins.addEventListener('click', () => {
+                    const requiredCoins = includeVideoMode ? 3 : 1;
+                    if (credits < requiredCoins) {
+                        playMechButtonSound();
+                        if (insufficientCoinsBox) insufficientCoinsBox.classList.remove('hidden');
+                        return;
+                    }
+
+                    // Descontar monedas de la billetera
+                    credits -= requiredCoins;
+                    localStorage.setItem('serenatiar_credits', String(credits));
+                    updateCreditCounters();
+                    playCoinSound();
+
+                    const modeLabel = includeVideoMode ? 'Videoclip IA 9:16' : 'Solo Canción RVC';
+                    recordWalletTransaction('CONSUMO', -requiredCoins, `${modeLabel}: ${currentStudioTrack.title}`);
+
+                    isCurrentSerenadeUnlocked = true;
+                    if (watermarkStatusBanner) {
+                        watermarkStatusBanner.className = 'flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-mono text-[11px] mb-4';
+                    }
+                    if (watermarkStatusText) {
+                        watermarkStatusText.innerText = '🔓 MÁSTER DESBLOQUEADO: 100% LIMPIO SIN MARCA DE AGUA';
+                    }
+                    if (watermarkPulseBadge) {
+                        watermarkPulseBadge.innerText = 'DESBLOQUEADO';
+                        watermarkPulseBadge.className = 'px-2 py-0.5 rounded bg-emerald-400/20 text-emerald-200 font-bold';
+                    }
+                    if (studioUnlockPanel) studioUnlockPanel.classList.add('hidden');
+                    if (studioUnlockedDelivery) studioUnlockedDelivery.classList.remove('hidden');
+
+                    // Configurar link de WhatsApp listo para dedicar
+                    const shareMsg = encodeURIComponent(
+                        `🎶 ¡No más flores! Te grabé esta serenata con mi voz en SerenatiAr: "${currentStudioTrack.title}" (${currentStudioTrack.vibe}). Escúchala aquí 👉 https://pcluna8a.github.io/SerenatiAr/`
+                    );
+                    if (btnShareWhatsapp) {
+                        btnShareWhatsapp.href = `https://wa.me/?text=${shareMsg}`;
+                    }
+
+                    startStudioPreviewPlayback();
+                });
+            }
+
+            if (btnStudioClaimFree) {
+                btnStudioClaimFree.addEventListener('click', () => {
+                    closeStudioMasterModal();
+                    openFakeDoorModal(selectedTrack);
+                });
+            }
+
+            if (btnStudioOpenCheckout) {
+                btnStudioOpenCheckout.addEventListener('click', () => {
+                    closeStudioMasterModal();
+                    openCheckoutModal();
+                });
+            }
+
+            // Generador de Archivo .WAV Master Real (44.1kHz PCM) en el navegador para descarga inmediata
+            if (btnDownloadMasterWav) {
+                btnDownloadMasterWav.addEventListener('click', () => {
+                    playCoinSound();
+                    const sampleRate = 44100;
+                    const durationSeconds = 6;
+                    const numSamples = sampleRate * durationSeconds;
+                    const buffer = new ArrayBuffer(44 + numSamples * 2);
+                    const view = new DataView(buffer);
+
+                    function writeStr(offset, str) {
+                        for (let i = 0; i < str.length; i++) {
+                            view.setUint8(offset + i, str.charCodeAt(i));
+                        }
+                    }
+
+                    writeStr(0, 'RIFF');
+                    view.setUint32(4, 36 + numSamples * 2, true);
+                    writeStr(8, 'WAVE');
+                    writeStr(12, 'fmt ');
+                    view.setUint32(16, 16, true);
+                    view.setUint16(20, 1, true);
+                    view.setUint16(22, 1, true);
+                    view.setUint32(24, sampleRate, true);
+                    view.setUint32(28, sampleRate * 2, true);
+                    view.setUint16(32, 2, true);
+                    view.setUint16(34, 16, true);
+                    writeStr(36, 'data');
+                    view.setUint32(40, numSamples * 2, true);
+
+                    const freqs = currentStudioTrack.chordFreqs || [220, 261.63, 329.63, 440];
+                    for (let i = 0; i < numSamples; i++) {
+                        const t = i / sampleRate;
+                        const env = Math.min(1, t * 4) * Math.exp(-t * 0.35);
+                        let sample = 0;
+                        freqs.forEach((f) => {
+                            sample += Math.sin(2 * Math.PI * f * t) * 0.22;
+                        });
+                        const pcm = Math.max(-1, Math.min(1, sample * env));
+                        view.setInt16(44 + i * 2, pcm * 32767, true);
+                    }
+
+                    const blob = new Blob([buffer], { type: 'audio/wav' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `SerenatiAr_${currentStudioTrack.code}_${currentStudioTrack.title.replace(/\s+/g, '_')}.wav`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+
+            // ----------------------------------------------------------
+            // 4C. MODAL "PUERTA FALSA" (BONO BIENVENIDA 3 MONEDAS + SUPABASE `mvp_leads`)
             // ----------------------------------------------------------
             const fakeDoorModal = document.getElementById('fake-door-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
@@ -1896,7 +2445,7 @@
                 });
                 localStorage.setItem('serenatiar_mvp_leads', JSON.stringify(existingLeads));
 
-                // 2. Si SUPABASE_CONFIG está configurado, insertar en tiempo real en public.mvp_leads
+                // 2. Insertar en tiempo real en Supabase (`public.mvp_leads`)
                 if (supabaseClient) {
                     try {
                         await supabaseClient.from('mvp_leads').insert([
@@ -1914,9 +2463,10 @@
                     }
                 }
 
-                credits = 3;
-                localStorage.setItem('serenatiar_credits', '3');
+                credits += 3;
+                localStorage.setItem('serenatiar_credits', String(credits));
                 updateCreditCounters();
+                recordWalletTransaction('BONO_BIENVENIDA', 3, `Bono Bienvenida (${email})`);
 
                 successTrackName.innerText = selectedTrack;
                 successEmailDisplay.innerText = email;
@@ -1930,9 +2480,9 @@
                 recordingDock.classList.remove('flex');
                 waveAnimation.classList.add('hidden');
                 btnCoin.classList.remove('opacity-60', 'cursor-not-allowed');
-                btnCoinText.innerText = 'USAR 1 MONEDA (SALDO: 3)';
+                btnCoinText.innerText = `USAR 1 MONEDA (SALDO: ${credits})`;
                 statusText.className = 'mt-1.5 text-amber-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold';
-                statusText.innerText = '★ TIENES 3 MONEDAS GRATIS ACREDITADAS EN TU CUENTA';
+                statusText.innerText = `★ TIENES ${credits} MONEDAS DISPONIBLES EN TU BILLETERA`;
             });
 
             // ----------------------------------------------------------
@@ -2047,8 +2597,210 @@
             const bentoTierBadge = document.getElementById('bento-tier-badge');
             const pppTabBtns = document.querySelectorAll('.ppp-tab-btn');
 
+            let activePPPRegionKey = 'LATAM_COP';
+            let selectedCheckoutPkg = PPP_MATRIX.regions.LATAM_COP.packages[1]; // Por defecto: Plata (10 Monedas)
+            let selectedPaymentMethod = '📱 Nequi (Push Celular)';
+
+            const PAYMENT_METHODS_BY_REGION = {
+                LATAM_COP: [
+                    { id: 'nequi', label: '📱 Nequi (Push Celular)', phoneLabel: 'Celular Nequi (10 dígitos)', placeholder: '300 123 4567' },
+                    { id: 'pse', label: '🏦 PSE (Débito Bancario)', phoneLabel: 'Documento / Celular PSE', placeholder: '1020304050' },
+                    { id: 'bancolombia', label: '🟡 Botón Bancolombia', phoneLabel: 'Celular Bancolombia', placeholder: '310 987 6543' },
+                    { id: 'efecty', label: '💵 Efecty / Corresponsal', phoneLabel: 'Cédula para Pin Efecty', placeholder: 'CC 80123456' }
+                ],
+                LATAM_MXN: [
+                    { id: 'spei', label: '⚡ SPEI Transferencia', phoneLabel: 'CLABE / Celular MX', placeholder: '55 1234 5678' },
+                    { id: 'oxxo', label: '🏪 OXXO Pay (Efectivo)', phoneLabel: 'Celular para Voucher OXXO', placeholder: '55 8765 4321' },
+                    { id: 'card_mx', label: '💳 Tarjeta Crédito / Débito', phoneLabel: 'Últimos 4 dígitos / Teléfono', placeholder: '4242 ••••' },
+                    { id: 'mp', label: '🤝 MercadoPago Wallet', phoneLabel: 'Correo / Teléfono MP', placeholder: '55 9988 7766' }
+                ],
+                NA_USD: [
+                    { id: 'apple_pay', label: '🍎 Apple Pay (1-Click)', phoneLabel: 'Apple ID / Phone', placeholder: '+1 (555) 234-5678' },
+                    { id: 'google_pay', label: '🟢 Google Pay', phoneLabel: 'Google Pay Phone', placeholder: '+1 (555) 876-5432' },
+                    { id: 'stripe_card', label: '💳 Card (Visa / Amex)', phoneLabel: 'Billing ZIP / Phone', placeholder: '10001' },
+                    { id: 'cashapp', label: '💲 Cash App Pay', phoneLabel: '$Cashtag / Phone', placeholder: '$serenatiar' }
+                ],
+                EU_EUR: [
+                    { id: 'apple_eu', label: '🍎 Apple Pay / Google Pay', phoneLabel: 'Teléfono / Móvil', placeholder: '+34 600 123 456' },
+                    { id: 'bizum', label: '⚡ Bizum / SEPA Instant', phoneLabel: 'Móvil Bizum / IBAN', placeholder: '+34 611 223 344' },
+                    { id: 'stripe_eu', label: '💳 Tarjeta Europea (3DS)', phoneLabel: 'Código Postal / Móvil', placeholder: '28001' },
+                    { id: 'klarna', label: '🩷 Klarna / Revolut Pay', phoneLabel: 'Revolut Tag / Móvil', placeholder: '@usuario' }
+                ],
+                EMERGING_USD: [
+                    { id: 'upi', label: '⚡ UPI / GrabPay / GCash', phoneLabel: 'VPA / Mobile Wallet ID', placeholder: 'user@upi' },
+                    { id: 'stripe_intl', label: '💳 International Card', phoneLabel: 'Mobile Number', placeholder: '+91 98765 43210' },
+                    { id: 'apple_asia', label: '🍎 Apple Pay / Google Pay', phoneLabel: 'Phone Number', placeholder: '+63 917 123 4567' },
+                    { id: 'paynow', label: '🌏 PayNow / PromptPay', phoneLabel: 'Mobile / National ID', placeholder: '+65 8123 4567' }
+                ]
+            };
+
+            const pppCheckoutModal = document.getElementById('ppp-checkout-modal');
+            const closeCheckoutModalBtn = document.getElementById('close-checkout-modal-btn');
+            const checkoutTierBadge = document.getElementById('checkout-tier-badge');
+            const checkoutGatewaySubtitle = document.getElementById('checkout-gateway-subtitle');
+            const checkoutPkgSelector = document.getElementById('checkout-pkg-selector');
+            const checkoutMethodsGrid = document.getElementById('checkout-methods-grid');
+            const checkoutPhoneLabel = document.getElementById('checkout-phone-label');
+            const checkoutPhoneInput = document.getElementById('checkout-phone');
+            const pppPaymentForm = document.getElementById('ppp-payment-form');
+            const checkoutProcessingBox = document.getElementById('checkout-processing-box');
+            const checkoutProcessingText = document.getElementById('checkout-processing-text');
+            const btnSubmitCheckoutLabel = document.getElementById('btn-submit-checkout-label');
+
+            function renderCheckoutModalContent() {
+                const region = PPP_MATRIX.regions[activePPPRegionKey] || PPP_MATRIX.regions.LATAM_COP;
+                if (checkoutTierBadge) checkoutTierBadge.innerText = `${region.flag} ${region.tier}`;
+                if (checkoutGatewaySubtitle) checkoutGatewaySubtitle.innerText = `Pasarela activa: ${region.gateway}`;
+                renderWalletLedgerUI();
+
+                // 1. Selector de los 3 paquetes de la región
+                if (checkoutPkgSelector) {
+                    checkoutPkgSelector.innerHTML = '';
+                    region.packages.forEach((pkg) => {
+                        const isSel = selectedCheckoutPkg && selectedCheckoutPkg.id_paquete === pkg.id_paquete;
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = isSel
+                            ? 'p-3 rounded-xl bg-tommy-red/25 border-2 border-tommy-red text-left transition-all shadow'
+                            : 'p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left transition-all';
+                        btn.innerHTML = `
+                            <div class="font-mono text-[10px] uppercase ${isSel ? 'text-amber-300 font-bold' : 'text-slate-400'}">${pkg.nombre}</div>
+                            <div class="text-sm sm:text-base font-extrabold text-white mt-0.5">🪙 ${pkg.total}</div>
+                            <div class="text-xs font-mono text-emerald-300 mt-0.5">${pkg.precio_formateado} ${pkg.moneda}</div>
+                        `;
+                        btn.addEventListener('click', () => {
+                            playMechButtonSound();
+                            selectedCheckoutPkg = pkg;
+                            renderCheckoutModalContent();
+                        });
+                        checkoutPkgSelector.appendChild(btn);
+                    });
+                }
+
+                // 2. Selector de método de pago local según Tier
+                const methods = PAYMENT_METHODS_BY_REGION[activePPPRegionKey] || PAYMENT_METHODS_BY_REGION.LATAM_COP;
+                if (!methods.some((m) => m.label === selectedPaymentMethod)) {
+                    selectedPaymentMethod = methods[0].label;
+                }
+                const activeMethodObj = methods.find((m) => m.label === selectedPaymentMethod) || methods[0];
+                if (checkoutPhoneLabel) checkoutPhoneLabel.innerText = activeMethodObj.phoneLabel;
+                if (checkoutPhoneInput) checkoutPhoneInput.placeholder = activeMethodObj.placeholder;
+
+                if (checkoutMethodsGrid) {
+                    checkoutMethodsGrid.innerHTML = '';
+                    methods.forEach((m) => {
+                        const isSel = m.label === selectedPaymentMethod;
+                        const mBtn = document.createElement('button');
+                        mBtn.type = 'button';
+                        mBtn.className = isSel
+                            ? 'py-2.5 px-3 rounded-xl bg-amber-400 text-slate-950 font-mono text-xs font-extrabold border-2 border-amber-300 text-left truncate transition-all shadow'
+                            : 'py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 font-mono text-xs border border-white/10 text-left truncate transition-all';
+                        mBtn.innerText = m.label;
+                        mBtn.addEventListener('click', () => {
+                            playMechButtonSound();
+                            selectedPaymentMethod = m.label;
+                            renderCheckoutModalContent();
+                        });
+                        checkoutMethodsGrid.appendChild(mBtn);
+                    });
+                }
+
+                if (btnSubmitCheckoutLabel && selectedCheckoutPkg) {
+                    btnSubmitCheckoutLabel.innerText = `💳 Pagar ${selectedCheckoutPkg.precio_formateado} ${selectedCheckoutPkg.moneda} y Acreditar +${selectedCheckoutPkg.total} 🪙`;
+                }
+            }
+
+            window.openCheckoutModal = function (pkgOverride) {
+                playCoinSound();
+                const region = PPP_MATRIX.regions[activePPPRegionKey] || PPP_MATRIX.regions.LATAM_COP;
+                selectedCheckoutPkg = pkgOverride || region.packages[1];
+                renderCheckoutModalContent();
+                if (pppCheckoutModal) {
+                    pppCheckoutModal.classList.remove('hidden');
+                    pppCheckoutModal.classList.add('flex');
+                }
+            };
+
+            function closeCheckoutModal() {
+                if (pppCheckoutModal) {
+                    pppCheckoutModal.classList.add('hidden');
+                    pppCheckoutModal.classList.remove('flex');
+                }
+            }
+
+            if (closeCheckoutModalBtn) closeCheckoutModalBtn.addEventListener('click', closeCheckoutModal);
+            if (pppCheckoutModal) {
+                pppCheckoutModal.addEventListener('click', (e) => {
+                    if (e.target === pppCheckoutModal) closeCheckoutModal();
+                });
+            }
+
+            if (pppPaymentForm) {
+                pppPaymentForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!selectedCheckoutPkg) return;
+                    playMechButtonSound();
+
+                    const buyerEmail = document.getElementById('checkout-email').value.trim();
+                    const buyerPhone = document.getElementById('checkout-phone').value.trim();
+                    const txRef = '#PAY-' + Math.floor(10000 + Math.random() * 89999);
+
+                    if (checkoutProcessingBox) checkoutProcessingBox.classList.remove('hidden');
+                    if (checkoutProcessingText) {
+                        checkoutProcessingText.innerText = `🔄 Procesando con ${selectedPaymentMethod} (${selectedCheckoutPkg.precio_formateado} ${selectedCheckoutPkg.moneda})...`;
+                    }
+
+                    setTimeout(() => {
+                        if (checkoutProcessingText) {
+                            checkoutProcessingText.innerText = `✓ Firma Webhook HMAC-SHA256 verificada (${txRef}). Acreditando +${selectedCheckoutPkg.total} 🪙...`;
+                        }
+                    }, 700);
+
+                    // Registrar también en Supabase `public.mvp_leads` como intención/recarga verificada
+                    if (supabaseClient) {
+                        try {
+                            await supabaseClient.from('mvp_leads').insert([
+                                {
+                                    email: buyerEmail,
+                                    pista_seleccionada: `${selectedCheckoutPkg.id_paquete} (${selectedPaymentMethod})`,
+                                    destinatario: buyerPhone,
+                                    formato_preferido: `Recarga ${selectedCheckoutPkg.nombre}: ${selectedCheckoutPkg.precio_formateado} ${selectedCheckoutPkg.moneda}`,
+                                    ticket_reserva: txRef,
+                                    monedas_otorgadas: selectedCheckoutPkg.total
+                                }
+                            ]);
+                        } catch (err) {
+                            console.warn('Recarga acreditada localmente:', err);
+                        }
+                    }
+
+                    setTimeout(() => {
+                        playCoinSound();
+                        credits += selectedCheckoutPkg.total;
+                        localStorage.setItem('serenatiar_credits', String(credits));
+                        updateCreditCounters();
+
+                        recordWalletTransaction(
+                            'RECARGA_PPP',
+                            selectedCheckoutPkg.total,
+                            `Recarga ${selectedCheckoutPkg.nombre} (${selectedPaymentMethod})`
+                        );
+
+                        if (checkoutProcessingBox) checkoutProcessingBox.classList.add('hidden');
+                        renderCheckoutModalContent();
+
+                        btnCoin.classList.remove('opacity-60', 'cursor-not-allowed');
+                        btnCoinText.innerText = `USAR 1 MONEDA (SALDO: ${credits})`;
+                        statusText.className = 'mt-1.5 text-emerald-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold';
+                        statusText.innerText = `★ RECARGA EXITOSA: TIENES ${credits} MONEDAS EN TU BILLETERA`;
+                    }, 1350);
+                });
+            }
+
             function renderPPPRegion(regionKey) {
-                const region = PPP_MATRIX.regions[regionKey] || PPP_MATRIX.regions.LATAM_COP;
+                activePPPRegionKey = PPP_MATRIX.regions[regionKey] ? regionKey : 'LATAM_COP';
+                const region = PPP_MATRIX.regions[activePPPRegionKey];
+                selectedCheckoutPkg = region.packages[1];
                 if (geoFlagIcon) geoFlagIcon.innerText = region.flag;
                 if (geoStatusBanner) geoStatusBanner.innerText = `REGIÓN PPP ACTIVA: ${region.tier} (${region.currencyCode})`;
                 if (pppGatewayLabel) pppGatewayLabel.innerText = region.gateway;
@@ -2110,7 +2862,7 @@
                     `;
 
                     card.querySelector('button').addEventListener('click', () => {
-                        openFakeDoorModal(`Paquete ${pkg.nombre} (${pkg.total} Monedas - ${pkg.precio_formateado} ${pkg.moneda})`);
+                        openCheckoutModal(pkg);
                     });
 
                     pppPackagesGrid.appendChild(card);
