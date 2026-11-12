@@ -363,13 +363,46 @@
                                         </p>
                                     </div>
 
+                                    <!-- Fase 3: Character Sheet (Carga opcional de 3 Selfies para Face-Swap) -->
+                                    <div class="w-full bg-black/40 rounded-lg p-2 border border-white/10">
+                                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-300 mb-1.5">
+                                            <span>📸 CHARACTER SHEET (3 SELFIES PARA FACE-SWAP 3🪙):</span>
+                                            <span id="selfie-counter-badge" class="text-sky-400">0/3 LISTAS</span>
+                                        </div>
+                                        <div class="grid grid-cols-3 gap-2">
+                                            <label class="cursor-pointer rounded-lg border border-dashed border-white/20 hover:border-tommy-red bg-white/5 p-1.5 text-center flex flex-col items-center justify-center min-h-[48px] transition-all">
+                                                <input type="file" accept="image/*" class="hidden selfie-input" data-slot="1">
+                                                <span class="slot-preview text-[10px] font-mono text-slate-300">1. Frontal</span>
+                                            </label>
+                                            <label class="cursor-pointer rounded-lg border border-dashed border-white/20 hover:border-tommy-red bg-white/5 p-1.5 text-center flex flex-col items-center justify-center min-h-[48px] transition-all">
+                                                <input type="file" accept="image/*" class="hidden selfie-input" data-slot="2">
+                                                <span class="slot-preview text-[10px] font-mono text-slate-300">2. Sonrisa</span>
+                                            </label>
+                                            <label class="cursor-pointer rounded-lg border border-dashed border-white/20 hover:border-tommy-red bg-white/5 p-1.5 text-center flex flex-col items-center justify-center min-h-[48px] transition-all">
+                                                <input type="file" accept="image/*" class="hidden selfie-input" data-slot="3">
+                                                <span class="slot-preview text-[10px] font-mono text-slate-300">3. Perfil 45°</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Barra de Telemetría GPU Serverless (Fase 3) -->
+                                    <div id="gpu-telemetry-bar" class="hidden w-full bg-[#040A18] rounded-lg p-2.5 border border-sky-500/40 text-left">
+                                        <div class="flex items-center justify-between text-[10px] font-mono text-sky-300 mb-1">
+                                            <span id="gpu-stage-text">FAL.AI GPU: EXTRAYENDO TIMBRE RVC...</span>
+                                            <span id="gpu-pct-text">25%</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                            <div id="gpu-progress-fill" class="h-full bg-gradient-to-r from-sky-400 via-tommy-red to-amber-400 w-1/4 transition-all duration-300"></div>
+                                        </div>
+                                    </div>
+
                                     <div class="flex flex-wrap items-center justify-between w-full gap-2">
                                         <button id="btn-start-record" class="flex-1 py-2.5 px-4 rounded-xl bg-tommy-red hover:bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(225,29,42,0.5)] transition-all">
                                             <i data-lucide="mic" class="w-4 h-4"></i>
                                             <span id="record-btn-label">Grabar mi Voz (15s)</span>
                                         </button>
                                         <button id="btn-change-vibe" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono text-slate-300" title="Elegir otro canal">
-                                            Otro Canal
+                                            Otra Pista
                                         </button>
                                     </div>
                                 </div>
@@ -1635,7 +1668,37 @@
                 statusText.innerText = '● ¿QUÉ RITMO LE VAS A DEDICAR HOY?';
             });
 
-            // PASO 3: Simular Grabación de Estribillo -> Abrir Modal "Puerta Falsa"
+            // Fase 3: Manejo de las 3 Selfies del Character Sheet
+            const selfieInputs = document.querySelectorAll('.selfie-input');
+            const selfieCounterBadge = document.getElementById('selfie-counter-badge');
+            const uploadedSelfies = {};
+
+            selfieInputs.forEach((input) => {
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+                    const slot = input.getAttribute('data-slot');
+                    uploadedSelfies[slot] = file.name;
+                    const labelSpan = input.parentElement.querySelector('.slot-preview');
+                    if (labelSpan) {
+                        labelSpan.innerText = `✓ Foto ${slot}`;
+                        labelSpan.className = 'slot-preview text-[10px] font-mono text-emerald-400 font-bold';
+                    }
+                    input.parentElement.classList.add('border-emerald-400/60', 'bg-emerald-500/10');
+                    const count = Object.keys(uploadedSelfies).length;
+                    if (selfieCounterBadge) {
+                        selfieCounterBadge.innerText = `${count}/3 LISTAS`;
+                    }
+                    playMechButtonSound();
+                });
+            });
+
+            // PASO 3: Grabación de Estribillo + Telemetría GPU Serverless -> Abrir Modal "Puerta Falsa" / Supabase
+            const gpuTelemetryBar = document.getElementById('gpu-telemetry-bar');
+            const gpuStageText = document.getElementById('gpu-stage-text');
+            const gpuPctText = document.getElementById('gpu-pct-text');
+            const gpuProgressFill = document.getElementById('gpu-progress-fill');
+
             btnStartRecord.addEventListener('click', () => {
                 if (isRecording) return;
                 isRecording = true;
@@ -1643,27 +1706,45 @@
 
                 let secondsLeft = 4;
                 btnStartRecord.classList.add('animate-pulse');
-                recordBtnLabel.innerText = `🎙️ Grabando tu voz... (${secondsLeft}s)`;
+                recordBtnLabel.innerText = `🎙️ Capturando micrófono 48kHz... (${secondsLeft}s)`;
                 statusText.className = 'mt-1.5 text-amber-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold';
                 statusText.innerText = '● CAPTURANDO FORMANTES VOCALES & TIMBRE...';
 
                 const timer = setInterval(() => {
                     secondsLeft -= 1;
                     if (secondsLeft > 0) {
-                        recordBtnLabel.innerText = `🎙️ Grabando tu voz... (${secondsLeft}s)`;
+                        recordBtnLabel.innerText = `🎙️ Capturando micrófono 48kHz... (${secondsLeft}s)`;
                     } else {
                         clearInterval(timer);
-                        recordBtnLabel.innerText = '⚡ Procesando con RVC Voice-to-Voice...';
-                        statusText.innerText = '⚡ MEZCLANDO VOZ CON TYPE-BEAT + PLANTILLA 9:16...';
+                        // Activar Telemetría del Pipeline GPU Serverless (Fase 3)
+                        if (gpuTelemetryBar) gpuTelemetryBar.classList.remove('hidden');
+                        recordBtnLabel.innerText = '⚡ Orquestando GPU Serverless...';
+                        gpuStageText.innerText = '1/3 FAL.AI GPU: EXTRAYENDO TIMBRE RVC (RMVPE)...';
+                        gpuPctText.innerText = '35%';
+                        gpuProgressFill.style.width = '35%';
+                        statusText.innerText = '⚡ RVC VOICE-TO-VOICE: AFINANDO TU VOZ...';
+
+                        setTimeout(() => {
+                            gpuStageText.innerText = '2/3 MEZCLANDO VOZ CON STEM INSTRUMENTAL...';
+                            gpuPctText.innerText = '70%';
+                            gpuProgressFill.style.width = '70%';
+                        }, 650);
+
+                        setTimeout(() => {
+                            gpuStageText.innerText = '3/3 INSIGHTFACE: ALINEANDO PLANTILLA 9:16...';
+                            gpuPctText.innerText = '100%';
+                            gpuProgressFill.style.width = '100%';
+                        }, 1300);
 
                         setTimeout(() => {
                             isRecording = false;
                             btnStartRecord.classList.remove('animate-pulse');
                             recordBtnLabel.innerText = 'Grabar mi Voz (15s)';
+                            if (gpuTelemetryBar) gpuTelemetryBar.classList.add('hidden');
                             openFakeDoorModal(selectedTrack);
-                        }, 1100);
+                        }, 1900);
                     }
-                }, 850);
+                }, 800);
             });
 
             // ----------------------------------------------------------
