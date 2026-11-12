@@ -363,10 +363,22 @@
                                         </p>
                                     </div>
 
-                                    <!-- Fase 3: Character Sheet (Carga opcional de 3 Selfies para Face-Swap) -->
-                                    <div class="w-full bg-black/40 rounded-lg p-2 border border-white/10">
+                                    <!-- Selector de Modalidad (Por defecto: SOLO CANCIÓN / AUDIO 1🪙, sin pedir fotos) -->
+                                    <div class="w-full bg-[#040B1A] rounded-xl p-1.5 border border-white/10 grid grid-cols-2 gap-1.5">
+                                        <button type="button" id="mode-btn-audio" class="py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-tommy-red text-white shadow flex items-center justify-center gap-1.5 transition-all">
+                                            <span>🎵</span>
+                                            <span>Solo Canción (1 🪙)</span>
+                                        </button>
+                                        <button type="button" id="mode-btn-video" class="py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 flex items-center justify-center gap-1.5 transition-all">
+                                            <span>🎬</span>
+                                            <span>+ Videoclip IA (3 🪙)</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Fase 3: Character Sheet (OCULTO por defecto; solo se habilita si el usuario solicita "+ Videoclip IA") -->
+                                    <div id="character-sheet-panel" class="hidden w-full bg-black/40 rounded-lg p-2.5 border border-sky-500/30 transition-all">
                                         <div class="flex items-center justify-between text-[10px] font-mono text-slate-300 mb-1.5">
-                                            <span>📸 CHARACTER SHEET (3 SELFIES PARA FACE-SWAP 3🪙):</span>
+                                            <span>📸 CHARACTER SHEET (3 SELFIES PARA FACE-SWAP):</span>
                                             <span id="selfie-counter-badge" class="text-sky-400">0/3 LISTAS</span>
                                         </div>
                                         <div class="grid grid-cols-3 gap-2">
@@ -1668,7 +1680,43 @@
                 statusText.innerText = '● ¿QUÉ RITMO LE VAS A DEDICAR HOY?';
             });
 
-            // Fase 3: Manejo de las 3 Selfies del Character Sheet
+            // Fase 3: Selector de Modalidad (Por defecto: SOLO CANCIÓN / AUDIO 1🪙; Videoclip + Selfies solo si el usuario lo solicita)
+            const modeBtnAudio = document.getElementById('mode-btn-audio');
+            const modeBtnVideo = document.getElementById('mode-btn-video');
+            const characterSheetPanel = document.getElementById('character-sheet-panel');
+            const leadFormatSelect = document.getElementById('lead-format');
+            let includeVideoMode = false; // Por defecto en FALSE ("Solo Canción", sin pedir video ni selfies)
+
+            function setCreationMode(enableVideo) {
+                includeVideoMode = enableVideo;
+                if (enableVideo) {
+                    modeBtnVideo.className = 'py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-tommy-red text-white shadow flex items-center justify-center gap-1.5 transition-all';
+                    modeBtnAudio.className = 'py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 flex items-center justify-center gap-1.5 transition-all';
+                    if (characterSheetPanel) characterSheetPanel.classList.remove('hidden');
+                    if (assetTplLabel) assetTplLabel.classList.remove('hidden');
+                    if (leadFormatSelect) leadFormatSelect.value = 'Videoclip Face-Swap + Voz (3 Monedas)';
+                } else {
+                    modeBtnAudio.className = 'py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-tommy-red text-white shadow flex items-center justify-center gap-1.5 transition-all';
+                    modeBtnVideo.className = 'py-2 px-2.5 rounded-lg font-mono text-[11px] font-bold bg-white/5 text-slate-300 hover:bg-white/10 flex items-center justify-center gap-1.5 transition-all';
+                    if (characterSheetPanel) characterSheetPanel.classList.add('hidden');
+                    if (assetTplLabel) assetTplLabel.classList.add('hidden');
+                    if (leadFormatSelect) leadFormatSelect.value = 'Serenata Audio RVC (1 Moneda)';
+                }
+            }
+
+            if (modeBtnAudio && modeBtnVideo) {
+                modeBtnAudio.addEventListener('click', () => {
+                    playMechButtonSound();
+                    setCreationMode(false);
+                });
+                modeBtnVideo.addEventListener('click', () => {
+                    playMechButtonSound();
+                    setCreationMode(true);
+                });
+            }
+            setCreationMode(false);
+
+            // Manejo de las 3 Selfies del Character Sheet (cuando el usuario activa "+ Videoclip IA")
             const selfieInputs = document.querySelectorAll('.selfie-input');
             const selfieCounterBadge = document.getElementById('selfie-counter-badge');
             const uploadedSelfies = {};
@@ -1716,25 +1764,42 @@
                         recordBtnLabel.innerText = `🎙️ Capturando micrófono 48kHz... (${secondsLeft}s)`;
                     } else {
                         clearInterval(timer);
-                        // Activar Telemetría del Pipeline GPU Serverless (Fase 3)
                         if (gpuTelemetryBar) gpuTelemetryBar.classList.remove('hidden');
-                        recordBtnLabel.innerText = '⚡ Orquestando GPU Serverless...';
-                        gpuStageText.innerText = '1/3 FAL.AI GPU: EXTRAYENDO TIMBRE RVC (RMVPE)...';
-                        gpuPctText.innerText = '35%';
-                        gpuProgressFill.style.width = '35%';
-                        statusText.innerText = '⚡ RVC VOICE-TO-VOICE: AFINANDO TU VOZ...';
+                        recordBtnLabel.innerText = includeVideoMode
+                            ? '⚡ Orquestando Audio RVC + Video IA...'
+                            : '⚡ Afina y mezclando tu canción RVC...';
 
-                        setTimeout(() => {
-                            gpuStageText.innerText = '2/3 MEZCLANDO VOZ CON STEM INSTRUMENTAL...';
-                            gpuPctText.innerText = '70%';
-                            gpuProgressFill.style.width = '70%';
-                        }, 650);
+                        if (includeVideoMode) {
+                            // Pipeline Completo (Audio + Video Face-Swap) SOLO porque el usuario lo solicitó
+                            gpuStageText.innerText = '1/3 FAL.AI GPU: EXTRAYENDO TIMBRE RVC (RMVPE)...';
+                            gpuPctText.innerText = '35%';
+                            gpuProgressFill.style.width = '35%';
+                            statusText.innerText = '⚡ RVC VOICE-TO-VOICE: AFINANDO TU VOZ...';
 
-                        setTimeout(() => {
-                            gpuStageText.innerText = '3/3 INSIGHTFACE: ALINEANDO PLANTILLA 9:16...';
-                            gpuPctText.innerText = '100%';
-                            gpuProgressFill.style.width = '100%';
-                        }, 1300);
+                            setTimeout(() => {
+                                gpuStageText.innerText = '2/3 MEZCLANDO VOZ CON STEM INSTRUMENTAL...';
+                                gpuPctText.innerText = '70%';
+                                gpuProgressFill.style.width = '70%';
+                            }, 650);
+
+                            setTimeout(() => {
+                                gpuStageText.innerText = '3/3 INSIGHTFACE: GENERANDO VIDEOCLIP 9:16...';
+                                gpuPctText.innerText = '100%';
+                                gpuProgressFill.style.width = '100%';
+                            }, 1300);
+                        } else {
+                            // Pipeline EXCLUSIVO DE AUDIO ("Solo Canción", sin tocar video ni Face-Swap)
+                            gpuStageText.innerText = '1/2 FAL.AI GPU: AFINANDO VOZ CON RVC (RMVPE)...';
+                            gpuPctText.innerText = '50%';
+                            gpuProgressFill.style.width = '50%';
+                            statusText.innerText = '⚡ AFINANDO TU VOZ A NIVEL ESTUDIO (SOLO AUDIO)...';
+
+                            setTimeout(() => {
+                                gpuStageText.innerText = '2/2 MASTERIZANDO VOZ + TYPE-BEAT INSTRUMENTAL...';
+                                gpuPctText.innerText = '100%';
+                                gpuProgressFill.style.width = '100%';
+                            }, 900);
+                        }
 
                         setTimeout(() => {
                             isRecording = false;
@@ -1742,7 +1807,7 @@
                             recordBtnLabel.innerText = 'Grabar mi Voz (15s)';
                             if (gpuTelemetryBar) gpuTelemetryBar.classList.add('hidden');
                             openFakeDoorModal(selectedTrack);
-                        }, 1900);
+                        }, includeVideoMode ? 1900 : 1450);
                     }
                 }, 800);
             });
